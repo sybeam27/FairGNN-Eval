@@ -1,0 +1,109 @@
+method,dataset,controlled_label,native_label,reason
+FairSIN,german,A. VALID-CONTROLLED,A. VALID-NATIVE,"ablation-block configuration; official run(); gates pass for GCN, GIN, SAGE"
+FairSIN,bail,A. VALID-CONTROLLED,A. VALID-NATIVE,"ablation-block configuration; official run(); gates pass for GCN, GIN, SAGE"
+FairSIN,credit,A. VALID-CONTROLLED,A. VALID-NATIVE,"ablation-block configuration; official run(); gates pass for GCN, GIN, SAGE"
+FairSIN,pokec_z,A. VALID-CONTROLLED,A. VALID-NATIVE,"ablation-block configuration; official run(); gates pass for GCN, GIN, SAGE"
+FairSIN,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,sensitive index hard-coded to region
+FairSIN,pokec_n,A. VALID-CONTROLLED,A. VALID-NATIVE,"ablation-block configuration; official run(); gates pass for GCN, GIN, SAGE"
+FairSIN,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,sensitive index hard-coded to region
+FairSIN,nba,D. UNSUPPORTED,D. UNSUPPORTED,nba common split: validation contained in test (val∩test = all 213 validation nodes)
+FairSIN,income,D. UNSUPPORTED,D. UNSUPPORTED,no loader
+EDITS,german,A. VALID-CONTROLLED,D. UNSUPPORTED,stage bypass; param.json routing repaired; gates pass
+EDITS,bail,A. VALID-CONTROLLED,D. UNSUPPORTED,stage bypass; param.json routing repaired; gates pass
+EDITS,credit,A. VALID-CONTROLLED,D. UNSUPPORTED,stage bypass; param.json routing repaired; gates pass
+EDITS,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+EDITS,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+EDITS,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+EDITS,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+EDITS,nba,D. UNSUPPORTED,D. UNSUPPORTED,nba common split: validation contained in test (val∩test = all 213 validation nodes)
+EDITS,income,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairEdit,german,A. VALID-CONTROLLED,D. UNSUPPORTED,edit_num 10 vs 0; gates pass
+FairEdit,bail,A. VALID-CONTROLLED,D. UNSUPPORTED,edit_num 10 vs 0; gates pass
+FairEdit,credit,A. VALID-CONTROLLED,D. UNSUPPORTED,edit_num 10 vs 0; gates pass
+FairEdit,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairEdit,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairEdit,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairEdit,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairEdit,nba,D. UNSUPPORTED,D. UNSUPPORTED,nba common split: validation contained in test (val∩test = all 213 validation nodes)
+FairEdit,income,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BeMap,german,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BeMap,bail,A. VALID-CONTROLLED,B. NATIVE-INVALID,subgraph vs full-graph training step; gates pass
+BeMap,credit,A. VALID-CONTROLLED,B. NATIVE-INVALID,subgraph vs full-graph training step; gates pass
+BeMap,pokec_z,A. VALID-CONTROLLED,B. NATIVE-INVALID,subgraph vs full-graph training step; gates pass
+BeMap,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BeMap,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BeMap,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BeMap,nba,C. STRUCTURALLY-INVALID,D. UNSUPPORTED,nba common split: validation contained in test (val∩test = all 213 validation nodes)
+BeMap,income,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+GEAR,german,E. ENGINEERING/ASSET-BLOCKED,D. UNSUPPORTED,no released assets; generator checkpoints absent
+GEAR,bail,A. VALID-CONTROLLED,E. ENGINEERING/ASSET-BLOCKED,released assets verified as sensitive-attribute flips of common data (caveat)
+GEAR,credit,E. ENGINEERING/ASSET-BLOCKED,D. UNSUPPORTED,released assets on a different graph (3.0% edge overlap)
+GEAR,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+GEAR,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+GEAR,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+GEAR,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+GEAR,nba,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+GEAR,income,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairGT,german,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,no off-state in authors' code
+FairGT,bail,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,no off-state in authors' code
+FairGT,credit,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,no off-state in authors' code
+FairGT,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairGT,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairGT,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairGT,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairGT,nba,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,no off-state in authors' code
+FairGT,income,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,no off-state in authors' code
+BIND,german,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BIND,bail,A. VALID-CONTROLLED,B. NATIVE-INVALID,influence deletion k=round(p|train|) vs 0; README scale 25; fairness cost on validation nodes; gates pass
+BIND,credit,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BIND,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,BIND pokec1 zip is not the repository-common pokec loader; not ported
+BIND,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BIND,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,BIND pokec2 zip is not the repository-common pokec loader; not ported
+BIND,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+BIND,nba,D. UNSUPPORTED,D. UNSUPPORTED,nba common split: validation contained in test (val∩test = all 213 validation nodes)
+BIND,income,A. VALID-CONTROLLED,B. NATIVE-INVALID,influence deletion k=round(p|train|) vs 0; README scale 25; fairness cost on validation nodes; gates pass
+FMP,german,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FMP,bail,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FMP,credit,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FMP,pokec_z,F. COVERED-ELSEWHERE,F. COVERED-ELSEWHERE,"X27 component case study; grid, no single configuration"
+FMP,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FMP,pokec_n,F. COVERED-ELSEWHERE,F. COVERED-ELSEWHERE,"X27 component case study; grid, no single configuration"
+FMP,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FMP,nba,C. STRUCTURALLY-INVALID,D. UNSUPPORTED,nba common split: validation contained in test (val∩test = all 213 validation nodes)
+FMP,income,D. UNSUPPORTED,D. UNSUPPORTED,not supported by the method's repository
+FairWalk,german,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,bail,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,credit,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,pokec_z,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,pokec_z_g,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,pokec_n,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,pokec_n_g,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,nba,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+FairWalk,income,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,german,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,bail,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,credit,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,pokec_z,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,pokec_z_g,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,pokec_n,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,pokec_n_g,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,nba,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+CrossWalk,income,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,random sensitive groups; dead run()
+GNN_cf,german,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,bail,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,credit,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,nba,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+GNN_cf,income,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,german,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,bail,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,credit,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,nba,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"
+NIFTY_cf,income,D. UNSUPPORTED,D. UNSUPPORTED,"variant of the core NIFTY mechanism, not a separate intervention"

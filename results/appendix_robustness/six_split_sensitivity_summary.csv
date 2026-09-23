@@ -1,0 +1,4 @@
+coordinate,cells,frozen_resolved,split_t_resolved,split_t_resolved_ci_only,kept,lost,gained,agreement,loso_stable_of_frozen_resolved,loso_never_of_frozen_unresolved
+dAUC,36,11,13,13,11,0,2,34,8,21
+negDP,36,8,10,10,8,0,2,34,5,25
+negEO,36,9,11,11,9,0,2,34,5,22

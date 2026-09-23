@@ -1,0 +1,5 @@
+repo	vendored_path	git_commit	note
+FairGT	algorithms/FairGT	cebfb1784021321ae2d4aa07a87fc73566fcf10f	자체 .git 보유. 우리 저장소에서는 gitignore. 절대 수정 금지.
+BIND	BIND-main	-	zip 배포본. 절대 수정 금지.
+FairGB	FairGB-main	-	zip 배포본. credit.zip 원본이 논문 Table5/6 재현. 절대 수정 금지.
+FairSIN	FairSIN-main	-	zip 배포본. 절대 수정 금지.

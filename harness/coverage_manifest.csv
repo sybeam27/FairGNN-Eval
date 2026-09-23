@@ -1,0 +1,127 @@
+method,dataset,primary_eligible,included,configuration,backbone,units_done,configuration_source,matched_construction_status,exclusion_reason,notes
+BIND,bail,yes,yes,1pct,GCN,30,parser defaults + README scale 25,valid,,"primary 1% budget, robustness 10%; native excluded: estimator reads test labels"
+BIND,credit,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BIND,german,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BIND,income,yes,yes,1pct,GCN,30,parser defaults + README scale 25,valid,,"primary 1% budget, robustness 10%; native excluded: estimator reads test labels"
+BIND,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BIND,pokec_n,no,no,,,0,pokec_dataset.zip (pokec2),not_established,unsupported_released_configuration,"BIND's pokec2 is a 6,185-node subgraph, not the common pokec_n"
+BIND,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BIND,pokec_z,no,no,,,0,pokec_dataset.zip (pokec1),not_established,unsupported_released_configuration,"BIND's pokec1 is a 7,659-node subgraph, not the common pokec_z"
+BIND,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BeMap,bail,yes,yes,default,GCN,30,"README command, parser defaults",valid,,"primary GCN, robustness GAT (--model gat); native excluded: selects on the test split"
+BeMap,credit,yes,yes,default,GCN,30,"README command, parser defaults",valid,,"primary GCN, robustness GAT (--model gat); native excluded: selects on the test split"
+BeMap,german,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BeMap,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BeMap,nba,no,no,,,0,README command,not_established,invalid_evaluation_split,common split: the validation set is contained in the test set
+BeMap,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BeMap,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+BeMap,pokec_z,yes,yes,default,GCN,30,"README command, parser defaults",valid,,"primary GCN, robustness GAT (--model gat); native excluded: selects on the test split"
+BeMap,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+EDITS,bail,yes,yes,default,GCN,30,utils/param.json (repository wrapper),valid,,no official configuration for a native run
+EDITS,credit,yes,yes,default,GCN,30,utils/param.json (repository wrapper),valid,,no official configuration for a native run
+EDITS,german,yes,yes,default,GCN,30,utils/param.json (repository wrapper),valid,,no official configuration for a native run
+EDITS,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+EDITS,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+EDITS,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+EDITS,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+EDITS,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+EDITS,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FMP,bail,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FMP,credit,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FMP,german,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FMP,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FMP,nba,no,no,,,0,run_fgnn.sh grid,not_established,invalid_evaluation_split,common split: the validation set is contained in the test set
+FMP,pokec_n,no,yes,,,0,run_fgnn.sh grid,valid,included_reported_separately,"component-level case study: B -> base -> +propagation -> +fairness, the baseline trained on FMP's own split and horizon"
+FMP,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FMP,pokec_z,no,yes,,,0,run_fgnn.sh grid,valid,included_reported_separately,"component-level case study: B -> base -> +propagation -> +fairness, the baseline trained on FMP's own split and horizon"
+FMP,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairEdit,bail,yes,yes,default,GCN,30,utils/param.json (repository wrapper),valid,,no official configuration for a native run
+FairEdit,credit,yes,yes,default,GCN,30,utils/param.json (repository wrapper),valid,,no official configuration for a native run
+FairEdit,german,yes,yes,default,GCN,30,utils/param.json (repository wrapper),valid,,no official configuration for a native run
+FairEdit,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairEdit,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairEdit,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairEdit,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairEdit,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairEdit,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGB,bail,yes,yes,default,SAGE,30,upstream run.sh,valid,,
+FairGB,credit,yes,yes,default,SAGE,30,upstream run.sh,valid,,
+FairGB,german,yes,yes,default,SAGE,30,upstream run.sh,valid,,
+FairGB,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGB,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGB,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGB,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGB,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGB,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGNN,bail,yes,yes,default,GCN,30,utils/param.json,valid,,upstream configures pokec and nba only
+FairGNN,credit,yes,yes,default,GCN,30,utils/param.json,valid,,upstream configures pokec and nba only
+FairGNN,german,yes,yes,default,GCN,30,utils/param.json,valid,,upstream configures pokec and nba only
+FairGNN,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGNN,nba,no,no,,,0,upstream src/scripts/nba,not_established,invalid_evaluation_split,common split: the validation set is contained in the test set
+FairGNN,pokec_n,yes,yes,default,GCN,30,"primary: utils/param.json; robustness: upstream src/scripts/pokec_n (GCN alpha=50 beta=1 H=1800, GAT alpha=4 beta=0.01 H=1800)",valid,,robustness = the upstream GCN and GAT rows; native not run by decision
+FairGNN,pokec_n_g,yes,yes,default,GCN,30,utils/param.json,valid,,gender as the sensitive attribute
+FairGNN,pokec_z,yes,yes,default,GCN,30,"primary: utils/param.json; robustness: upstream src/scripts/pokec_z (GCN alpha=100 beta=1 H=2000, GAT alpha=10 beta=0.01 H=800)",valid,,robustness = the upstream GCN and GAT rows; native not run by decision
+FairGNN,pokec_z_g,yes,yes,default,GCN,30,utils/param.json,valid,,gender as the sensitive attribute
+FairGT,bail,no,no,,,0,README commands,not_established,matched_intervention_not_separable,no off-state in the authors' code
+FairGT,credit,no,no,,,0,README commands,not_established,matched_intervention_not_separable,no off-state in the authors' code
+FairGT,german,no,no,,,0,README commands,not_established,matched_intervention_not_separable,no off-state in the authors' code
+FairGT,income,no,no,,,0,README commands,not_established,matched_intervention_not_separable,no off-state in the authors' code
+FairGT,nba,no,no,,,0,README commands,not_established,matched_intervention_not_separable,no off-state in the authors' code
+FairGT,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGT,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGT,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairGT,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairSIN,bail,yes,yes,GCN,GCN,30,experiment.sh ablation block,valid,,"primary GCN; robustness GIN, SAGE; native for all three"
+FairSIN,credit,yes,yes,GCN,GCN,30,"experiment.sh ablation block (GCN, GIN via train_mlp.py)",valid,,"primary GCN; robustness GIN, SAGE; native for all three"
+FairSIN,german,yes,yes,GCN,GCN,30,experiment.sh ablation block,valid,,"primary GCN; robustness GIN, SAGE; native for all three"
+FairSIN,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairSIN,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairSIN,pokec_n,yes,yes,GCN,GCN,30,experiment.sh ablation block,valid,,neutralisation only (no d='yes' row published)
+FairSIN,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairSIN,pokec_z,yes,yes,GCN,GCN,30,experiment.sh ablation block,valid,,neutralisation only (no d='yes' row published)
+FairSIN,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairVGNN,bail,yes,yes,default,GCN,30,upstream run_bail.sh,valid,,"primary GCN row; robustness: the other full rows (GCN-spmm, SAGE); native for the primary row only (the other rows' native runs were not run by decision)"
+FairVGNN,credit,yes,yes,default,GCN,30,upstream run_credit.sh + fairvgnn_credit.py,valid,,"primary GCN row; robustness: the other full rows (GIN, SAGE); native for the primary row only (the other rows' native runs were not run by decision)"
+FairVGNN,german,yes,yes,default,GCN,30,upstream run_german.sh,valid,,"primary GCN row; robustness: the other full rows (GCN-spmm, GIN, SAGE); native for the primary row only (the other rows' native runs were not run by decision)"
+FairVGNN,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairVGNN,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairVGNN,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairVGNN,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairVGNN,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FairVGNN,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FnRGNN,bail,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FnRGNN,credit,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FnRGNN,german,no,yes,regression (released task),GCN,30,logs/best_configs (regression target LoanAmount),valid,included_reported_separately,"released for node regression, no training loop: on classification (1b) loss BCE, on its own regression task (1c) loss MSE; both with training-node mask, mmd_sample and H set by the harness; reported on its own"
+FnRGNN,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FnRGNN,nba,no,no,,,0,logs/best_configs,not_established,invalid_evaluation_split,common split: the validation set is contained in the test set
+FnRGNN,pokec_n,no,yes,regression (released task),GCN,30,logs/best_configs (regression target completion_percentage),valid,included_reported_separately,"released for node regression, no training loop: on classification (1b) loss BCE, on its own regression task (1c) loss MSE; both with training-node mask, mmd_sample and H set by the harness; reported on its own"
+FnRGNN,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+FnRGNN,pokec_z,no,yes,regression (released task),GCN,30,logs/best_configs (regression target completion_percentage),valid,included_reported_separately,"released for node regression, no training loop: on classification (1b) loss BCE, on its own regression task (1c) loss MSE; both with training-node mask, mmd_sample and H set by the harness; reported on its own"
+FnRGNN,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+GEAR,bail,yes,yes,default,SAGE,30,parser defaults + released augmentation assets,valid,,released counterfactuals are attribute flips; published generator not reproducible
+GEAR,credit,no,no,,,0,released assets,not_established,unsupported_released_configuration,released credit assets are on a different graph (3% edge overlap)
+GEAR,german,no,no,,,0,loader only,not_established,required_artifact_unavailable,no released assets; generator checkpoints absent
+GEAR,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+GEAR,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+GEAR,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+GEAR,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+GEAR,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+GEAR,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+NIFTY,bail,yes,yes,default,GCN,30,utils/param.json,valid,,upstream states german only
+NIFTY,credit,yes,yes,default,GCN,30,utils/param.json,valid,,upstream states german only
+NIFTY,german,yes,yes,default,GCN,30,upstream README,valid,,
+NIFTY,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+NIFTY,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+NIFTY,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+NIFTY,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+NIFTY,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+NIFTY,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+SFG,bail,yes,yes,default,SAGE,30,run.sh ablation ladder (SAGE),valid,,off-state is the authors' own unconstrained row; the native test-reading branch is unreachable at the published horizon
+SFG,credit,yes,yes,default,SAGE,30,"run.sh ablation ladder (SAGE, sfg_credit.py)",valid,,off-state is the authors' own unconstrained row; the native test-reading branch is unreachable at the published horizon
+SFG,german,yes,yes,default,SAGE,30,run.sh ablation ladder (SAGE),valid,,off-state is the authors' own unconstrained row; the native test-reading branch is unreachable at the published horizon
+SFG,income,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+SFG,nba,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+SFG,pokec_n,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+SFG,pokec_n_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+SFG,pokec_z,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code
+SFG,pokec_z_g,no,no,,,0,,not_established,unsupported_released_configuration,not configured by the released code

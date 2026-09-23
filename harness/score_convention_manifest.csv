@@ -1,0 +1,15 @@
+method,classifier_loss,raw_output,canonical_margin,decision_rule,positive_class,evidence_path
+GNN (baseline),binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/X2_ADAPTER_CONTRACT.md; harness/core/model.py
+FairGNN,nn.BCEWithLogitsLoss,scalar_logit,z,q > 0,1,harness/X2_ADAPTER_CONTRACT.md
+NIFTY,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/X2_ADAPTER_CONTRACT.md
+FairVGNN,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/X2_ADAPTER_CONTRACT.md; harness/adapters/fairvgnn_credit_native.py
+FairGB,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/X2_ADAPTER_CONTRACT.md
+FairSIN,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/X2_ADAPTER_CONTRACT.md; harness/adapters/fairsin.py
+BIND,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/adapters/bind.py; harness/adapters/x30_bind.py
+EDITS,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/adapters/x30_edits.py
+FairEdit,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/adapters/x30_fairedit.py
+BeMap,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/adapters/x30_bemap.py
+GEAR,binary_cross_entropy_with_logits,scalar_logit,z,q > 0,1,harness/adapters/x30_gear.py
+SFG,binary_cross_entropy_with_logits (classifier; nn.BCELoss is the discriminator),scalar_logit,z,q > 0,1,harness/adapters/x31_sfg.py
+FnRGNN,BCEWithLogitsLoss (harness-completed loop; MSE on its released regression task),scalar_logit,z,q > 0,1,harness/adapters/x31_fnrgnn.py; harness/X31_ADDITIONAL_CELLS_PROTOCOL.md
+FMP,CrossEntropyLoss,two_class_logits,z1 - z0,q > 0,1,harness/X17_FMP_AUDIT.md; harness/experiments/x27_fmp_run.py

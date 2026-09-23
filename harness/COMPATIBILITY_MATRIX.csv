@@ -1,0 +1,64 @@
+method,dataset,controlled_label,native_label,already_frozen,reason
+FairGNN,german,A. VALID-CONTROLLED,D. UNSUPPORTED,yes (X22 core),"Controlled cell already frozen. native_config() raises for FairGNN on every dataset, so there is no native protocol to run."
+FairGNN,bail,A. VALID-CONTROLLED,D. UNSUPPORTED,yes (X22 core),Controlled cell already frozen. No native configuration.
+FairGNN,credit,A. VALID-CONTROLLED,D. UNSUPPORTED,yes (X22 core),Controlled cell already frozen. No native configuration.
+FairGNN,pokec_z,A. VALID-CONTROLLED,D. UNSUPPORTED,NO - NEW,"param.json carries a genuinely dataset-specific configuration (alpha=4, beta=0.01), same provenance grade as the german/bail/credit entries already used in the frozen core. Intervention is per-key switchable in pilot_tau.train. Baseline B (GNN) also has a distinct entry. Sparse edge_index path, no densification. Split contract passes on splits 20-25."
+FairGNN,pokec_z_g,A. VALID-CONTROLLED,D. UNSUPPORTED,NO - NEW,"Same graph as pokec_z with gender as the sensitive attribute; param.json entry alpha=4, beta=0.01. Split contract passes on splits 20-25."
+FairGNN,pokec_n,A. VALID-CONTROLLED,D. UNSUPPORTED,NO - NEW,"param.json entry alpha=8, beta=0.01, distinct from the other datasets. Split contract passes on splits 20-25."
+FairGNN,pokec_n_g,A. VALID-CONTROLLED,D. UNSUPPORTED,NO - NEW,"Same graph as pokec_n with gender as the sensitive attribute; param.json entry alpha=8, beta=0.01. Split contract passes on splits 20-25."
+FairGNN,nba,D. UNSUPPORTED,D. UNSUPPORTED,no,"No param.json entry for FairGNN on nba; published() would return only the _CLI defaults with no alpha or beta, i.e. an invented intervention strength."
+FairGNN,income,D. UNSUPPORTED,D. UNSUPPORTED,no,No param.json entry for FairGNN on income; same reason as nba.
+NIFTY,german,A. VALID-CONTROLLED,B. VALID-NATIVE,yes (X22 core + X23 native),Both already frozen.
+NIFTY,bail,A. VALID-CONTROLLED,D. UNSUPPORTED,yes (X22 core),Controlled cell already frozen. native_config() raises for NIFTY outside german.
+NIFTY,credit,A. VALID-CONTROLLED,D. UNSUPPORTED,yes (X22 core),Controlled cell already frozen. No native configuration.
+NIFTY,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,no,param.json carries num_hidden/num_proj_hidden only. sim_coeff - the intervention coefficient itself - has no per-dataset record and would fall back to the global default 0.6 (published_config.py:232). On german the whole configuration traces to an official repo command; on pokec nothing does. Running it would mean choosing the intervention strength ourselves.
+NIFTY,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Same as pokec_z: no per-dataset sim_coeff record.
+NIFTY,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,no,Same as pokec_z: no per-dataset sim_coeff record.
+NIFTY,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Same as pokec_z: no per-dataset sim_coeff record.
+NIFTY,nba,D. UNSUPPORTED,D. UNSUPPORTED,no,No param.json entry at all.
+NIFTY,income,D. UNSUPPORTED,D. UNSUPPORTED,no,No param.json entry at all.
+FairVGNN,german,A. VALID-CONTROLLED,B. VALID-NATIVE,yes (X22 core + X23 native),Both already frozen.
+FairVGNN,bail,A. VALID-CONTROLLED,B. VALID-NATIVE,yes (X22 core + X23 native),Both already frozen.
+FairVGNN,credit,A. VALID-CONTROLLED,B. VALID-NATIVE,yes (X22 core + X23 native),Both already frozen; native path via adapters/fairvgnn_credit_native.py.
+FairVGNN,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,no,"param.json pokec entry (top_k=5, alpha=0.5) is byte-identical to credit's and german's - a copy, not a published configuration (X5). The official set is credit/bail/german."
+FairVGNN,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Copied param.json entry; see pokec_z.
+FairVGNN,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,no,Copied param.json entry; see pokec_z.
+FairVGNN,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Copied param.json entry; see pokec_z.
+FairVGNN,nba,D. UNSUPPORTED,D. UNSUPPORTED,no,No param.json entry.
+FairVGNN,income,D. UNSUPPORTED,D. UNSUPPORTED,no,No param.json entry.
+FairGB,german,A. VALID-CONTROLLED,B. VALID-NATIVE,yes (X22 core + X23 native),Both already frozen.
+FairGB,bail,A. VALID-CONTROLLED,B. VALID-NATIVE,yes (X22 core + X23 native),Both already frozen.
+FairGB,credit,A. VALID-CONTROLLED,B. VALID-NATIVE,yes (X22 core + X23 native),Both already frozen.
+FairGB,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,no,FairGB-main/data_utils.py branches on exactly credit/bail/german with no else; dataset/ holds only those three zips; run.sh has three lines; there is no FairGB key in utils/param.json at all. This is the constraint that fixed the common dataset set to three (X5).
+FairGB,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,no,No upstream support; see pokec_z.
+FairGB,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,no,No upstream support; see pokec_z.
+FairGB,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,no,No upstream support; see pokec_z.
+FairGB,nba,D. UNSUPPORTED,D. UNSUPPORTED,no,No upstream support.
+FairGB,income,D. UNSUPPORTED,D. UNSUPPORTED,no,No upstream support.
+FairSIN,german,C. STRUCTURALLY-INVALID,D. UNSUPPORTED,no,"Excluded by frozen decision X2_FAIRSIN_NOTE (2026-09-14), not by any of the five categories in the ordinary sense: at its published configuration the model collapses to constant prediction natively (all-negative/all-positive oscillation; Parity and Equality exactly 0 by construction), so an intervention contrast would measure the collapse rather than the intervention. It also failed instrumentation invariance. Recorded as C because the contrast is not scientifically interpretable, NOT because the off-switch is missing - the adapter implements M0 cleanly. Not revived here."
+FairSIN,bail,C. STRUCTURALLY-INVALID,D. UNSUPPORTED,no,"Same frozen exclusion as german; the adapter covers (bail,GCN) but the method is terminated."
+FairSIN,credit,D. UNSUPPORTED,D. UNSUPPORTED,no,"Published through train_mlp.py, a different entry point; harness/adapters/fairsin.py refuses it by design rather than transcribe a second driver. Also covered by the frozen termination."
+FairSIN,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,no,Not in the adapter's PUBLISHED table and not in FairSIN's own experiment.sh.
+FairSIN,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Not a published FairSIN setting.
+FairSIN,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,no,Not a published FairSIN setting.
+FairSIN,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Not a published FairSIN setting.
+FairSIN,nba,D. UNSUPPORTED,D. UNSUPPORTED,no,Not a published FairSIN setting.
+FairSIN,income,D. UNSUPPORTED,D. UNSUPPORTED,no,Not a published FairSIN setting.
+FMP,german,D. UNSUPPORTED,D. UNSUPPORTED,no,Not an FMP dataset (main.py choices are pokec_z/pokec_n/nba).
+FMP,bail,D. UNSUPPORTED,D. UNSUPPORTED,no,Not an FMP dataset.
+FMP,credit,D. UNSUPPORTED,D. UNSUPPORTED,no,Not an FMP dataset.
+FMP,pokec_z,D. UNSUPPORTED,D. UNSUPPORTED,covered by X27,"An official FMP dataset, but there is no native lambda: the parser defaults (3,3) are not a published configuration (X27), so a package-level M1 cannot be specified without choosing lambda ourselves. Already covered as a mechanistic case study, excluded from every benchmark aggregate."
+FMP,pokec_z_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Not an FMP dataset variant (FMP uses region as the sensitive attribute).
+FMP,pokec_n,D. UNSUPPORTED,D. UNSUPPORTED,covered by X27,Same as pokec_z: no native lambda; covered as a case study.
+FMP,pokec_n_g,D. UNSUPPORTED,D. UNSUPPORTED,no,Not an FMP dataset variant.
+FMP,nba,D. UNSUPPORTED,D. UNSUPPORTED,no,"An official FMP dataset, but excluded within X27 because validation and test coincide."
+FMP,income,D. UNSUPPORTED,D. UNSUPPORTED,no,Not an FMP dataset.
+GNN,german,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,n/a - serves as B,"GNN is the baseline B itself. There is no claimed fairness intervention to switch off, so an intervention-off control is meaningless by construction. Available and required as B here."
+GNN,bail,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,n/a - serves as B,Baseline B; no intervention to switch off. Available as B.
+GNN,credit,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,n/a - serves as B,Baseline B; no intervention to switch off. Available as B.
+GNN,pokec_z,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,n/a - serves as B,"Baseline B; no intervention to switch off. Available as B with a distinct param.json entry (num_hidden=4, num_proj_hidden=16), which is what makes the FairGNN pokec_z cell runnable."
+GNN,pokec_z_g,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,n/a - serves as B,Baseline B; available as B with a distinct entry.
+GNN,pokec_n,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,n/a - serves as B,"Baseline B; available as B with a distinct entry (num_hidden=32, num_proj_hidden=64)."
+GNN,pokec_n_g,C. STRUCTURALLY-INVALID,C. STRUCTURALLY-INVALID,n/a - serves as B,Baseline B; available as B with a distinct entry.
+GNN,nba,C. STRUCTURALLY-INVALID,D. UNSUPPORTED,no,Baseline B by role; no param.json entry on nba in any case.
+GNN,income,C. STRUCTURALLY-INVALID,D. UNSUPPORTED,no,Baseline B by role; no param.json entry on income in any case.

@@ -1,0 +1,66 @@
+# What this repository publishes: the harness and analysis code, the frozen protocol
+# documents, the per-cell result tables, and the paper figures. Everything that is a
+# third-party artifact, a dataset, or a regenerable byproduct stays out.
+
+# ── datasets (redistributed by their own sources; checksums in study/data_manifest.tsv)
+data/
+
+# ── third-party method repositories (each has its own licence; cite, do not vendor)
+models/
+
+# ── raw per-run artifacts: large and regenerable by the runners
+*.npz
+*.pt
+*.pth
+*.embedding
+*.zip
+harness/results/*/R1*_trajectories/
+harness/results/*/*_trajectories/
+harness/results/**/cache/
+harness/results/**/logs/
+harness/results/*.sha256
+harness/results/**/*.sha256
+
+# ── figures produced by the study runs (the paper figures live in final_figures/)
+harness/results/figures/
+
+# ── on-screen previews of the paper figures (the PDFs are the deliverable)
+figures/src/preview/
+
+# ── python / editor / OS
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+env/
+venv/
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# ── published set: core harness + adapters + the scripts that rebuild results/ and the
+#    appendix check, plus the frozen protocol documents. Everything else in study/ is
+#    kept locally: runners, tests, provenance copies and the raw per-cell store.
+harness/results/
+harness/tests/
+harness/provenance/
+harness/experiments/*
+!harness/experiments/build_results.py
+!harness/experiments/robustness_six_split.py
+!harness/experiments/analyze_armA.py
+!harness/experiments/analyze_x29.py
+!harness/experiments/bootstrap_armA.py
+
+# ── results: only the paper-facing section tables are published; the per-cell store,
+#    the coverage ledger and the configuration ledger stay local
+results/cell_results.csv
+results/coverage.csv
+results/method_configurations.csv
+results/model_dataset_feasibility.csv
+
+# ── paper-side artifacts kept locally
+results/tables/
+results/plot.ipynb
+figures/src/

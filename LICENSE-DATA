@@ -1,0 +1,21 @@
+Result tables and figures in this repository
+============================================
+
+The contents of `results/` and `figures/` (result tables, LaTeX tables and the
+paper figures) are licensed under the Creative Commons Attribution 4.0
+International licence (CC BY 4.0): https://creativecommons.org/licenses/by/4.0/
+
+Copyright (c) 2026 sybeam27. You may share and adapt them for any purpose,
+including commercially, provided you give appropriate credit to the paper.
+
+The code in this repository is licensed separately, under the MIT licence in
+LICENSE.
+
+Not covered by either licence
+-----------------------------
+* The datasets (German, Credit, Bail, Income, NBA, Pokec). They are obtained
+  from their own sources and are not redistributed here; `study/data_manifest.tsv`
+  records checksums of the copies used.
+* The fairness-aware GNN implementations evaluated here. Each is used under its
+  own licence from its own repository; `study/provenance/` records the source
+  and the pinned commit of every copy. None of that code is redistributed here.
