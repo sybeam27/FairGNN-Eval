@@ -245,12 +245,15 @@ CAVEAT = {
     ("GEAR", "bail"): "the released counterfactual assets are three identical files that flip "
                       "the sensitive attribute on the unchanged graph, so the cell measures the "
                       "similarity objective given an attribute flip, not the published generator",
-    ("FairEdit", "german"): "the repository default removes 20 of ~44k edges, so a near-zero "
-                            "estimate reflects the size of the intervention",
-    ("FairEdit", "bail"): "the repository default removes 20 of ~44k edges, so a near-zero "
-                          "estimate reflects the size of the intervention",
-    ("FairEdit", "credit"): "the repository default removes 20 of ~44k edges, so a near-zero "
-                            "estimate reflects the size of the intervention",
+    ("FairEdit", "german"): "the repository default deletes 10 undirected edges per run "
+                          "(20 of 44,484 directed entries); the edge-addition branch is disabled "
+                          "(add=False), so a near-zero estimate reflects the size of the intervention",
+    ("FairEdit", "bail"): "the repository default deletes 10 undirected edges per run "
+                          "(20 of 642,616 directed entries); the edge-addition branch is disabled "
+                          "(add=False), so a near-zero estimate reflects the size of the intervention",
+    ("FairEdit", "credit"): "the repository default deletes 10 undirected edges per run "
+                          "(20 of 2,873,716 directed entries); the edge-addition branch is disabled "
+                          "(add=False), so a near-zero estimate reflects the size of the intervention",
     ("BIND", "bail"): "the published 1% / 10% budgets are applied as fractions of the training "
                       "set; on bail (|train| = 100) that is 1 and 10 deleted nodes",
     ("BIND", "income"): "the published 1% / 10% budgets are applied as fractions of the training "

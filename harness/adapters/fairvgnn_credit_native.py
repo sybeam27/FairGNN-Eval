@@ -30,7 +30,8 @@ from __future__ import annotations
 
 import types
 
-import FairGate.models.algorithms.FairVGNN as VG
+import core.paths  # noqa: F401  (puts the repository root on sys.path)
+import models.algorithms.FairVGNN as VG
 
 def run(self, data, args, trajectory=None):
     """Local FairVGNN.run() with the four fairvgnn_credit.py changes (X19)."""

@@ -48,7 +48,8 @@ def config(dataset):
 
 def train_arm(dataset, encoder, arm, split, seed, epochs, device="cuda"):
     from utils.dataloading import load_data
-    import FairGate.models.algorithms.FairEdit as FE
+    import core.paths  # noqa: F401  (puts the repository root on sys.path)
+    import models.algorithms.FairEdit as FE
     cfg = config(dataset)
     adj, feats, labels, itr, iva, ite, sens, sens_idx = load_data(
         dataset, feature_normalize=cfg["feature_normalize"], split_seed=split)

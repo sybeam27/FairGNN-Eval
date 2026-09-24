@@ -73,7 +73,8 @@ def _rng_hash():
 def train_arm(dataset, encoder, arm, split, seed, epochs, device="cuda"):
     from core.trajectory import seed_all
     from utils.dataloading import load_data
-    import FairGate.models.algorithms.EDITS as E
+    import core.paths  # noqa: F401  (puts the repository root on sys.path)
+    import models.algorithms.EDITS as E
     cfg = config(dataset)
     adj, feats, labels, itr, iva, ite, sens, sens_idx = load_data(
         dataset, feature_normalize=False, split_seed=split)
