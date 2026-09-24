@@ -64,8 +64,12 @@ scales nothing. The paper's Fig. 1 = `fig1_intervention_attribution`, Fig. 2 =
 
 Every figure but the new one is generated wider than the text block and silently shrunk on
 inclusion, so its smallest type prints at 2.9-4.7 pt. Fixing the width is therefore not cosmetic.
-`fig2_sign_resolution` is 3.57 in wide and is the one figure that would be scaled *up*; it is not
-in this list and its intended placement should be confirmed before it is regenerated.
+
+**`fig2_sign_resolution` is excluded** (user, 2026-09-24). It is 3.57 in wide -- the one figure
+that would be scaled *up* at \textwidth -- and it keeps its current size. It is not regenerated,
+so it does not get the 5.5 in width, the print-size type or the unnested tau notation; if it is
+later placed at \textwidth its line weights and markers will grow by 1.54x and its tone will no
+longer match the rest of the set.
 
 **C-5. `phase0_verify` on `results_v2/`**, full output kept.
 
