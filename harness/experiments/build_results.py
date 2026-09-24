@@ -66,6 +66,25 @@ UNITS_REQUIRED, ROWS_REQUIRED = 30, 60
 COORDS = (("dAUC", "auc"), ("negDP", "ndp"), ("negEO", "neo"))
 QUANTS = (("tau_nonint", "abase"), ("tau_I", "int"), ("tau_pkg", "apkg"))
 
+
+def nonint_larger(r, coord):
+    """Is the surrounding package larger than the intervention, on this coordinate?
+
+    One rule for all three coordinates: |tau_{B->-I}| > |tau_{-I->+I}|, a strict
+    inequality on the unrounded cell means. Returns None when either mean is absent.
+
+    This used to be computed in two places. negDP and negEO were written here, before
+    the CSV round-trip; dAUC was recomputed downstream from the two mean columns after
+    reading the CSV, and the table recorded which path it had taken in
+    `nonint_larger_source`. The two agreed on the frozen bundle -- 26/26 on negDP and
+    29/29 on negEO, no disagreement -- because the rule and the inputs were already the
+    same. They are now one function so they cannot drift apart.
+    """
+    a, b = r.get(f"tau_nonint_{coord}_mean"), r.get(f"tau_I_{coord}_mean")
+    if a is None or b is None:
+        return None
+    return bool(abs(a) > abs(b))
+
 # Configuration identity and role, fixed before any outcome existed. The suffix
 # in a stored method name is a configuration label, not a separate method.
 CONFIG_ROLE = {
@@ -314,10 +333,10 @@ def build_cells(store, report):
                  status="complete", n_units=units)
         r.update(frozen_estimates(g))
         r.update(auc_selector_estimates(g))
-        for c in ("negDP", "negEO"):
-            a, b = r.get(f"tau_nonint_{c}_mean"), r.get(f"tau_I_{c}_mean")
-            if a is not None and b is not None:
-                r[f"nonint_larger_{c}"] = bool(abs(a) > abs(b))
+        for c, _ in COORDS:
+            v = nonint_larger(r, c)
+            if v is not None:
+                r[f"nonint_larger_{c}"] = v
         note = CAVEAT.get((method, ds), "")
         if proto == "controlled" and method in NATIVE_NOTE:
             note = (note + "; " if note else "") + NATIVE_NOTE[method]
@@ -1091,7 +1110,7 @@ def section_tables(cells, pairs, mech, reg=None):
     for c in ("dAUC", "negDP", "negEO"):
         cols1 += est("tau_pkg", c) + est("tau_nonint", c) + est("tau_I", c) + [
             f"tau_I_{c}_sign_stability", f"tau_I_{c}_resolved"]
-    cols1 += ["nonint_larger_negDP", "nonint_larger_negEO", "caveat"]
+    cols1 += ["nonint_larger_dAUC", "nonint_larger_negDP", "nonint_larger_negEO", "caveat"]
     s1 = prim[cols1]
     ta = cells[(cells.task_adaptation != "") & (cells.protocol == "controlled")]
     s1b = ta[cols1[:4] + ["task_adaptation"] + cols1[4:]]
