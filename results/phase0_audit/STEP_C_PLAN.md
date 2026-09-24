@@ -80,6 +80,16 @@ longer match the rest of the set.
 **C-8. The two `re_execution` pairs.** Delta_attr and its 95% interval per coordinate for
 SFG/german and SFG/credit, by the same estimator as A-3.
 
+State per coordinate, explicitly, whether the interval excludes zero. **If any of them does, report
+that first, before the numbers themselves.** These two pairs differ by nothing but the process they
+ran in -- A-1 established the configuration diff is empty and the `--native` flag is inert at
+`native_horizon = 200` -- so a Delta_attr the interval calls non-zero is an interval that does not
+cover re-execution noise. That would mean the paired hierarchical bootstrap, which resamples splits
+and then runs, understates the variability actually present, and every interval in the paper built
+with it inherits the problem. It would not be a finding about SFG; it would be a finding about the
+estimator, and it is the one result here that could force the uncertainty story to be rewritten.
+Cross-check it against the C-9 / noise-floor measurement of the same quantity on the same estimator.
+
 **C-9. Native recount on 19 pairs.** Re-aggregate the native Delta_attr interval-excludes-zero
 counts with the two re-execution pairs removed (21 -> 19). Add a column
 `exceeds_rerun_max`: whether that pair's |Delta_attr| exceeds the largest |Delta| observed
@@ -136,6 +146,46 @@ NIFTY/german, FairGB/bail, FairSIN-GCN/credit and FairVGNN/german. **Neither Fai
 FairGNN is among them**, so the threshold is transferred from other methods and datasets rather
 than measured on the cells it excludes. It bounds re-execution noise for this harness on this
 machine, not for those two methods specifically.
+
+**C-14. Common-epoch comparison (the old T10).** Today the two arms of a unit are checkpointed
+independently, each at its own validation-BCE minimum. This asks what changes if they are forced
+to share one epoch.
+
+**The rule, fixed here before any result is seen:**
+
+> For a unit, the **common epoch** is the epoch minimising the *mean of the two arms'* validation
+> BCE: `argmin_e [ (val_bce_{M+I}(e) + val_bce_{M-I}(e)) / 2 ]`. Both arms are then read at
+> that one epoch and tau_I is formed from the two test outcomes, on all three coordinates. Ties are
+> broken by the smallest epoch. Where a cell's test outcome is stored only on a grid of epochs
+> rather than at every epoch, the argmin is taken **over that grid**, and the cell is reported as
+> grid-restricted with its grid size.
+
+Report against the current independent-selection tau_I: the number of cells whose sign flips, the
+number whose resolved verdict changes, and the median and maximum |difference|, per coordinate.
+Cells with no stored trajectory are listed, not estimated.
+
+*Feasibility, established in T10 and re-checked 2026-09-24 — read this before scheduling the work.*
+**No primary cell has a stored trajectory.** The controlled H = 200 runs that produce the 36 primary
+cells recorded no per-epoch validation loss, so for all 36 the answer is **[확인 불가]** without a
+re-run. What exists:
+
+| trajectory set | cell | protocol | per-epoch test outcome |
+|---|---|---|---|
+| `x25/R10_trajectories`, `R11_trajectories` (60 files each) | NIFTY / German | native, H = 1000 | yes -- `test_raw` at all 1001 epochs |
+| `x26/bail_trajectories` (60 files) | FairGB / Bail | native, H = 1500 | **grid only** -- `grid_scores` at 11 epochs |
+| `x27/pokec_{z,n}_trajectories` (210 files each) | FMP | component study | to be checked |
+
+So C-14 runs on the two case-study cells (grid-restricted for FairGB/Bail) plus FMP if its files
+carry the same fields, and reports the 36 primary cells as unanswerable from stored artifacts. If
+the comparison is wanted for the primary cells, that is a re-run with trajectory recording enabled
+and has to be decided separately -- it is not covered by "no new training".
+
+**C-15. One word for the protocol, in the figures and the caption.** "native" becomes "published"
+wherever a reader sees it: axis labels, legends and panel titles of Fig. 2
+(`fig3_protocol_variation`) and appendix Fig. 5 (`figS4_fixed_epoch_trajectory`), and the caption of
+Table 24 (`tableS3b`), where "controlled -> native" becomes "controlled -> published horizon". The
+CSV column values and the internal term names stay as they are; this is the reader-facing wording
+only, and the two must not be conflated when checking.
 
 **C-13. Table 27 gains an interval marker.** `tableS2_configuration_pairs` gets a column (or a
 symbol on the estimate) showing whether that pair's Delta_attr 95% interval excludes zero, from
