@@ -32,11 +32,40 @@ strength), on the headline blocks fixed in `B_rebuild_decision.md` rule 6.
 **C-3. Tables** — Table 1, 20–22, 2·3, 24–27, 11, FnRGNN, plus a new B-specification table.
 
 **C-4. Figures** — regenerate Figs 1, 3, 4 and the S1 series.
-* Adopt the unnested tau notation everywhere it appears, as the new main-text Fig. 3 now does:
-  `tau_{-I->+I} (-Delta_DP)` rather than `tau^{-Delta_DP}_{-I->+I}`. mathtext shrinks 70% per
-  nesting level, so a subscript inside a superscript printed "DP" at 3.9 pt; unnested it is 4.9 pt.
-  **Figures 1 and 2 still carry the nested form and must be changed with the rest.**
-* Value labels use U+2212, not the hyphen-minus, so they match the axis ticks.
+
+*Print-size specification.* Every figure is generated at the size it is placed at, so LaTeX
+scales nothing. The paper's Fig. 1 = `fig1_intervention_attribution`, Fig. 2 =
+`fig3_protocol_variation`, appendix Fig. 4 = the `figS1_*_negEO` series.
+
+* **Width exactly 5.5 in** (\textwidth), current aspect ratio kept, included as
+  `width=\textwidth`. The bbox that `bbox_inches="tight"` produces is what counts, not `figsize`,
+  so tune `figsize` until the saved PDF measures 5.5 in.
+* **Print-size type:** panel titles 8 pt, axis labels 7.5 pt, ticks / legend / inset labels >= 7 pt.
+  A legend that no longer fits on one line at that size may wrap to two.
+* **Unnested tau notation**, as the new Fig. 3 uses: `tau_{-I->+I} (-Delta_DP)`, never
+  `tau^{-Delta_DP}_{-I->+I}`. mathtext shrinks 70% per nesting level, so a subscript inside a
+  superscript prints "DP" at 3.9 pt.
+* **U+2212** for every minus in a value label, matching the axis ticks.
+* Fig. 2 panel (b) title becomes "Published horizon", and the two SFG re-execution pairs are
+  handled per Decision 2 -- dropped from 3b and shown separately, not counted in the systematic 16.
+* After generating, measure the smallest glyph in each PDF by decompressing its streams and
+  reading the `Tf` operands. Report it.
+
+*Why this matters -- measured on the current files (2026-09-24):*
+
+| figure | width | scale at \textwidth | smallest glyph | **as printed** |
+|---|---|---|---|---|
+| `fig1_intervention_attribution` | 7.41" | 0.742 | 3.92 pt | **2.91 pt** |
+| `fig3_protocol_variation` | 6.99" | 0.787 | 3.92 pt | **3.08 pt** |
+| `figS1_intervention_attribution_negEO` | 7.41" | 0.742 | 3.92 pt | **2.91 pt** |
+| `figS1_tradeoff_direction_negEO` | 5.92" | 0.930 | 5.04 pt | 4.69 pt |
+| `figS1_arms_by_family_dataset_negEO` | 6.81" | 0.808 | 5.04 pt | 4.07 pt |
+| `fig3_selection_support_trajectory` (new) | 5.35" | 1.029 | 4.90 pt | 5.04 pt |
+
+Every figure but the new one is generated wider than the text block and silently shrunk on
+inclusion, so its smallest type prints at 2.9-4.7 pt. Fixing the width is therefore not cosmetic.
+`fig2_sign_resolution` is 3.57 in wide and is the one figure that would be scaled *up*; it is not
+in this list and its intended placement should be confirmed before it is regenerated.
 
 **C-5. `phase0_verify` on `results_v2/`**, full output kept.
 
