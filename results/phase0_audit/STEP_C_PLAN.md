@@ -32,6 +32,11 @@ strength), on the headline blocks fixed in `B_rebuild_decision.md` rule 6.
 **C-3. Tables** — Table 1, 20–22, 2·3, 24–27, 11, FnRGNN, plus a new B-specification table.
 
 **C-4. Figures** — regenerate Figs 1, 3, 4 and the S1 series.
+* Adopt the unnested tau notation everywhere it appears, as the new main-text Fig. 3 now does:
+  `tau_{-I->+I} (-Delta_DP)` rather than `tau^{-Delta_DP}_{-I->+I}`. mathtext shrinks 70% per
+  nesting level, so a subscript inside a superscript printed "DP" at 3.9 pt; unnested it is 4.9 pt.
+  **Figures 1 and 2 still carry the nested form and must be changed with the rest.**
+* Value labels use U+2212, not the hyphen-minus, so they match the axis ticks.
 
 **C-5. `phase0_verify` on `results_v2/`**, full output kept.
 
