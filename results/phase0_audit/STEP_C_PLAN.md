@@ -245,13 +245,31 @@ computed. **If any Block-B interval excludes zero, report that before anything e
 it would mean the estimator does not cover re-execution noise, which is a finding about the
 bootstrap rather than about SFG.
 
-Caption, draft -- to be replaced by the user's own text, and re-checked against the generated
-table rather than carried over: *"Re-execution differences in the cell-level mean intervention
-contrast under identical settings. Block A re-executes each cell twice for this audit; Block B
-reclassifies two frozen pairs that differ only in the process they ran in. [zero-exclusion result,
-stated per block.] Re-execution noise is strongly cell-dependent: between realizations the
-cell-level mean tau_I moved by 0.0668 on -Delta_DP for SFG/German and by 0.0013 for NIFTY/German,
-and the largest single-unit movement was 0.635 against 0.004 for FairVGNN/German."*
+**Caption (the user's text, 2026-09-25). Use verbatim.** Only the bracketed clause is filled, from
+the per-block verification. If the verification does not support it, **the sentence is not
+rewritten silently -- it is reported first**:
+
+```latex
+\caption{\textbf{Re-execution differences in the cell-level mean intervention contrast.}
+Upper block: five primary cells re-executed twice under the frozen configuration on a single machine and code state, giving three realizations and three pairwise differences per cell.
+Lower block: the two SFG cells whose controlled and published-horizon runs differ only by re-execution, recorded separately in the original study.
+Entries give the difference and its 95\% paired hierarchical-bootstrap interval; [no interval excludes zero in either block].
+Re-execution variation differs by more than an order of magnitude across cells (on \(-\Delta_{\mathrm{DP}}\), from 0.001 for NIFTY/German to 0.067 for SFG/German).}
+\label{tab:noise_floor}
+```
+
+Filling rules, fixed in advance:
+
+* Block A is settled: 0 of 45 intervals exclude zero. Only Block B decides the bracket.
+* If **every** Block-B interval also excludes zero nowhere, the bracket reads
+  `no interval excludes zero in either block`.
+* If **any** Block-B interval excludes zero, the bracket reads
+  `no interval excludes zero in the upper block`, and those rows are reported separately and
+  before the table is considered done.
+* The range figures 0.001 (NIFTY/German) and 0.067 (SFG/German) are Block A only, and are correct
+  against `noise_floor_delta.csv` (0.0013 and 0.0668 on -Delta_DP). **If a Block-B value falls
+  outside that range, report it** -- the sentence claims a range for the upper block, so a larger
+  lower-block value does not contradict it but the reader should not be left to assume otherwise.
 
 **C-15. One word for the protocol, in the figures and the caption.** "native" becomes "published"
 wherever a reader sees it: axis labels, legends and panel titles of Fig. 2
