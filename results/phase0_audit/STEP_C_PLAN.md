@@ -90,11 +90,46 @@ with it inherits the problem. It would not be a finding about SFG; it would be a
 estimator, and it is the one result here that could force the uncertainty story to be rewritten.
 Cross-check it against the C-9 / noise-floor measurement of the same quantity on the same estimator.
 
-**C-9. Native recount on 19 pairs.** Re-aggregate the native Delta_attr interval-excludes-zero
-counts with the two re-execution pairs removed (21 -> 19). Add a column
-`exceeds_rerun_max`: whether that pair's |Delta_attr| exceeds the largest |Delta| observed
-between two realizations of the *same* cell in the Step B noise floor. A native pair that does
-not clear its own re-execution noise is not evidence of a protocol effect.
+*Report it in the C-16 format* -- Delta and 95% interval per coordinate, one row per pair.
+
+*Can these two rows join the C-16 appendix table?* **Structurally yes, in a separate labelled
+block, not interleaved.** The quantity is identical: a paired Delta of tau_I between two
+realizations of one cell, same estimator, same seed, same 30 matched units. But the provenance
+differs and the table must not hide it -- the C-16 rows are two re-executions run now, on one
+machine, on a single code state, whereas the SFG rows are two runs from the original study
+recorded weeks apart under the `controlled` and `native` protocol labels. Merging them without a
+column distinguishing "re-executed for this audit" from "frozen pair reclassified as a re-run"
+would present a claim about reproducibility as though the two were collected the same way.
+
+**SFG/german appears on both sides**, as a noise-floor cell and as a re-execution pair, and that
+overlap is the useful part: it gives a direct check of whether the frozen controlled-vs-native
+difference sits inside the range two deliberate re-executions produce. Report that comparison
+explicitly. SFG/credit has no noise-floor counterpart, so it only gets the cross-cell maxima.
+
+**C-9. Native and procedure pairs against the measured re-execution noise.**
+
+**The criteria, fixed here before the recount is run:**
+
+> **Primary criterion.** Whether the pair's Delta_attr 95% interval excludes zero, on the
+> reclassified sets: **19 native pairs** (21 minus the two SFG re-execution pairs) and
+> **4 procedure pairs**. This is the criterion the paper reports.
+>
+> **Secondary criterion, conservative.** Whether `|Delta_attr|` exceeds the largest cell-level
+> mean `|Delta|` measured between two realizations of one cell in the Step B noise floor:
+> **dAUC 0.01174, negDP 0.06677, negEO 0.04599** (column `exceeds_rerun_max`). A pair that does
+> not clear this did not move more than re-running the identical command moved a cell.
+>
+> **Cell-matched comparison, where it is available.** The noise floor was measured on
+> SFG/german, FairGB/bail, FairVGNN/german and NIFTY/german (and FairSIN-GCN/credit). Where one of
+> these cells appears in a native or procedure comparison, add a column comparing that pair's
+> `|Delta_attr|` against **that same cell's** re-execution `|Delta|` maximum, rather than against
+> the cross-cell maximum. Name the cell and the value used. This is the strongest form of the
+> check, because it removes the transfer between methods and datasets.
+
+Report all three side by side; do not collapse them into one verdict. Re-execution variability is
+strongly cell-dependent -- SFG/german moved 0.0668 on negDP between realizations while
+NIFTY/german moved 0.0013 -- so the cross-cell maximum is conservative for some cells and
+generous for others, and the cell-matched column is the one to trust where it exists.
 
 **C-10. Systematic-16 tables.** Regenerate Tables 3, 7, 13 and 26 on the 16-pair systematic set,
 and emit a separate re-execution table for the two withdrawn pairs, both under
@@ -179,6 +214,21 @@ So C-14 runs on the two case-study cells (grid-restricted for FairGB/Bail) plus 
 carry the same fields, and reports the 36 primary cells as unanswerable from stored artifacts. If
 the comparison is wanted for the primary cells, that is a re-run with trajectory recording enabled
 and has to be decided separately -- it is not covered by "no new training".
+
+**C-16. Appendix table of re-execution noise.** `results_v2/tables/tableS_noise_floor.tex`, label
+`tab:noise_floor`. Rows: 5 cells x 3 pairings (frozen-rep1, frozen-rep2, rep1-rep2); columns: Delta
+and its 95% interval on each of the three coordinates. Built directly from
+`results/phase0_audit/noise_floor_delta.csv`, asserting every printed value against that file, and
+emitting a `.csv` beside the `.tex`. Minus signs as U+2212 in the text, `$-$` in the LaTeX.
+
+Caption, draft: *"Re-execution differences in the cell-level mean intervention contrast under
+identical settings. No interval excludes zero."* Both sentences must be re-checked against the
+generated table rather than carried over -- the second is a claim about all 45 rows.
+
+The caption should also carry the range, because a single "noise floor" reading is misleading: the
+cell-level mean tau_I moved by 0.0668 on -Delta_DP between realizations of SFG/german and by
+0.0013 on NIFTY/german, and per unit the largest movement was 0.635 on SFG/german against 0.004 on
+FairVGNN/german.
 
 **C-15. One word for the protocol, in the figures and the caption.** "native" becomes "published"
 wherever a reader sees it: axis labels, legends and panel titles of Fig. 2
