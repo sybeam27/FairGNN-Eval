@@ -529,8 +529,9 @@ def targeted_native_configurations():
             configuration="default", protocol="native",
             intervention_I=CT.CORE_I[m][0], M_plus_I=plus, M_minus_I=minus,
             horizon=f"native horizon = {n['horizon']}",
-            selector="the method's own published selection rule, replayed on the stored "
-                     "trajectory; sigma_c^BCE / sigma_c^AUC also recorded",
+            selector="sigma_c^BCE (the controlled selector) for the reported estimate; the "
+                     "method's own published rule is replayed on the stored trajectory and "
+                     "recorded as code_epoch / m1pub_*, and sigma_c^AUC is also recorded",
             optimizer_and_hyperparameters="; ".join(f"{k}={v}" for k, v in sorted(c.items())),
             preprocessing=f"feature_normalize={bool(fn)}"
                           + (f"; {changes}" if changes else ""),
@@ -853,7 +854,8 @@ data have no native row at all.
 
 * `configuration_role` — `primary` or `robustness`.
 * `protocol` — `controlled` (one common horizon and selector for every arm) or
-  `native` (the method at its own published horizon and selector).
+  `native` (the method at its own published horizon; the checkpoint selector stays the controlled
+  validation-BCE rule on both sides, and the method's own published rule is recorded but unused).
 * `native_evaluation_role` — empty for controlled rows, else `systematic` or
   `targeted`.
 * `count_in_primary_summary` — true only for primary controlled cells of methods
@@ -890,8 +892,8 @@ what it varies. The families never mix:
 | `1c_main_released_task_regression.csv` | 1c. Main, released task | FnRGNN on node regression (its own task, MSE), same split and sensitive attribute; B = the common GCN trained with MSE | `tau_nonint`, `tau_I`, `tau_pkg` on regression metrics: `negMSE`, `negMeanGap`, `negWD` (standardised target units); compare only within this file |
 | `2_configuration_variation.csv` | 2. Configuration variation | controlled protocol | the configuration: FairSIN GCN -> GIN, SAGE; FairVGNN's further published rows (GCN-spmm, GIN, SAGE); BeMap GCN -> GAT; FairGNN's upstream GCN and GAT rows; BIND 1% -> 10%. `varied_factor` names it |
 | `3a_protocol_selector_bce_vs_auc.csv` | 3a. Protocol variation: selector | configuration, horizon, data, units | only the checkpoint selector (validation BCE vs validation AUC), for every controlled cell; `configuration_role` separates primary from robustness rows |
-| `3b_protocol_native_horizon_selector.csv` | 3b. Protocol variation: horizon and selector | configuration and data | horizon and selector, set to the method's own published values, and nothing else |
-| `3c_protocol_native_published_procedure.csv` | 3c. Protocol variation: published procedure | the intervention's configuration | horizon and selector plus the preprocessing or training-loop details the published procedure prescribes; `factors_changed` lists them |
+| `3b_protocol_native_horizon_selector.csv` | 3b. Protocol variation: published horizon | configuration, data and the checkpoint selector | the training horizon, set to the method's own published value, and nothing else; validation-BCE selection is retained on both sides, so this is a horizon-only contrast |
+| `3c_protocol_native_published_procedure.csv` | 3c. Protocol variation: published procedure | the intervention's configuration and the checkpoint selector | the training horizon plus the preprocessing or training-loop details the published procedure prescribes; validation-BCE selection is retained, so the selector is not among the changed factors; `factors_changed` lists what is |
 | `4_mechanistic_case_study.csv` | 4. Mechanistic case study | the frozen cell | selection-support decompositions (NIFTY, FairGB) |
 | `5_component_case_study_FMP.csv` | 5. Component-level case study | FMP on its own split and horizon, the baseline trained under the same setting | four stages, one component at a time: B -> base -> +propagation -> +fairness |
 | `model_dataset_feasibility.csv` | coverage | -- | every method x dataset the released code configures, by role |
@@ -1043,7 +1045,11 @@ def feasibility_gate(cells):
 def native_factors(method, dataset, configuration):
     """Everything the native published procedure changes relative to the
     controlled cell of the same configuration, read from the interpreters."""
-    sel = "selector: sigma_c -> the method's own published rule"
+    # The native runs report the sigma_c^BCE slot, exactly as the controlled arm does; the method's
+    # own published rule is replayed and stored (code_epoch / m1pub_*) but never enters tau_I, and
+    # the M^{-I} arm has no published-rule counterpart, so a published-rule tau_I is not constructible.
+    sel = ("selector unchanged (sigma_c^BCE, as in the controlled arm); the method's own published "
+           "rule was replayed and recorded as code_epoch / m1pub_*, but does not enter this estimate")
     if method == "FairSIN":
         import x30_fairsin as FS
         h = FS.native_horizon(dataset, configuration)
@@ -1186,10 +1192,12 @@ def section_tables(cells, pairs, mech, reg=None):
          "the configuration: another published row, encoder backbone or intervention budget; varied_factor names it", "robustness vs primary configuration x coordinate"),
         ("3a_protocol_selector_bce_vs_auc.csv", "3a", "protocol variation (selector only)", "configuration, horizon, data and units",
          "the checkpoint selector: validation BCE vs validation AUC", "controlled cell (primary and robustness)"),
-        ("3b_protocol_native_horizon_selector.csv", "3b", "protocol variation (horizon and selector)", "configuration and data",
-         "horizon and selector, to the method's own published values; nothing else", "controlled vs native pair"),
+        ("3b_protocol_native_horizon_selector.csv", "3b", "protocol variation (published horizon)",
+         "configuration, data and the checkpoint selector",
+         "the training horizon, to the method's own published value; nothing else (validation-BCE selection retained)",
+         "controlled vs native pair"),
         ("3c_protocol_native_published_procedure.csv", "3c", "protocol variation (published procedure bundle)", "configuration of the intervention",
-         "horizon and selector plus the preprocessing or training-loop details the published procedure prescribes", "controlled vs native pair"),
+         "the training horizon plus the preprocessing or training-loop details the published procedure prescribes (validation-BCE selection retained)", "controlled vs native pair"),
         ("4_mechanistic_case_study.csv", "4", "mechanistic case study", "the frozen cell",
          "which trajectory and selection support drives the attribution (NIFTY, FairGB)", "decomposition term x coordinate"),
         ("5_component_case_study_FMP.csv", "5", "component-level case study", "FMP, its own split and horizon",

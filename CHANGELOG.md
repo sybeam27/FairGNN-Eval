@@ -26,3 +26,14 @@ reproduce the frozen numbers (resolved 11/8/9, headline 31/26/29 and 9/23/24, NI
   (see `results/phase0_audit/R2_native_selector_facts.md`).
 * The German baseline B is trained for 200 epochs while its resolved published horizon is 1000
   (see `results/phase0_audit/SUMMARY.md`, T1).
+
+### Fixed (native protocol wording)
+* The `factors_changed` string claimed "selector: sigma_c -> the method's own published rule" on all
+  25 native rows. The reported native estimate uses the controlled validation-BCE selector; the
+  method's own rule is replayed and recorded (`code_epoch`, `m1pub_*`) but never enters tau_I, and the
+  M^{-I} arm has no published-rule counterpart. Corrected in `build_results.native_factors`, in the
+  `selector` field of `method_configurations.csv`, and in the README rows for sections 3b and 3c:
+  3b is a **horizon-only** contrast with validation-BCE selection retained on both sides.
+  The regenerated CSVs land with `results_v2/`; `results/` is untouched.
+* `figures/src/make_fig3.py`: panel (b) title "Horizon + selector" -> "Published horizon". The figure
+  itself is regenerated with `results_v2/`.
