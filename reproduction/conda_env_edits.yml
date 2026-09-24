@@ -1,0 +1,7 @@
+# environment: edits (/home/sypark/x30_edits_env)
+# captured: 2026-09-24T20:52:26+09:00 -- reproduction-time query, NOT a record of the frozen runs
+name: /home/sypark/x30_edits_env
+channels:
+  - conda-forge
+dependencies: []
+prefix: /home/sypark/x30_edits_env

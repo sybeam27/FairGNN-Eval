@@ -1,0 +1,7 @@
+# environment: dgl (/home/sypark/x27_dgl_cuda)
+# captured: 2026-09-24T20:52:26+09:00 -- reproduction-time query, NOT a record of the frozen runs
+name: /home/sypark/x27_dgl_cuda
+channels:
+  - conda-forge
+dependencies: []
+prefix: /home/sypark/x27_dgl_cuda

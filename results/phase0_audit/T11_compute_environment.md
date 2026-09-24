@@ -12,7 +12,12 @@ Audit date: 2026-09-24. Nothing outside `results/phase0_audit/` was modified.
 
 ## 1. GPU hardware actually used
 
-### 1.1 What the machine reports *now*
+### 1.1 Reproduction-time query — what the machine reports *now*, not what the runs recorded
+
+Everything in this subsection was obtained by querying the live machine on
+2026-09-24, after the runs finished. None of it is a record of the frozen runs, and
+none of it may be reported as the hardware the experiments used. The paper states
+only "a single 48 GB NVIDIA GPU", which is what §1.2 supports.
 
 | fact | value | evidence |
 |---|---|---|
@@ -107,24 +112,41 @@ for artifact mtimes where no timestamped log exists.
 | P7 | X27 FMP mechanistic (pokec_z, pokec_n) | 2 × (6 splits × 5 runs × 7 configs) = 420 runs | pokec_z 12:12→12:51, pokec_n 12:51→13:29 = **1.28 h** | 1 | **P6 ∪ P7 = 11:53 → 13:29 = 1.60** | `harness/X27_RESULTS.md:25` — "pokec_z 12:12→12:51, pokec_n 12:51→13:29, rc 0 each"; per-cell pilot rate at `:27` ("103 s per cell of seven configurations → 1.72 h projected") | [확인됨]; the P6/P7 overlap (12:12–13:24) means both shared GPU 2 — union used to avoid double-counting |
 | P8 | X29 coverage extension | 4 primary cells (FairGNN on pokec_z, pokec_n, pokec_z_g, pokec_n_g) | cells 6m28s + 9m00s + 9m17s + (4 units + 7m38s) = **0.54 h of cell time**; span ≈ 15:25 → 16:05:18 = **0.67 h** | 4 *indices* (0,1,2,4) but 1 at a time | 0.67 | `harness/X29_RESULTS.md:28-30` ("6m28s, 9m00s, 9m17s, and 4 units + 7m38s on resume — about 35 minutes in total"); mtimes `harness/results/x29/x29_FairGNN_*.csv` 15:31/15:42/15:53/16:05 | [확인됨] for the cell times; [추정] for the span and for "1 GPU at a time" |
 | P9 | X30 method-coverage extension | 17 primary + robustness + 18 systematic-native cells | union of all cell intervals = **35.74 h** (block 1: 2026-09-17 23:52:31 → 2026-09-19 04:04:56 = 28.21 h; block 2 sweep: 2026-09-19 20:45:33 → 2026-09-20 04:17:28 = 7.53 h) | 1 (GPU 2) | **35.74** | `harness/results/x30/logs/stream_S1..S4.log`, `stream_sweep.log` — 56 paired START/END cell intervals; job-hours sum = **133.3 h** (up to 10 processes shared GPU 2) | [확인됨] |
-| P10 | X31 additional cells | 3 primary (SFG) + robustness + native + task-adapted | block 1: 2026-09-21 17:40:18 → 2026-09-22 04:52:53 = **11.21 h**; block 2 (FnRGNN regression): 2026-09-22 12:24:26 → 12:42:22 = **0.30 h**; total **11.51 h** | 1 (GPU 2) | **11.51** | `harness/results/x31/logs/stream_*.log`, `scheduler.log`, plus log mtimes for cells whose END line is missing (`native_SFG_*`, `FairVGNN-GCNspmm_bail`, `BeMap-GAT_pokec_z`, `SFG german`); job-hours sum = **101.2 h** (max 5 concurrent + 3 side streams) | [확인됨] for logged ENDs, [추정] for mtime-derived ENDs |
+| P10 | X31 additional cells | 3 primary (SFG) + robustness + native + task-adapted | block 1: 2026-09-21 17:40:18 → 2026-09-22 04:52:53 = **11.21 h**; block 2 (FnRGNN regression): **not recorded** — `stream_fnrgnn_regression.log` carries three END lines (2026-09-22T12:34:46 / 12:40:59 / 12:42:22) and no START, so no interval can be formed | 1 (GPU 2) | **11.21** | `harness/results/x31/logs/stream_*.log`, `scheduler.log`, plus log mtimes for cells whose END line is missing (`native_SFG_*`, `FairVGNN-GCNspmm_bail`, `BeMap-GAT_pokec_z`, `SFG german`); job-hours sum = **101.2 h** (max 5 concurrent + 3 side streams) | [확인됨] for logged ENDs, [추정] for mtime-derived ENDs |
 
 **Total across all phases (union basis, 1 GPU each):**
 
 ```
-  2.75  P0 pilot/audit
-+ 5.63  P1 arm A controlled 6x5
-+ 4.66  P2 arm A FairVGNN X11 rerun
-+18.79  P3 arm B native phase 1 (span; upper bound)
-+ 0.83  P4 X24
-+ 1.60  P5 X25
-+ 1.60  P6 u P7 X26 + X27 (union, they overlapped)
-+ 0.67  P8 X29
-+35.74  P9 X30
-+11.51  P10 X31
+  2.75  P0 pilot/audit                                    [추정]  mtime span
++ 5.63  P1 arm A controlled 6x5                            [추정]  mtime span
++ 4.66  P2 arm A FairVGNN X11 rerun                        [추정]  mtime span
++18.79  P3 arm B native phase 1 (span; upper bound)        [추정]  mtime span
++ 0.83  P4 X24                                             prose record
++ 1.60  P5 X25                                             prose record
++ 1.60  P6 u P7 X26 + X27 (union, they overlapped)         prose record
++ 0.67  P8 X29                                             prose record
++35.74  P9 X30                                             [확인됨] logged
++11.21  P10 X31                                            [확인됨] logged
 -------
- 83.78 GPU-hours
+ 83.48 GPU-hours   -- but 31.83 h of this is mtime span, not measured time
 ```
+
+**Only the marked rows are evidence.** Summing the logged and prose-recorded rows
+alone gives the defensible floor:
+
+```
+ 35.74  P9  X30                     [확인됨]
++11.21  P10 X31 block 1             [확인됨]
++ 4.03  P4 + P5 + P6uP7             prose record
++ 0.54  P8  X29 (four cells, "about 35 minutes" X29_RESULTS.md:27-28)
+-------
+ 51.52 GPU-hours   <-- the figure the paper reports, as a floor
+```
+
+A file mtime bounds a *span*, not busy time: it cannot distinguish computation from
+an idle interpreter, a kill/resume gap (`harness/X22_TRANSFER_CLASS.md:53` documents
+one inside P3) or an overnight pause. The four mtime rows are therefore reported as
+unmeasured, not as hours.
 
 ### 2.3 (a) The 36 primary controlled cells only
 
@@ -142,8 +164,30 @@ were produced in four phases:
 | P10 X31 | 3 (SFG × german/bail/credit) | **pro rata**: SFG job-hours 25.57 of 101.15 total X31 job-hours = 25.3 % → 0.253 × 11.51 | 2.91 |
 | **Total** | **36** | | **44.37 GPU-hours** |
 
-Arithmetic: `5.63 + 4.66 + 0.67 + 30.50 + 2.91 = 44.37` → **≈ 44 GPU-hours ≈ 1.23 GPU-hours per primary cell** (44.37 / 36). **[추정]** — the two pro-rata
-steps are estimates; everything feeding them is measured.
+> **SUPERSEDED — this figure is not reported.** The 44.37 h total is retained only
+> to show how it was built. It is **not** a measurement and must not appear in the
+> paper, for three independent reasons:
+>
+> 1. **12 of the 36 cells have no timing artifact of any kind.** FairGNN, NIFTY,
+>    FairGB and FairVGNN on German, Bail and Credit — rows P1 and P2 above, i.e.
+>    10.29 of the 44.37 h — are backed only by `harness/results/armA_*.csv` mtimes.
+>    No log in the repository carries a START or END line for any of them
+>    (verified: 123 log files searched).
+> 2. **The two pro-rata steps assume what they are trying to measure.** Splitting a
+>    shared device's busy time in proportion to process-hours presumes every process
+>    consumed the GPU at the same rate. Up to ten processes ran concurrently
+>    (`x30/logs/stream_S4.log:4-9`, six simultaneous STARTs; `x31/logs/scheduler.log:1`,
+>    "max 5 concurrent") and no artifact records per-process occupancy.
+> 3. Consequently **a primary-only GPU-hour figure is not recoverable at all**, by
+>    any arithmetic, from the artifacts that exist.
+>
+> What *is* measured for the primary cells: 20 of 36 have a timestamped log,
+> totalling **139.3 process-hours** — a serialized upper bound, not GPU-hours.
+> The paper reports the ≈ 52 GPU-hour floor of §2.2 for the whole study and makes
+> no per-cell or per-method claim.
+
+Arithmetic, for the record: `5.63 + 4.66 + 0.67 + 30.50 + 2.91 = 44.37` → ≈ 1.23
+GPU-hours per primary cell. **[추정]**.
 
 X30 primary per-cell job-hours used in the pro rata (all from
 `harness/results/x30/logs/stream_S1..S4.log`):
@@ -170,25 +214,45 @@ The single most expensive primary cells are BIND/income (66.98 process-hours acr
 
 Primary + configuration robustness + task-adapted + native + X24–X27 + X29–X31:
 
+**Reported figure — the measured floor:**
+
 ```
- 44.37  (a) 36 primary controlled cells
+ 35.74  P9  X30 block, union of 2 busy segments        [확인됨] logged
++11.21  P10 X31 block 1, one contiguous segment        [확인됨] logged
++ 4.03  P4 + P5 + P6uP7  (X24, X25, X26 u X27)         prose record
++ 0.54  P8  X29 coverage extension                     prose record
+-------
+ 51.52 GPU-hours, single GPU, so GPU-hours = wall-clock
+```
+
+**≈ 52 GPU-hours** is what the paper states, explicitly as a lower bound. Excluded,
+with no basis to estimate: the 12 unlogged primary cells, the 7 arm-B native cells
+(P3), the X31 FMP-baseline stage, the FnRGNN regression block, the pilot phase (P0),
+and the BIND recovery work (`x30/bind_recovery/RECOVERY_LOG.md` records commands
+with `timeout 5400` but no timestamps).
+
+**SUPERSEDED, retained for the record** — the earlier construction:
+
+```
+ 44.37  (a) 36 primary controlled cells      <- SUPERSEDED, see 2.3
 +18.79  P3 arm B native phase 1 (7 native cells; span upper bound)
 + 0.83  P4 X24 mechanistic (NIFTY/German factorial)
 + 1.60  P5 X25 mechanistic (NIFTY trajectory)
 + 1.60  P6uP7 X26 + X27 mechanistic (FairGB selection support; FMP component study)
 + 5.24  P9 X30 remainder (robustness + systematic native) = 35.74 - 30.50
-+ 8.60  P10 X31 remainder (robustness + native + FnRGNN 1b/1c + withdrawn) = 11.51 - 2.91
++ 8.30  P10 X31 remainder = 11.21 - 2.91
 -------
- 81.03 GPU-hours of reported runs
+ 80.73 GPU-hours   <- not reported: 44.37 is not measured and 18.79 is an mtime span
 + 2.75  P0 pilot / discriminability / audit (design-fixing, not a reported cell)
 -------
- 83.78 GPU-hours end to end
+ 83.48 GPU-hours end to end
 ```
 
-**≈ 81 GPU-hours for everything the paper reports; ≈ 84 GPU-hours including the
-pilot phase.** All on a single GPU, so GPU-hours = wall-clock. Elapsed calendar
-span of the runs: **2026-09-13 → 2026-09-22 (10 days)**. **[추정]** on the total,
-built from the measured components above.
+**≈ 52 GPU-hours is what the paper reports, as a floor.** All on a single GPU, so
+GPU-hours = wall-clock. Elapsed calendar span of the runs: **2026-09-13 →
+2026-09-22 (10 days)**. The earlier "≈ 81 / ≈ 84 GPU-hours" figures are withdrawn:
+they inherit the unmeasured 44.37 h and an 18.79 h mtime span, so they are not
+**[추정]** built on measurement but arithmetic over two unmeasured quantities.
 
 ### 2.5 What is unaccounted for, and the extrapolation
 
@@ -196,16 +260,18 @@ built from the measured components above.
 |---|---|---|
 | lead-in before `armA_bail.csv` (2026-09-14 13:25:52) | **[확인 불가]** | between 02:34 and 13:25 on 2026-09-14 there is no artifact; part of that window is idle, part is the first arm-A run. At the measured 1.23 GPU-h/cell rate, the 3 cells in `armA_bail.csv` cost ≈ **3.7 h** → P1 could be ≈ 5.6–9.3 h. **[추정]** |
 | P3 idle gaps (e.g. 06:26 → 13:17 on 2026-09-15) | **[추정]** | P3's 18.79 h is a *span*, not busy time; the X19 note (`harness/X19_CREDIT_SCHEDULING.md:24-27`) measures FairGB/bail at "30 cells in 89 min" and FairGB/credit at 286 s/cell → 6×5 ≈ 2.4 h, so busy time is plausibly ≈ 10–12 h, not 18.8 h. Using 18.79 h is the conservative (upper) choice |
-| X31 FMP-baseline stage (`x31_fmp_B_pokec_{z,n}.csv`) | **[확인 불가]** start | logs end 2026-09-21 17:21:56 / 17:22:15; no START line. It precedes the P10 block, so it is **not** inside the 11.51 h. At the X27 rate (103 s per 7-config cell, `X27_RESULTS.md:27`) 2 × 30 baseline-only cells ≈ **0.3–0.6 h**. **[추정]** |
+| X31 FMP-baseline stage (`x31_fmp_B_pokec_{z,n}.csv`) | **[확인 불가]** start | logs end 2026-09-21 17:21:56 / 17:22:15; no START line. It precedes the P10 block, so it is **not** inside the 11.21 h. At the X27 rate (103 s per 7-config cell, `X27_RESULTS.md:27`) 2 × 30 baseline-only cells ≈ **0.3–0.6 h**. **[추정]** |
 | smoke / admission tests | partly outside | `harness/results/x30/smoke/*.log` (5), `harness/results/x31/smoke/*.log` (9); the BIND/income admission smoke alone ran 2026-09-17 23:52:31 → 2026-09-18 01:46:07 (`stream_S4.log:1,3`) ≈ **1.9 h**, and it *is* inside the P9 union |
 | X22 interrupted FairVGNN/credit attempt (17:18 → 17:44 killed) | **[확인됨]** but inside P3's span | `harness/X22_TRANSFER_CLASS.md:53` |
 | BIND recovery work (`harness/results/x30/bind_recovery/`) | **[확인 불가]** | `RECOVERY_LOG.md` records commands with `timeout 5400` but no start/end timestamps |
 | per-epoch / per-unit timings | partly present | the `tqdm` lines in each X30 cell log give per-run seconds, e.g. `harness/results/x30/logs/x30_FairSIN-GCN_german.log:1-2` — `1/1 [00:42<00:00, 42.87s/run]` then `[00:32<00:00, 32.40s/run]` (M+I then M−I arm) |
 
-**[추정] extrapolation for the unmeasured pieces:** 3.7 h (arm-A lead-in) + 0.45 h
-(FMP baseline) ≈ **4.2 GPU-hours**, i.e. the end-to-end figure is
-**≈ 84–88 GPU-hours**. Measured per-cell rate used: 44.37 GPU-h / 36 cells =
-**1.23 GPU-h per 30-unit cell**.
+**No extrapolation is reported.** An earlier version of this document extrapolated
+the unmeasured pieces at a "measured per-cell rate" of 44.37 GPU-h / 36 cells =
+1.23 GPU-h per cell, giving an end-to-end **≈ 84–88 GPU-hours**. That rate is
+withdrawn: its numerator is the superseded 44.37 h (§2.3), so the extrapolation
+rests on the quantity it was meant to extend. The unmeasured pieces stay
+**[확인 불가]** and the paper reports only the ≈ 52 h floor.
 
 Documented single-cell reference timings (useful as a sanity check):
 
@@ -346,8 +412,8 @@ submission, so the paper's claim is reproducible rather than re-probed.
 
 ## Paper-ready block
 
-> **Compute.** All experiments ran on a single NVIDIA RTX 6000 Ada Generation GPU
-> (49 GB, driver 550.163.01) in an 8-GPU workstation; every runner pins
+> **Compute.** All experiments ran on a single 48 GB NVIDIA GPU in a multi-GPU
+> workstation; every runner pins
 > `CUDA_VISIBLE_DEVICES=2` and refuses to start on any other device
 > (`harness/experiments/x30_run.py:175`). The only exception is the coverage
 > extension of Section X29, whose four cells were dispatched to GPU indices 0, 1, 2
@@ -355,14 +421,20 @@ submission, so the paper's claim is reproducible rather than re-probed.
 > under the store's resume contract. No more than one GPU was ever busy at a time,
 > although up to ten processes shared that GPU concurrently.
 >
-> **Cost.** The 36 primary controlled cells cost **≈ 44 GPU-hours** (≈ 1.2
-> GPU-hours per 30-unit cell). Including the configuration-robustness cells, the
-> task-adapted cells, the native-protocol re-runs and the mechanistic studies of
-> Sections X24–X27 and X29–X31, the reported experiments cost **≈ 81 GPU-hours**;
-> **≈ 84 GPU-hours** including the design-fixing pilot. Because all work ran on one
-> GPU, GPU-hours equal wall-clock hours. The runs span 2026-09-13 to 2026-09-22.
-> The two dominant cells are BIND on Income (67 process-hours across six
-> simultaneous splits, 11.9 h wall-clock) and FairEdit on Credit (16.0 h).
+> **Cost.** The reported experiments cost **at least ≈ 52 GPU-hours**. Because all
+> work ran on one GPU, GPU-hours equal wall-clock hours, and this figure is the
+> union of every interval the run logs actually date-stamp: 35.7 h for the X30
+> block, 11.2 h for the X31 block, and 4.6 h recorded in prose for the mechanistic
+> studies of Sections X24–X27 and the coverage extension of X29. It is a floor, not
+> a total: 12 of the 36 primary cells (FairGNN, NIFTY, FairGB and FairVGNN on
+> German, Bail and Credit), the seven arm-B native cells, the FMP baseline stage,
+> the FnRGNN regression block and the design-fixing pilot carry no timing artifact
+> at all, and are excluded rather than estimated. A per-cell or per-method
+> GPU-hour split is not recoverable either: up to ten processes shared the one
+> device concurrently, and no artifact records per-process occupancy. The runs span
+> 2026-09-13 to 2026-09-22. Among the logged cells the two dominant ones are BIND
+> on Income (67 process-hours across six simultaneous splits, 11.9 h wall-clock)
+> and FairEdit on Credit (16.0 h).
 >
 > **Repetitions and seeds.** Every cell is 6 data splits (ids 20–25) × 5 training
 > runs = **30 matched units**; all 93 cells are complete at 30/30 units
