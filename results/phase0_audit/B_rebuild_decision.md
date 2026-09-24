@@ -75,6 +75,14 @@ here so the rebuild is not later described as fixing more than it fixes.
    count and the family medians of |τ_{B→−I}|, and we list every cell whose classification differs
    from `B_rep1`. `B_rep2` measures how much of the headline is baseline nondeterminism; `B_H1000`
    measures how much of it is baseline strength.
+7. **The same-process invariant, and why this combination is still valid.** The method arms keep
+   their frozen per-unit values while B is trained in a separate process. Matching is at the level of
+   the split and the seed assignment, not of the process. `pilot_tau.py:474-479` warns that a
+   separate reproduction pass is not equivalent — but that warning is about **reproducing a frozen B**,
+   which nondeterminism makes impossible even inside one process (T12: 16 of 30 units diverge on
+   German, worst case DP 0.000 vs 0.336). It is not a validity condition on the contrast itself: the
+   contrast needs the two arms to share the split, the seed and the evaluator, which they do. The
+   extra variation this combination introduces is precisely what `B_rep2` measures and reports.
 7. **Nothing is overwritten.** The frozen bundle stays as it is. The rebuild writes a parallel
    `results_v2/`, produced by the same `build_results.py` with its output path parameterised.
 8. **Stop conditions.** The rebuild stops and reports, rather than continuing, if: τ_{−I→+I} changes
