@@ -104,8 +104,30 @@ def _flags(line):
     return out
 
 
-def _read(path):
-    return open(path).read().splitlines() if os.path.exists(path) else []
+def _read(path, required=True):
+    """The lines of a source file this module parses a published configuration out of.
+
+    `required=True` is the default because for most of these files absence is not a
+    "no result" -- it silently resolves a *different* configuration and reports it as
+    the published one. On a checkout without harness/provenance/ that turns, for
+    instance, published("GNN", "german") from H=1000 / hidden 16 into H=None /
+    hidden 32: the horizon defect this study had to diagnose after the fact. Such a
+    checkout is broken, so it stops here rather than answering wrongly.
+
+    `required=False` marks the genuinely optional lookups -- a per-dataset upstream
+    script that exists for some datasets and not others, where "no file" really does
+    mean "this dataset has no published line".
+    """
+    if os.path.exists(path):
+        return open(path).read().splitlines()
+    if not required:
+        return []
+    raise FileNotFoundError(
+        f"published_config: source file missing: {path}\n"
+        "  This module parses every published configuration out of harness/provenance/ (upstream\n"
+        "  commands and argparse defaults) and the vendored models/ repositories. Without them it\n"
+        "  would resolve a different configuration and report it as the published one. Restore the\n"
+        "  directory rather than running without it; see the repository README.")
 
 
 def _fairvgnn_defaults():
@@ -123,7 +145,9 @@ def _fairvgnn_lines(dataset):
     ds = "bail" if _PKEY.get(dataset, dataset) == "recidivism" else dataset
     path = os.path.join(PROV, f"fairvgnn_run_{ds}.sh")
     full = off = None
-    for ln in _read(path):
+    # upstream ships a run script for german, bail and credit only; for any other
+    # dataset "no file" genuinely means "no published line", not a broken checkout
+    for ln in _read(path, required=False):
         if "encoder='GCN'" not in ln or "--prop='spmm'" in ln:
             continue
         f = _flags(ln)
