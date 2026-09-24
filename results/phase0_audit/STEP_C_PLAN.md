@@ -126,6 +126,13 @@ explicitly. SFG/credit has no noise-floor counterpart, so it only gets the cross
 > the cross-cell maximum. Name the cell and the value used. This is the strongest form of the
 > check, because it removes the transfer between methods and datasets.
 
+**Disagreements lead the report.** Before any counts, list every pair where the **primary
+criterion and the cell-matched comparison disagree** -- an interval excluding zero on a pair whose
+|Delta_attr| does not clear its own cell's re-execution maximum, or the reverse. The paper's text
+uses the primary criterion alone, so a short list means the text stands as written and a long one
+means it has to be qualified. Name each pair, both verdicts, |Delta_attr|, and the cell-matched
+threshold used.
+
 Report all three side by side; do not collapse them into one verdict. Re-execution variability is
 strongly cell-dependent -- SFG/german moved 0.0668 on negDP between realizations while
 NIFTY/german moved 0.0013 -- so the cross-cell maximum is conservative for some cells and
@@ -221,14 +228,30 @@ and its 95% interval on each of the three coordinates. Built directly from
 `results/phase0_audit/noise_floor_delta.csv`, asserting every printed value against that file, and
 emitting a `.csv` beside the `.tex`. Minus signs as U+2212 in the text, `$-$` in the LaTeX.
 
-Caption, draft: *"Re-execution differences in the cell-level mean intervention contrast under
-identical settings. No interval excludes zero."* Both sentences must be re-checked against the
-generated table rather than carried over -- the second is a claim about all 45 rows.
+**Two blocks, and the zero-exclusion claim verified separately for each.** The table carries two
+groups of rows that were collected differently and must stay visually separate, with a column
+saying which is which:
 
-The caption should also carry the range, because a single "noise floor" reading is misleading: the
-cell-level mean tau_I moved by 0.0668 on -Delta_DP between realizations of SFG/german and by
-0.0013 on NIFTY/german, and per unit the largest movement was 0.635 on SFG/german against 0.004 on
-FairVGNN/german.
+* **Block A -- re-executed for this audit.** The 5 cells x 3 pairings above: two re-executions run
+  now, one machine, one code state.
+* **Block B -- frozen pairs reclassified as re-runs.** The two C-8 rows, SFG/german and
+  SFG/credit: two runs from the original study recorded weeks apart under the `controlled` and
+  `native` labels.
+
+The sentence *"No interval excludes zero"* is a claim about every row, so it is **verified
+separately for Block A and for Block B**, and the caption states each result rather than asserting
+one for both. Block A is already measured: 0 of 45 intervals exclude zero. Block B is not yet
+computed. **If any Block-B interval excludes zero, report that before anything else** -- per C-8,
+it would mean the estimator does not cover re-execution noise, which is a finding about the
+bootstrap rather than about SFG.
+
+Caption, draft -- to be replaced by the user's own text, and re-checked against the generated
+table rather than carried over: *"Re-execution differences in the cell-level mean intervention
+contrast under identical settings. Block A re-executes each cell twice for this audit; Block B
+reclassifies two frozen pairs that differ only in the process they ran in. [zero-exclusion result,
+stated per block.] Re-execution noise is strongly cell-dependent: between realizations the
+cell-level mean tau_I moved by 0.0668 on -Delta_DP for SFG/German and by 0.0013 for NIFTY/German,
+and the largest single-unit movement was 0.635 against 0.004 for FairVGNN/German."*
 
 **C-15. One word for the protocol, in the figures and the caption.** "native" becomes "published"
 wherever a reader sees it: axis labels, legends and panel titles of Fig. 2
