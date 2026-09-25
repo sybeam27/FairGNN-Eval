@@ -337,27 +337,59 @@ regeneration scripts uses `tab:<label>` and `table/<file>.tex`.
 5. **C-17 order:** the ported generator must reproduce the frozen tables first; only then is it
    used to produce anything new.
 
-## Blocked — two inputs referenced but not received
+## C-20. The table register (user, 2026-09-25)
 
-* **The label/filename mapping.** The message carrying it contains the placeholder
-  "[위 대응표를 붙여 넣으세요]" and no table. Without it, C-3, C-10 and C-13 still cannot start.
-* **The Overleaf `table/` folder.** Named as "sent with this message", but no files arrived. It is
-  the template for rule 1 above, and the four hand edits in particular cannot be preserved from
-  anything in this repository -- `results/tables/` holds only the generated `.tex`/`.csv`, not the
-  edited Overleaf versions.
+**Keyed by label and filename. The numbers in the first column are the latest PDF's and are
+expected to shift** once `tab:noise_floor` and `tab:baseline_spec` are inserted; nothing in the
+pipeline may key off them.
 
-## Open — the table numbering cannot be resolved from the repository
+| no. (drifts) | label | Overleaf file | content | Step C effect |
+|---|---|---|---|---|
+| 1 | `tab:exp1-summary` | `table/table1_summary.tex` | family summary | **B-dependent**: package larger, median abs tau_B |
+| 2 | `tab:config-sensitivity` | `table/table2_configuration_sensitivity.tex` | configuration sensitivity, 4x3 | tau_I only -- unchanged |
+| 3 | `tab:protocol-sensitivity` | `table/table3_protocol_counts_compact.tex` | protocol sensitivity | systematic 18 -> 16 |
+| 8 | `tab:evaluation_sets` | **inline** | cells per evaluation set | 18 -> 16, re-execution row added |
+| 10 | `tab:controlled_protocol_contract` | **inline** | controlled protocol contract | B wording |
+| 12 | `tab:six_split_sensitivity` | **inline** | split-level sensitivity | unchanged |
+| 14 | `tab:native_horizon_selector` | **inline** | published-horizon comparison spec | SFG rows, total 21 -> 19 |
+| 20 | `tab:aggregate_robustness` | **inline** | robustness summary, subsets and LOMO | **B-dependent**; C-11 and C-12 |
+| 17-19 | `tab:exp1-cells-dAUC`, `-negDP`, `-negEO` | `table/table1_cells_{dAUC,negDP,negEO}.tex` | 36 cells | **two tau_B columns change** |
+| 21 | `tab:exp1-1-fnrgnn` | `table/tableS1_1_fnrgnn_two_tasks.tex` | FnRGNN, two tasks | **tau_B column changes** |
+| 22 | (label in file) | `table/tableS2_configuration_pairs.tex` | 26 configuration pairs | C-13: Delta_attr marker |
+| 23 | (label in file) | `table/tableS3a_selector_pairs.tex` | 36 selector pairs | unchanged |
+| 24 | `tab:native-horizon-pairs` | `table/tableS3b_native_horizon_selector.tex` | published-horizon pairs | reclassification, C-15 caption |
+| 25 | (label in file) | `table/tableS3c_published_procedure.tex` | 4 procedure pairs | unchanged |
+| 27 | `tab:nifty_factorial` | `table/tableS4b_nifty_factorial.tex` | NIFTY 2x2 | unchanged |
+| 29 | `tab:selection-support-all-coordinates` | `table/tableS4_selection_support_summary.tex` | selection-support | unchanged |
+| new | `tab:noise_floor` | `table/tableS_noise_floor.tex` | re-execution noise, two blocks | C-16 |
+| new | `tab:baseline_spec` | `table/tableS_baseline_spec.tex` | B specification and absolute metrics | new |
 
-The consolidated request names paper Tables 2, 3, 8, 10, 14, 17-19, 20, 21, 22, 23-25; earlier
-requests named Tables 3, 7, 11, 13, 24, 26, 27, 28, 29. The artifacts carry none of those numbers:
-they are `table1_*`, `table2_*`, `table3a/3b/3c_*`, `table4_*`, `table5_*`, `tableS1_1_*`.
-`PAPER_ARTIFACT_MAP.md` maps only Figs. 1-5 and Table 1, and stops there.
+Tables 4-7, 9, 11, 13, 15, 16, 26, 28, 30 carry no numbers affected by this work.
+`tableS5_fmp_fair_selector_summary.tex` exists in the folder but is not used by the manuscript.
 
-**A mapping from paper table number to artifact name is needed before C-3, C-10 and C-13 can be
-built.** Guessing it would produce a plausible-looking set of tables that renumber the appendix
-silently. Two identifications are confident from content and are recorded, not assumed:
-`tableS2_configuration_pairs` is the configuration-pair table the Delta_attr markers go in (C-13),
-and `tableS3b` is the one whose caption becomes "controlled -> published horizon" (C-15).
+*Note against the earlier plan:* C-3 and C-10 were written against paper numbers that do not
+survive this register. C-10's "Tables 3, 7, 13, 26" resolves to `tab:protocol-sensitivity` and the
+inline `tab:evaluation_sets` / `tab:native_horizon_selector`; Tables 7, 13 and 26 are not in the
+affected set. C-13's "Table 27" is `tableS2_configuration_pairs`, not `tab:nifty_factorial`.
+**Where this register and an earlier item disagree, the register wins.**
+
+## Blocked — the Overleaf `table/` folder has still not arrived
+
+The register above is received and recorded. The templates are not: the message names them as the
+thing to send rather than carrying them. Needed in the state that already includes
+`tableS4b_nifty_factorial.tex`, the R2 caption patches and the new
+`table2_configuration_sensitivity.tex`.
+
+Nothing in this repository substitutes for them. `results/tables/` holds the generated `.tex` only,
+and it is missing most of the register entirely -- it has `table1_summary`, `table1_cells_*` and
+`tableS1_1_fnrgnn_two_tasks` and none of `tableS2*`, `tableS3a/b/c*`, `tableS4*`, `table2_*`,
+`table3_*`. So the hand edits cannot be recovered here, and regenerating from the notebook would
+drop them.
+
+**Until the folder arrives, every file-backed table in the register is on hold.** The work that
+does not depend on it proceeds: C-1, C-2, C-9, C-11, C-12, C-14, the figures, `phase0_verify`, and
+the value computation behind the four inline tables, which lands in `paper_numbers.csv` and needs
+no template.
 
 ## Standing constraints
 
