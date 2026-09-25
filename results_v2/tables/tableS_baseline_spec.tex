@@ -1,0 +1,36 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{The common baseline \(B\), per dataset.}
+\emph{Frozen} is the published bundle, in which \(B\) was re-trained separately for each method; the count of distinct draws is given. The three rebuilt variants train one \(B\) per unit, shared by every method.
+\emph{rep 1} restores the published horizon wherever the configuration resolver returns one, which is German alone; \emph{rep 2} repeats that rule independently; \emph{H1000} trains for 1000 epochs on every dataset.
+AUC and \(\Delta_{\mathrm{DP}}\) are \(B\)'s own test values at the validation-BCE checkpoint, averaged over the 30 units.}
+\label{tab:baseline_spec}
+\vspace{-0.2cm}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{lccccccccc}
+\toprule
+& \multicolumn{1}{c}{Frozen} & \multicolumn{3}{c}{Horizon} & \multicolumn{4}{c}{\(B\) test AUC} \\
+\cmidrule(lr){2-2} \cmidrule(lr){3-5} \cmidrule(l){6-9}
+Dataset & draws & rep 1 & rep 2 & H1000 & frozen & rep 1 & rep 2 & H1000 \\
+\midrule
+german & 9 & 1000 & 1000 & 1000 & 0.4415 & 0.6543 & 0.6544 & 0.6525 \\
+bail & 11 & 200 & 200 & 1000 & 0.7734 & 0.7734 & 0.7734 & 0.9069 \\
+credit & 9 & 200 & 200 & 1000 & 0.7186 & 0.7177 & 0.7179 & 0.7304 \\
+income & 1 & 200 & 200 & 1000 & 0.6530 & 0.6520 & 0.6538 & 0.7027 \\
+pokec\_z & 4 & 200 & 200 & 1000 & 0.7038 & 0.7038 & 0.7038 & 0.7290 \\
+pokec\_n & 3 & 200 & 200 & 1000 & 0.7112 & 0.7112 & 0.7112 & 0.7145 \\
+pokec\_z\_g & 1 & 200 & 200 & 1000 & 0.7038 & 0.7038 & 0.7038 & 0.7290 \\
+pokec\_n\_g & 1 & 200 & 200 & 1000 & 0.7110 & 0.7110 & 0.7110 & 0.7144 \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+\begin{minipage}{0.96\columnwidth}
+\footnotesize
+\textit{Notes.}
+German is the only dataset for which the resolver returns a published horizon (1000); elsewhere no published value exists and the controlled default of 200 stands, so \emph{frozen} and \emph{rep 1} differ only in that \(B\) is now one draw per unit rather than one per method.
+German's frozen baseline is below chance because that horizon was never read.
+\end{minipage}
+\end{table}
