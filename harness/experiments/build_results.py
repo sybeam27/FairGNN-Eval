@@ -67,6 +67,33 @@ COORDS = (("dAUC", "auc"), ("negDP", "ndp"), ("negEO", "neo"))
 QUANTS = (("tau_nonint", "abase"), ("tau_I", "int"), ("tau_pkg", "apkg"))
 
 
+def aggregate_robustness(cells, coord):
+    """The three shares behind `tab:aggregate_robustness`, for one coordinate.
+
+    Until now these existed only in the manuscript: no code in this repository produced them, so
+    the definitions below were reconstructed and then checked against the published table. On the
+    frozen bundle they reproduce all nine values exactly -- dAUC 89.5 / 84.8-90.9, negDP 77.3 /
+    69.7-75.9, negEO 83.5 / 78.8-82.8 -- so they are the definitions, not a guess that fits.
+
+        cell_weighted    larger cells / n cells; one cell, one vote
+        method_balanced  the per-method share, averaged over the 11 methods; one method, one vote,
+                         so FairGNN's 7 cells and GEAR's 1 count the same
+        lomo_min/max     the cell-weighted share recomputed with each method dropped in turn
+
+    `cells` is the primary set (count_in_primary_summary). "Larger" is `nonint_larger`.
+    """
+    d = cells.copy()
+    d["_larger"] = [nonint_larger(r._asdict() if hasattr(r, "_asdict") else r, coord)
+                    for _, r in d.iterrows()]
+    per_method = d.groupby("method")["_larger"].mean()
+    lomo = [d[d.method != m]["_larger"].mean() for m in d.method.unique()]
+    return dict(coordinate=coord, n_cells=len(d), n_methods=int(d.method.nunique()),
+                larger_cells=int(d["_larger"].sum()),
+                cell_weighted=float(d["_larger"].mean()),
+                method_balanced=float(per_method.mean()),
+                lomo_min=float(min(lomo)), lomo_max=float(max(lomo)))
+
+
 def nonint_larger(r, coord):
     """Is the surrounding package larger than the intervention, on this coordinate?
 
