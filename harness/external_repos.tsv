@@ -3,3 +3,5 @@ FairGT	algorithms/FairGT	cebfb1784021321ae2d4aa07a87fc73566fcf10f	자체 .git �
 BIND	BIND-main	-	zip 배포본. 절대 수정 금지.
 FairGB	FairGB-main	-	zip 배포본. credit.zip 원본이 논문 Table5/6 재현. 절대 수정 금지.
 FairSIN	FairSIN-main	-	zip 배포본. 절대 수정 금지.
+GEAR	GEAR-main	-	upstream https://github.com/jma712/gear (supplied by the author). Every file the adapter reads is byte-identical to the default branch as of 2026-09-25, commit 47cf4c198505e7cde24dcf413f1dc60401d7aa05. That hash is a same-content check on that date, not the commit the experiments ran against, which was never recorded.
+SFG	SFG-main	-	upstream https://github.com/sh-qiangchen/SFG (supplied by the author). Every file the adapter reads is byte-identical to the default branch as of 2026-09-25, commit cff7c5ab023ca8b2d8fb6f1255617ac533e0d957. Same caveat as GEAR.

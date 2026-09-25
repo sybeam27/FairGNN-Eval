@@ -23,8 +23,8 @@ REPOS=(
   "BIND-main|https://github.com/yushundong/BIND|UNPINNED|none"
   "FairSIN-main|https://github.com/Landon5282/FairSIN|UNPINNED|none"
   "FMP-main|https://github.com/zhimengj0326/FMP|UNPINNED|none"
-  "GEAR-main|UNKNOWN|UNPINNED|none"
-  "SFG-main|UNKNOWN|UNPINNED|none"
+  "GEAR-main|https://github.com/jma712/gear|UNPINNED|none"
+  "SFG-main|https://github.com/sh-qiangchen/SFG|UNPINNED|none"
   "FairGT-main|UNKNOWN|UNPINNED|excluded from the study; listed for completeness"
   "FnRGNN-master|ANONYMISED-MIRROR|UNPINNED|none"
 )
@@ -44,6 +44,14 @@ UNPINNED  we did not record a commit hash when the code was vendored, so the pin
           number and will fail loudly rather than silently run something else.
 UNKNOWN   the vendored copy carries a README but no repository URL we could verify. See
           harness/METHOD_EXTENSION_INVENTORY.csv for the source recorded at the time.
+          Only FairGT-main is still UNKNOWN; GEAR and SFG were supplied by the author, fetched,
+          and checked file by file.
+
+VERIFIED  GEAR and SFG: every file the adapters read is byte-identical to the repository's default
+          branch, checked 2026-09-25 at gear 47cf4c198505e7cde24dcf413f1dc60401d7aa05 and SFG
+          cff7c5ab023ca8b2d8fb6f1255617ac533e0d957. Those hashes record what the default branch
+          held on that date; they are NOT the commits the experiments ran against, which were never
+          recorded, so the pin stays UNPINNED.
 ANONYMISED-MIRROR
           FnRGNN's upstream identifies an author of this submission, so it is withheld during
           review and will be pointed at the public repository in the camera-ready.

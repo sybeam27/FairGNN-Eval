@@ -1,0 +1,69 @@
+--- a/FairGB-main/eval.py	2026-09-08 16:14:09.121779525 +0900
++++ b/FairGB-main/eval.py	2026-09-13 22:11:09.689028782 +0900
+@@ -3,7 +3,13 @@
+ from sklearn.metrics import f1_score, roc_auc_score
+ 
+ 
+-def evaluate_ged3(classifier, encoder, data, pred=None):
++def evaluate_ged3(classifier, encoder, data, pred=None, return_output=False):
++    """`return_output` appends the raw logits already computed below.
++
++    They are produced under torch.no_grad() either way, so exposing them
++    adds no forward pass and consumes no RNG. Without this the trajectory
++    logger would have to recompute them, which would.
++    """
+     classifier.eval()
+     encoder.eval()
+ 
+@@ -41,6 +47,8 @@
+     paritys['test'], equalitys['test'] = fair_metric(pred_test.cpu().numpy(), data.y[data.test_mask].cpu(
+     ).numpy(), data.sens[data.test_mask].cpu().numpy())
+ 
++    if return_output:
++        return accs, auc_rocs, F1s, paritys, equalitys, output
+     return accs, auc_rocs, F1s, paritys, equalitys
+ 
+ 
+@@ -49,8 +57,11 @@
+     idx_s1 = sens == 1
+     idx_s0_y1 = np.bitwise_and(idx_s0, labels == 1)
+     idx_s1_y1 = np.bitwise_and(idx_s1, labels == 1)
++    
+     parity = abs(sum(pred[idx_s0]) / sum(idx_s0) -
+                  sum(pred[idx_s1]) / sum(idx_s1))
++    
+     equality = abs(sum(pred[idx_s0_y1]) / sum(idx_s0_y1) -
+                    sum(pred[idx_s1_y1]) / sum(idx_s1_y1))
++    
+     return parity.item(), equality.item()
+\ No newline at end of file
+--- a/FairGB-main/utils.py	2026-09-08 16:14:09.123779493 +0900
++++ b/FairGB-main/utils.py	2026-09-24 17:37:58.195176850 +0900
+@@ -2,7 +2,7 @@
+ import random
+ import numpy as np
+ import os
+-from models import *
++from models.algorithms.FairGB.models import *
+ 
+ 
+ def seed_everything(seed=0):
+--- a/FairGB-main/main.py	2026-09-08 16:14:09.122779509 +0900
++++ b/FairGB-main/main.py	2026-09-24 17:37:58.195176850 +0900
+@@ -3,11 +3,11 @@
+ import numpy as np
+ import torch.nn.functional as F
+ 
+-from models import *
+-from data_utils import get_dataset
+-from eval import evaluate_ged3
+-from utils import seed_everything, get_enc_cls_opt
+-from mixup import sampling_idx_individual_dst, neighbor_sampling, get_ins_neighbor_dist, saliency_mixup
++from models.algorithms.FairGB.models import *
++from models.algorithms.FairGB.data_utils import get_dataset
++from models.algorithms.FairGB.eval import evaluate_ged3
++from models.algorithms.FairGB.utils import seed_everything, get_enc_cls_opt
++from models.algorithms.FairGB.mixup import sampling_idx_individual_dst, neighbor_sampling, get_ins_neighbor_dist, saliency_mixup
+ 
+ EPS = 1e-6
+ 

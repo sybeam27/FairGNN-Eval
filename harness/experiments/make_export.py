@@ -34,8 +34,14 @@ TREES = [
     "models/BeMap-main", "models/FairGB-main",
 ]
 # Individual files.
+# src -> dst, where the exported name differs from the source name
+RENAMED = {
+    "paper/export_README.md": "README.md",
+    "harness/experiments/fetch_upstream_template.sh": "fetch_upstream.sh",
+    "patches/fairgb_local_edits.patch": "patches/fairgb_local_edits.patch",
+}
 FILES = [
-    "phase0_verify.py", "README.md", "LICENSE", "LICENSE-DATA", "CHANGELOG.md",
+    "phase0_verify.py", "LICENSE", "LICENSE-DATA", "CHANGELOG.md",
     "PAPER_ARTIFACT_MAP.md",
     "harness/coverage_manifest.csv", "harness/intervention_manifest.csv",
     "harness/score_convention_manifest.csv", "harness/external_repos.tsv",
@@ -132,6 +138,12 @@ def main() -> int:
             for src, r in walk(rel):
                 kind = copy_one(src, os.path.join(out, r))
                 n_text += kind == "text"; n_bin += kind == "binary"
+        for src_rel, dst_rel in RENAMED.items():
+            src = os.path.join(ROOT, src_rel)
+            if not os.path.exists(src):
+                print(f"  [missing renamed] {src_rel}"); continue
+            kind = copy_one(src, os.path.join(out, dst_rel))
+            n_text += kind == "text"; n_bin += kind == "binary"
         for rel in FILES:
             src = os.path.join(ROOT, rel)
             if not os.path.exists(src):

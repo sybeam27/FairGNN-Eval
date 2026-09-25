@@ -140,9 +140,21 @@ NATIVE_ROLE = {"FairSIN": "systematic", "NIFTY": "targeted",
                "FairVGNN": "targeted", "FairGB": "targeted", "SFG": "systematic"}
 
 
-def native_role(method, configuration):
+# SFG on German and Credit is not a protocol comparison at all. A-1 established that its
+# `controlled` and `native` rows differ in nothing: the resolved configuration diff is empty, the
+# loader, preprocessing and seeds match, and the `--native` flag reaches only `m_epochs`, which is
+# 200 on both datasets. The harness-trained B is identical in 60/60 rows; only SFG's own training
+# loop diverges. So the pair measures re-execution, not the published horizon, and it is reported
+# separately instead of counted among the systematic comparisons (Decision 2). SFG/Bail has a
+# native horizon that does differ and stays systematic.
+RE_EXECUTION = {("SFG", "german"), ("SFG", "credit")}
+
+
+def native_role(method, configuration, dataset=None):
     """FairVGNN's further published rows were run natively as a sweep (every
     row), so they are systematic; its primary row belongs to the frozen targeted set."""
+    if dataset is not None and (method, dataset) in RE_EXECUTION:
+        return "re_execution"
     if method == "FairVGNN" and configuration != "default":
         return "systematic"
     return NATIVE_ROLE.get(method, "")
@@ -332,13 +344,13 @@ def build_cells(store, report):
         backbone = canonical_backbone(method, configuration, backbone)
         base = dict(method=method, backbone=backbone, dataset=ds,
                     configuration=configuration, configuration_role=role, protocol=proto,
-                    native_evaluation_role=(native_role(method, configuration) if proto == "native" else ""),
+                    native_evaluation_role=(native_role(method, configuration, ds) if proto == "native" else ""),
                     units_done=units, units_required=UNITS_REQUIRED)
         if units != UNITS_REQUIRED or nrows != ROWS_REQUIRED:
             pending.append(dict(base, status="partial" if units else "pending"))
             continue
         pending.append(dict(base, status="complete"))
-        nat_role = native_role(method, configuration) if proto == "native" else ""
+        nat_role = native_role(method, configuration, ds) if proto == "native" else ""
         # B's protocol, read from the rows themselves rather than assumed
         def _eps(col):
             if col not in g.columns:
@@ -548,7 +560,7 @@ def configurations(cells):
     out.extend(targeted_native_configurations())
     for r in out:
         r.setdefault("native_evaluation_role",
-                     native_role(r["method"], r["configuration"]) if r["protocol"] == "native" else "")
+                     native_role(r["method"], r["configuration"], r.get("dataset")) if r["protocol"] == "native" else "")
         r.setdefault("baseline_reference_protocol",
                      "controlled_fixed_reference" if r["protocol"] == "native"
                      else "same_protocol")
