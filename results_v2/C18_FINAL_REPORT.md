@@ -212,16 +212,20 @@ Type sizes were **not** reduced when the heights were cut.
 | figure | paper | **final (in)** | target | min glyph | printed |
 |---|---|---|---|---|---|
 | `fig1_intervention_attribution` | Fig. 1 | **5.48 × 2.35** | 2.35 ✓ | 4.9 pt | **4.90 pt** |
-| `fig3_protocol_variation` | Fig. 2 | **5.51 × 2.05** | 2.05 ✓ | 5.6 pt | **5.59 pt** |
-| `fig3_selection_support_trajectory` | Fig. 3 | **5.35 × 2.20** | 2.20 ✓ | 4.9 pt | **4.90 pt** |
+| `fig3_protocol_variation` | Fig. 2 | **5.48 × 1.94** | 2.05 ✓ (under) | 5.6 pt | **5.60 pt** |
+| `fig3_selection_support_trajectory` | Fig. 3 | **5.35 × 2.20** | 2.20 ✓ | 4.55 pt | **4.55 pt** |
 | `figS1_intervention_attribution_negEO` | App. | **5.48 × 2.35** | = Fig. 1 ✓ | 4.9 pt | **4.90 pt** |
 
-**All three height targets met exactly. No figure's smallest glyph falls below 4.5 pt.** Every
-glyph under 7 pt is a single-level sub- or superscript such as `$M^{+I}$`; the 3.92 pt double
-nesting is gone, because the τ label is now `τ_{−I→+I} (−Δ_DP)` rather than a subscript inside a
-superscript.
+**Every height target is met, and Fig. 2 came in 0.11 in under.** Every glyph below 7 pt is a
+single-level sub- or superscript such as `$M^{+I}$`; the 3.92 pt double nesting is gone, because
+the τ label is now `τ_{−I→+I} (−Δ_DP)` rather than a subscript inside a superscript.
 
-Height saved in the body: 0.38 + 0.38 + 0.24 = **≈ 1.00 in ≈ 9 lines**. The appendix EO figure does
+**Fig. 3 now sits at 4.55 pt, 0.05 pt above the 4.5 floor.** Its per-unit median labels and arm
+labels were taken from 7 to 6.5 pt on request, and 6.5 × 0.7 = 4.55 is the superscript of `$M^{+I}$`.
+Nothing else in the set is affected, but this figure has no margin left: any further reduction of
+those two labels crosses the floor.
+
+Height saved in the body: 0.38 + 0.49 + 0.24 = **≈ 1.11 in ≈ 10 lines**. The appendix EO figure does
 not count toward the body.
 
 *Why this mattered:* before this pass, `fig1` was generated at 7.41 in and shrunk by 0.74 on
