@@ -316,6 +316,22 @@ One document, in this order: the headline numbers that changed; then the results
 (the C-9 disagreements, any cell whose verdict changes under C-14, any block-B interval excluding
 zero, the cells C-12 excludes); then the list of artifacts. Not a log of what was run.
 
+Must also contain (user, 2026-09-25):
+
+* **C-14 scope.** Why the common-epoch comparison could not be run on the 36 primary cells, the
+  per-cell table of what is stored (validation curve / per-epoch test outcome / checkpoint
+  weights), and the re-run cost estimate for the full 36 and for an 11-cell one-per-method subset.
+* **B_H1000:** the `tau_pkg < 0` and opposite-sign counts on all three coordinates.
+* **method-balanced and LOMO** under B_rep1 and under B_H1000.
+
+*Definitions, recorded because no code for them exists anywhere in the repository* -- they were
+computed outside it for the inline `tab:aggregate_robustness`, so these are supplied here and must
+be checked against whatever produced the published numbers:
+
+    cell-weighted    larger cells / 36
+    method-balanced  mean over the 11 methods of (larger cells in that method / its cells)
+    LOMO             min-max of the cell-weighted share, dropping each method in turn
+
 ## C-19. How the tables are produced (user, 2026-09-25)
 
 **Keys are LaTeX labels and Overleaf filenames, never paper numbers.** Appendix numbering shifts
