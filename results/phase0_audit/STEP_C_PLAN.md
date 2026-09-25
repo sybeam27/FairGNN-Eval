@@ -25,6 +25,8 @@ bundle; everything else reads what C-1 wrote.
   `seed_all(seed*1000+split)` for the x30/x31 arms,
   `seed_all(seed*1000+split+1)` for EDITS (`x30_edits.py:131`).
   B rows carry `manual_seed(seed)` (`pilot_tau.py:458`, `rebuild_baseline.py:99`).
+* `backbone` and `configuration` are already separate columns, split out of the stored method name
+  by `build_manifests.per_unit_metrics()`; keep that and do not re-derive it.
 
 **C-2. Sensitivity CSVs** for `B_rep2` (baseline nondeterminism) and `B_H1000` (baseline
 strength), on the headline blocks fixed in `B_rebuild_decision.md` rule 6.
@@ -282,6 +284,50 @@ only, and the two must not be conflated when checking.
 symbol on the estimate) showing whether that pair's Delta_attr 95% interval excludes zero, from
 `configuration_delta_attr_bootstrap.csv` (26 pairs x 3 coordinates, seed 20260914, 10,000
 replicates). Counts to reproduce: 11 of 26 for dAUC, 8 for -Delta_DP, 9 for -Delta_EO.
+
+## C-17. Table generation moves out of the notebook
+
+**Requirement (user, 2026-09-25): every figure and table is generated from `build_results.py`
+output, with no `plot.ipynb` dependency.**
+
+*Figures already satisfy this.* Every `figures/src/make_fig*.py` reads `results/*.csv`:
+`1_main_package_vs_intervention.csv`, `2_configuration_variation.csv`, the three `3a/3b/3c` files,
+`4_mechanistic_case_study.csv`, `5_component_case_study_FMP.csv`, plus `experiment_index.csv` and
+the frozen `x25`/`x26` selected-epoch files. None of them imports the notebook. The notebook does
+contain figure code, but under different names (`fig2_configuration_shift`,
+`fig4_decomposition_negDP_bce`), so it is an older parallel set and not what `figures/*.pdf` came
+from.
+
+*Tables do not.* **Every table in `results/tables/` is produced only inside `results/plot.ipynb`**,
+which is untracked (`.gitignore:65`). Its generators are `table1_summary`, `table2_comparisons`,
+`table2_summary`, `table3a_selector_{cells,summary}`, `table3b_native_{pairs,summary}`,
+`table3c_published_procedure`, `table4_decomposition`, `table5_fmp_components`,
+`tableS1_1_fnrgnn_two_tasks`. So C-3, C-10, C-13 and C-16 all depend on code that the repository
+does not carry, and the `dominance()` split that C-11 unified lived there too.
+
+**The work:** port the notebook's table generation into a tracked script (`harness/experiments/`
+whitelist, alongside `build_results.py`), reading only `results_v2/*.csv`, and verify it reproduces
+the frozen tables before it is used for anything new. Until that is done, "no plot.ipynb
+dependency" cannot be claimed for tables.
+
+## C-18. Final report
+
+One document, in this order: the headline numbers that changed; then the results that need care
+(the C-9 disagreements, any cell whose verdict changes under C-14, any block-B interval excluding
+zero, the cells C-12 excludes); then the list of artifacts. Not a log of what was run.
+
+## Open — the table numbering cannot be resolved from the repository
+
+The consolidated request names paper Tables 2, 3, 8, 10, 14, 17-19, 20, 21, 22, 23-25; earlier
+requests named Tables 3, 7, 11, 13, 24, 26, 27, 28, 29. The artifacts carry none of those numbers:
+they are `table1_*`, `table2_*`, `table3a/3b/3c_*`, `table4_*`, `table5_*`, `tableS1_1_*`.
+`PAPER_ARTIFACT_MAP.md` maps only Figs. 1-5 and Table 1, and stops there.
+
+**A mapping from paper table number to artifact name is needed before C-3, C-10 and C-13 can be
+built.** Guessing it would produce a plausible-looking set of tables that renumber the appendix
+silently. Two identifications are confident from content and are recorded, not assumed:
+`tableS2_configuration_pairs` is the configuration-pair table the Delta_attr markers go in (C-13),
+and `tableS3b` is the one whose caption becomes "controlled -> published horizon" (C-15).
 
 ## Standing constraints
 
