@@ -73,6 +73,43 @@ so it does not get the 5.5 in width, the print-size type or the unnested tau not
 later placed at \textwidth its line weights and markers will grow by 1.54x and its tone will no
 longer match the rest of the set.
 
+*Figure scope, settled against the manuscript (user, 2026-09-25).*
+
+**Regenerated with B_rep1 data and the print-size spec (2):** `fig1_intervention_attribution`,
+`fig3_protocol_variation`, `figS1_intervention_attribution_negEO`.
+
+**Dropped:** `figS1_tradeoff_direction_negEO` and `figS1_arms_by_family_dataset_negEO` -- no
+`\includegraphics` for either; the appendix has one EO figure, not three. `fig2_sign_resolution`
+stays excluded.
+
+**Title-only edits, numbers unchanged:** `figS4_fixed_epoch_trajectory` panel (b)
+"D1 (native)" -> "D1 (published)"; `figS_selection_support_bars` panel (a) "native drop rates" ->
+"published drop rates".
+
+**Appendix K (the three FMP figures) is NOT affected. [확인됨]** Its baseline is a separate
+artifact and the defect the rebuild fixes does not reach it:
+
+| | FMP baseline | primary baseline |
+|---|---|---|
+| built by | `x31_fmp_baseline_run.py` | `pilot_tau.py` / `rebuild_baseline.py` |
+| horizon | **300** (`EPOCHS`, its own constant) | 200, or the resolved published horizon |
+| configuration | `published("GNN", ds)["config"]` | the same resolver |
+| datasets | pokec_z, pokec_n only | all 8 |
+| selector | `last` (plus replays) | sigma_c^BCE |
+| seeding | `seed_all(seed*1000+split)` | `manual_seed(seed)` |
+| draws | already one per unit | was one per *method* (T2) |
+
+`published("GNN", pokec_z)` and `published("GNN", pokec_n)` both resolve `horizon = None`, so there
+is no ignored published horizon to restore -- the German defect is specific to German. And FMP's B
+is already a single draw per unit, so T2 does not apply either. Nothing in appendix K is in scope,
+and `tau_{B->base}` there does not change.
+
+*Worth stating in the paper, and pre-existing rather than caused by the rebuild:* FMP's B is not
+the same baseline as the primary cells'. Measured: on pokec_z, FMP's B reaches AUC 0.7166 at
+H = 300 against B_rep1's 0.7038 at H = 200 and B_H1000's 0.7290; on pokec_n, 0.7531 against 0.7112
+and 0.7145. So `tau_{B->base}` in appendix K and `tau_{B->-I}` in Table 1 are referenced to
+different baselines and should not be read side by side.
+
 **C-5. `phase0_verify` on `results_v2/`**, full output kept.
 
 **C-6. `results_v2/paper_numbers.csv`.**
