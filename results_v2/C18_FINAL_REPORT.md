@@ -304,3 +304,42 @@ re-training gone; frozen data reproduces four table templates exactly; the 9 pub
 * Whether to re-run for C-14 on the primary cells (§2.4) — a separate decision, 14 h or 93 h.
 * The public-repository gap (§2.6, last bullet) — a fetch-script and licensing plan exists in
   `EXPORT_CHECKLIST.md` but is not executed.
+
+---
+
+## 7. Export verification (stage C, 2026-09-25)
+
+The anonymous checkout was built from the working tree (`harness/experiments/make_export.py`), not
+from git — a clone cannot execute any of the 36 cells, since `.gitignore` excludes every runner,
+all of `models/`, `harness/provenance/` and `figures/src/`. 367 files, 45 MB, **0 identifying
+strings**, no `.git`.
+
+**Config resolution in the clean checkout matches the frozen study exactly:**
+
+| | resolved | source |
+|---|---|---|
+| GNN / german | H = 1000 | `harness/provenance/nifty_README.md` |
+| NIFTY / german | H = 1000 | same |
+| GNN / bail | H = None → 200 | `utils/param.json` |
+| FairGB / bail | H = 1500 | `FairGB-main/run.sh` |
+
+**One unit trained in the clean checkout, against the frozen unit (split 20, run 0):**
+
+| cell | arm | export | frozen |
+|---|---|---|---|
+| NIFTY / german | B | 0.3966 / 0.0230 | 0.3966 / 0.0230 |
+| | M⁻ᴵ | 0.4805 / 0.0795 | 0.4805 / 0.0795 |
+| | M⁺ᴵ | 0.4769 / 0.0095 | **0.4761** / 0.0095 |
+| FairGB / bail | B | 0.6563 / 0.0027 | 0.6563 / 0.0027 |
+| | M⁻ᴵ | 0.9133 / 0.0032 | 0.9133 / 0.0032 |
+| | M⁺ᴵ | 0.9556 / 0.0332 | 0.9556 / **0.0328** |
+
+**B and M⁻ᴵ reproduce bit-exactly; only M⁺ᴵ moves**, by 8e-4 on AUC and 4e-4 on DP. That is the
+same pattern Step 1 and the noise floor found: the harness is deterministic, the methods' own
+training loops are not. It is also the strongest available evidence that the export is complete —
+the deterministic half of the pipeline lands on the frozen numbers from a checkout that carries no
+git history and no absolute paths.
+
+**Not verified, and it cannot be from here:** that the anonymous link
+(`anonymous.4open.science`) resolves at submission time. The repository behind it has to be created
+and opened by the submitting author; nothing in this checkout can confirm it.
