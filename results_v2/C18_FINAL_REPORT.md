@@ -212,11 +212,11 @@ Type sizes were **not** reduced when the heights were cut.
 | figure | paper | **final (in)** | target | min glyph | printed |
 |---|---|---|---|---|---|
 | `fig1_intervention_attribution` | Fig. 1 | **5.48 × 2.35** | 2.35 ✓ | 4.9 pt | **4.90 pt** |
-| `fig3_protocol_variation` | Fig. 2 | **5.48 × 2.04** | 2.05 ✓ | 5.6 pt | **5.60 pt** |
+| `fig3_protocol_variation` | Fig. 2 | **5.49 × 2.18** | 2.05 (+0.13) | 5.6 pt | **5.60 pt** |
 | `fig3_selection_support_trajectory` | Fig. 3 | **5.35 × 2.20** | 2.20 ✓ | 4.55 pt | **4.55 pt** |
 | `figS1_intervention_attribution_negEO` | App. | **5.48 × 2.35** | = Fig. 1 ✓ | 4.9 pt | **4.90 pt** |
 
-**Every height target is met.** Every glyph below 7 pt is a
+**Fig. 1 and Fig. 3 meet their targets; Fig. 2 is 0.13 in over, by request.** Every glyph below 7 pt is a
 single-level sub- or superscript such as `$M^{+I}$`; the 3.92 pt double nesting is gone, because
 the τ label is now `τ_{−I→+I} (−Δ_DP)` rather than a subscript inside a superscript.
 
@@ -225,7 +225,10 @@ labels were taken from 7 to 6.5 pt on request, and 6.5 × 0.7 = 4.55 is the supe
 Nothing else in the set is affected, but this figure has no margin left: any further reduction of
 those two labels crosses the floor.
 
-Height saved in the body: 0.38 + 0.39 + 0.24 = **≈ 1.01 in ≈ 9 lines**. The appendix EO figure does
+Height saved in the body: 0.38 + 0.25 + 0.24 = **≈ 0.87 in ≈ 8 lines**. Fig. 2 sits 0.13 in
+above its 2.05 target because panels (a) and (b) are square identity plots: their size is set by
+the row height, not the column width, so widening them on request could only be done by giving
+the axes row more of the figure. The appendix EO figure does
 not count toward the body.
 
 *Why this mattered:* before this pass, `fig1` was generated at 7.41 in and shrunk by 0.74 on
