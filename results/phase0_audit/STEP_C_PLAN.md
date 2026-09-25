@@ -316,6 +316,36 @@ One document, in this order: the headline numbers that changed; then the results
 (the C-9 disagreements, any cell whose verdict changes under C-14, any block-B interval excluding
 zero, the cells C-12 excludes); then the list of artifacts. Not a log of what was run.
 
+## C-19. How the tables are produced (user, 2026-09-25)
+
+**Keys are LaTeX labels and Overleaf filenames, never paper numbers.** Appendix numbering shifts
+when a table is inserted, so every reference in this plan, in `paper_numbers.csv` and in the
+regeneration scripts uses `tab:<label>` and `table/<file>.tex`.
+
+1. **The Overleaf `table/` files are the template.** Caption, footnotes and table structure are
+   kept exactly; only the numbers are recomputed against `results_v2`. Hand edits that must survive:
+   the "unit-level sign consistency" footnote on the per-cell tables and the FnRGNN table, the
+   captions of `tableS3b` and `tableS3c`, and the whole format of
+   `table2_configuration_sensitivity`.
+2. **Where a generator disagrees with the template**, the template wins and the difference is
+   reported -- never silently reconciled in either direction.
+3. **Inline tables get no file.** `tab:evaluation_sets`, `tab:controlled_protocol_contract`,
+   `tab:native_horizon_selector` and `tab:aggregate_robustness` are typed into the paper body, so
+   their values go into `results_v2/paper_numbers.csv` keyed by label plus row and column position.
+4. **New tables:** `table/tableS_noise_floor.tex` (`tab:noise_floor`) and
+   `table/tableS_baseline_spec.tex` (`tab:baseline_spec`).
+5. **C-17 order:** the ported generator must reproduce the frozen tables first; only then is it
+   used to produce anything new.
+
+## Blocked — two inputs referenced but not received
+
+* **The label/filename mapping.** The message carrying it contains the placeholder
+  "[위 대응표를 붙여 넣으세요]" and no table. Without it, C-3, C-10 and C-13 still cannot start.
+* **The Overleaf `table/` folder.** Named as "sent with this message", but no files arrived. It is
+  the template for rule 1 above, and the four hand edits in particular cannot be preserved from
+  anything in this repository -- `results/tables/` holds only the generated `.tex`/`.csv`, not the
+  edited Overleaf versions.
+
 ## Open — the table numbering cannot be resolved from the repository
 
 The consolidated request names paper Tables 2, 3, 8, 10, 14, 17-19, 20, 21, 22, 23-25; earlier
