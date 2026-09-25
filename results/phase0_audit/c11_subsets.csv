@@ -1,0 +1,10 @@
+subset,coordinate,n_cells,package_larger
+all_36,dAUC,36,27
+all_36,negDP,36,26
+all_36,negEO,36,29
+single_operation_12,dAUC,12,10
+single_operation_12,negDP,12,10
+single_operation_12,negEO,12,11
+single_operation_9_no_FairEdit,dAUC,9,7
+single_operation_9_no_FairEdit,negDP,9,7
+single_operation_9_no_FairEdit,negEO,9,8

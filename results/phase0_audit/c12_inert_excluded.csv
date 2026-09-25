@@ -1,0 +1,7 @@
+subset,coordinate,n_cells,package_larger,tau_pkg_negative,resolved
+all_36,dAUC,36,27,18,11
+all_36,negDP,36,26,19,8
+all_36,negEO,36,29,20,9
+inert_removed_34,dAUC,34,25,17,11
+inert_removed_34,negDP,34,24,18,8
+inert_removed_34,negEO,34,27,19,9
