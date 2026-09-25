@@ -588,7 +588,7 @@ def frozen_native_reference(path):
     return out
 
 
-def gates(cells, cov, pairs, store, prev, report, cfg_for_pairs=None):
+def gates(cells, cov, pairs, store, prev, report, cfg_for_pairs=None, rebuilt_B=False):
     """Every gate is a hard stop: a failure leaves the bundle untouched."""
     fails = []
     cfg_for_pairs = pd.DataFrame() if cfg_for_pairs is None else cfg_for_pairs
@@ -653,7 +653,7 @@ def gates(cells, cov, pairs, store, prev, report, cfg_for_pairs=None):
     # E2: the targeted native cells against the values published with them
     ref = frozen_native_reference(FROZEN_NATIVE_ANALYSIS)
     if ref:
-        dmean = dci = 0.0
+        dmean = dci = dmean_tau_I = 0.0
         n2 = 0
         for r in cells[(cells.protocol == "native")
                        & (cells.native_evaluation_role == "targeted")].itertuples():
@@ -664,7 +664,10 @@ def gates(cells, cov, pairs, store, prev, report, cfg_for_pairs=None):
                         continue
                     n2 += 1
                     o = ref[k]
-                    dmean = max(dmean, abs(o["mean"] - getattr(r, f"{q}_{c_name}_mean")))
+                    dm = abs(o["mean"] - getattr(r, f"{q}_{c_name}_mean"))
+                    dmean = max(dmean, dm)
+                    if q == "tau_I":
+                        dmean_tau_I = max(dmean_tau_I, dm)
                     dci = max(dci, abs(o["lo"] - getattr(r, f"{q}_{c_name}_lo")),
                               abs(o["hi"] - getattr(r, f"{q}_{c_name}_hi")))
                     if q == "tau_I":
@@ -676,9 +679,24 @@ def gates(cells, cov, pairs, store, prev, report, cfg_for_pairs=None):
                       f"max |mean| difference {dmean:.2e}, max interval difference {dci:.2e} "
                       f"(published to 4 decimals)")
         if dmean > 5e-5:
-            fails.append(f"E2 targeted native means differ from the published values "
-                         f"(max {dmean:.3e})")
-        if dci > 1e-2:
+            # With a rebuilt B, tau_nonint is *expected* to move: the published values were
+            # computed against the frozen per-method baseline. tau_I does not reference B, so it
+            # must still match -- that half of the gate stays armed and is checked above as
+            # dmean_tau_I.
+            if rebuilt_B:
+                report.append(f"  E2 relaxed for tau_nonint: B was rebuilt, so the published "
+                              f"values no longer apply (max |mean| difference {dmean:.3e}); "
+                              f"tau_I checked separately at {dmean_tau_I:.2e}")
+            else:
+                fails.append(f"E2 targeted native means differ from the published values "
+                             f"(max {dmean:.3e})")
+        if dmean_tau_I > 5e-5:
+            fails.append(f"E2 targeted native tau_I differs from the published values "
+                         f"(max {dmean_tau_I:.3e}) -- tau_I does not reference B and must not move")
+        if dci > 1e-2 and rebuilt_B:
+            report.append(f"  E2 interval check relaxed for the rebuilt baseline "
+                          f"(max interval difference {dci:.3e})")
+        elif dci > 1e-2:
             fails.append(f"E2 targeted native intervals differ beyond the documented "
                          f"Monte-Carlo stream shift (max {dci:.3e})")
     # H: a controlled/native pair must share one intervention construction
@@ -725,11 +743,72 @@ def backbone_gate(cells, cov, cfg):
     return fails
 
 
+def swap_baseline(store, baseline_dir):
+    """Replace the per-row common baseline B with a rebuilt one, joined per unit.
+
+    The stored `bc_auc/bc_dp/bc_eo` are B at the common selector, and everything B-referenced is
+    derived from them downstream (`analyze_armA.build:70-72`: abase = m0 - bc, apkg = m1 - bc).
+    `int_*` is formed from m1 and m0 alone, so tau_{-I->+I} cannot move -- a structural fact, which
+    the caller still asserts.
+
+    The rebuilt baseline is one draw per (dataset, split_id, run_id, selector), shared by every
+    method that references it; this is exactly the per-method re-training that T2 found and
+    B_rebuild_decision.md rule 2 removes. Rows whose unit has no rebuilt B are refused, not dropped.
+    """
+    frames = []
+    for p in sorted(glob.glob(os.path.join(baseline_dir, "B_*.csv"))):
+        b = pd.read_csv(p)
+        b["dataset"] = os.path.basename(p)[2:-4]
+        frames.append(b)
+    if not frames:
+        raise SystemExit(f"[baseline] no B_*.csv under {baseline_dir}")
+    b = pd.concat(frames, ignore_index=True)
+    key = ["dataset", "split_id", "run_id", "selector"]
+    b = b[key + ["auc", "dp", "eo", "epoch", "horizon"]].rename(
+        columns={"auc": "nb_auc", "dp": "nb_dp", "eo": "nb_eo",
+                 "epoch": "nb_epoch", "horizon": "nb_horizon"})
+    if b.duplicated(key).any():
+        raise SystemExit("[baseline] the rebuilt baseline is not one draw per unit and selector")
+
+    n_before = len(store)
+    out = store.merge(b, on=key, how="left", validate="many_to_one")
+    miss = out.nb_auc.isna()
+    if miss.any():
+        bad = out.loc[miss, key].drop_duplicates()
+        raise SystemExit(f"[baseline] {int(miss.sum())} rows have no rebuilt B; "
+                         f"first unmatched units:\n{bad.head(10).to_string(index=False)}")
+    assert len(out) == n_before, (len(out), n_before)
+    for c in ("auc", "dp", "eo"):
+        out[f"bc_{c}"] = out[f"nb_{c}"].astype(float)
+    out["bc_epoch"] = out["nb_epoch"]
+    out["b_horizon_rebuilt"] = out["nb_horizon"]
+
+    # load_store() already derived abase_*/apkg_* from the OLD bc_* (analyze_armA.build:70-72),
+    # so replacing bc_* alone leaves every B-referenced quantity stale. Re-derive them here, by
+    # the same three lines, and leave int_* untouched.
+    for tag, m in (("apkg", "m1"), ("abase", "m0")):
+        out[f"{tag}_auc"] = out[f"{m}_auc"] - out.bc_auc
+        out[f"{tag}_ndp"] = -(out[f"{m}_dp"] - out.bc_dp)
+        out[f"{tag}_neo"] = -(out[f"{m}_eo"] - out.bc_eo)
+    resid = (out.apkg_auc - (out.abase_auc + out.int_auc)).abs().max()
+    if resid > 1e-9:
+        raise SystemExit(f"[baseline] identity tau_pkg = tau_nonint + tau_I broken after the "
+                         f"swap: max |residual| {resid:.3e}")
+    print(f"[baseline] {os.path.basename(baseline_dir)}: replaced B on {len(out)} rows, "
+          f"{out.groupby(key).ngroups} unit-selector draws, "
+          f"{b.dataset.nunique()} datasets; abase/apkg re-derived, identity residual "
+          f"{resid:.1e}")
+    return out.drop(columns=[c for c in out.columns if c.startswith("nb_")])
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(ROOT, "results"))
     ap.add_argument("--dry-run", action="store_true",
                     help="run every gate and print the summary without replacing the bundle")
+    ap.add_argument("--baseline", default=None,
+                    help="directory of rebuilt B_<dataset>.csv files to use in place of the "
+                         "stored per-method baseline (results_v2/baselines/B_rep1, ...)")
     a = ap.parse_args()
     report = []
 
@@ -737,13 +816,26 @@ def main() -> int:
     prev = pd.read_csv(prev_p) if os.path.exists(prev_p) else None
 
     store = load_store()
+    if a.baseline:
+        frozen_tau_I = store[["method", "dataset", "protocol", "selector", "split_id", "run_id",
+                              "m1_auc", "m1_dp", "m1_eo", "m0_auc", "m0_dp", "m0_eo"]].copy()
+        store = swap_baseline(store, a.baseline)
+        # tau_{-I->+I} reads m1 and m0 only, so the swap cannot touch it. Checked, not assumed.
+        chk = store[frozen_tau_I.columns]
+        for c in ("m1_auc", "m1_dp", "m1_eo", "m0_auc", "m0_dp", "m0_eo"):
+            d = (chk[c].to_numpy() - frozen_tau_I[c].to_numpy())
+            mx = float(pd.Series(d).abs().max())
+            if mx != 0.0:
+                raise SystemExit(f"[baseline] STOP: swapping B changed {c} (max |diff| {mx:.3e})")
+        print("[baseline] arm outcomes m1_*/m0_* bit-identical after the swap "
+              "-> tau_{-I->+I} is unchanged by construction")
     cells, cov = build_cells(store, report)
     pairs = protocol_pairs(cells)
     mech = mechanistic()
     reg = regression_results()
     cfg = pd.concat([configurations(cells), regression_configurations()], ignore_index=True)
 
-    fails = gates(cells, cov, pairs, store, prev, report, cfg)
+    fails = gates(cells, cov, pairs, store, prev, report, cfg, rebuilt_B=bool(a.baseline))
     cov["backbone"] = [canonical_backbone(r.method, r.configuration, r.backbone)
                        for r in cov.itertuples()]
     cov = pd.concat([cov, pd.DataFrame([dict(

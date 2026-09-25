@@ -64,3 +64,9 @@ results/model_dataset_feasibility.csv
 results/tables/
 results/plot.ipynb
 figures/src/
+
+# ── Step C working bundles: regenerable by build_results.py --baseline
+results_v2/baselines/
+results_v2/bundle*/
+results_v2/noise_floor/
+results_v2/logs/
