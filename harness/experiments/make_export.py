@@ -28,6 +28,10 @@ TREES = [
     "harness/core", "harness/adapters", "harness/experiments", "harness/provenance",
     "models/algorithms", "figures/src", "utils",
     "results/phase0_audit", "results_v2/tables",
+    # Stage B: the two vendored upstreams whose MIT licence permits redistribution. Their
+    # dataset/ and figures/ directories are left out -- 226 MB and 13 MB of data that the fetch
+    # script retrieves instead.
+    "models/BeMap-main", "models/FairGB-main",
 ]
 # Individual files.
 FILES = [
@@ -47,7 +51,8 @@ GLOBS = [("results", r"^\d[a-z]?_.*\.csv$"), ("results_v2/bundle", r".*\.(csv|gz
          ("figures", r".*\.pdf$"), ("paper/table_template", r".*\.(tex|md)$"),
          ("results/appendix_robustness", r".*\.csv$")]
 
-EXCLUDE_DIRS = {"__pycache__", ".ipynb_checkpoints", "preview", ".git"}
+EXCLUDE_DIRS = {"__pycache__", ".ipynb_checkpoints", "preview", ".git",
+                "dataset", "figures", "Figures"}
 EXCLUDE_SUFFIX = {".pyc", ".pyo", ".npz", ".pt", ".pth", ".zip"}
 # this builder carries the anonymisation patterns as literals, so it would fail its own check;
 # a reviewer does not need the tool that produced the checkout
