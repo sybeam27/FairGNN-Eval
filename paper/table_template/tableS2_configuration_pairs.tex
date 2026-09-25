@@ -1,0 +1,248 @@
+\begin{table}[t]
+\centering
+\caption{
+\textbf{Paired configuration-sensitivity results.}
+Entries report
+\(\tau_{-I\rightarrow +I}(P)\) as
+primary \(\rightarrow\) alternative.
+Bold values are resolved.
+\(\dagger\) denotes a point-estimate sign flip and
+\(\ddagger\) a change in resolved status.
+Symbols are determined from the unrounded estimates.
+}
+\label{tab:config-pairs}
+\scriptsize
+\vspace{-0.2cm}
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.05}
+
+\begin{tabularx}{\columnwidth}{
+@{}
+l
+l
+>{\raggedright\arraybackslash}X
+>{\centering\arraybackslash}p{0.18\columnwidth}
+>{\centering\arraybackslash}p{0.18\columnwidth}
+>{\centering\arraybackslash}p{0.18\columnwidth}
+@{}
+}
+\toprule
+Method &
+Data &
+Primary \(\rightarrow\) alternative &
+\(\Delta\mathrm{AUC}\) &
+\(-\Delta_{\mathrm{DP}}\) &
+\(-\Delta_{\mathrm{EO}}\) \\
+\midrule
+
+\multicolumn{6}{@{}l}{\textit{Encoder variations} (\(n=18\))} \\
+\addlinespace[1pt]
+
+BeMap
+& Bail
+& GCN \(\rightarrow\) GAT
+& \textbf{-0.139} \(\rightarrow\) \textbf{-0.097}
+& \textbf{+0.060} \(\rightarrow\) \textbf{+0.062}
+& \textbf{+0.024} \(\rightarrow\) \textbf{+0.037} \\
+
+BeMap
+& Credit
+& GCN \(\rightarrow\) GAT
+& \textbf{-0.036} \(\rightarrow\) -0.009\(^{\ddagger}\)
+& +0.022 \(\rightarrow\) +0.029
+& +0.016 \(\rightarrow\) +0.022 \\
+
+BeMap
+& Pokec-z
+& GCN \(\rightarrow\) GAT
+& \textbf{-0.015} \(\rightarrow\) -0.005\(^{\ddagger}\)
+& -0.067 \(\rightarrow\) \textbf{-0.038}\(^{\ddagger}\)
+& -0.040 \(\rightarrow\) -0.019 \\
+
+FairSIN
+& Bail
+& GCN \(\rightarrow\) GIN
+& +0.003 \(\rightarrow\) +0.007
+& +0.005 \(\rightarrow\) +0.000
+& -0.006 \(\rightarrow\) -0.011 \\
+
+FairSIN
+& Bail
+& GCN \(\rightarrow\) SAGE
+& +0.003 \(\rightarrow\) +0.013
+& +0.005 \(\rightarrow\) -0.002\(^{\dagger}\)
+& -0.006 \(\rightarrow\) -0.005 \\
+
+FairSIN
+& Credit
+& GCN \(\rightarrow\) GIN
+& \textbf{-0.046} \(\rightarrow\) \textbf{-0.035}
+& \textbf{+0.077} \(\rightarrow\) \textbf{+0.060}
+& \textbf{+0.059} \(\rightarrow\) \textbf{+0.036} \\
+
+FairSIN
+& Credit
+& GCN \(\rightarrow\) SAGE
+& \textbf{-0.046} \(\rightarrow\) \textbf{-0.014}
+& \textbf{+0.077} \(\rightarrow\) -0.049\(^{\dagger\ddagger}\)
+& \textbf{+0.059} \(\rightarrow\) -0.038\(^{\dagger\ddagger}\) \\
+
+FairSIN
+& German
+& GCN \(\rightarrow\) GIN
+& \textbf{-0.110} \(\rightarrow\) -0.003\(^{\ddagger}\)
+& \textbf{+0.179} \(\rightarrow\) +0.001\(^{\ddagger}\)
+& \textbf{+0.132} \(\rightarrow\) -0.009\(^{\dagger\ddagger}\) \\
+
+FairSIN
+& German
+& GCN \(\rightarrow\) SAGE
+& \textbf{-0.110} \(\rightarrow\) -0.015\(^{\ddagger}\)
+& \textbf{+0.179} \(\rightarrow\) +0.005\(^{\ddagger}\)
+& \textbf{+0.132} \(\rightarrow\) +0.014\(^{\ddagger}\) \\
+
+FairSIN
+& Pokec-n
+& GCN \(\rightarrow\) GIN
+& +0.003 \(\rightarrow\) +0.005
+& -0.002 \(\rightarrow\) +0.007\(^{\dagger}\)
+& -0.001 \(\rightarrow\) +0.001\(^{\dagger}\) \\
+
+FairSIN
+& Pokec-n
+& GCN \(\rightarrow\) SAGE
+& +0.003 \(\rightarrow\) -0.000\(^{\dagger}\)
+& -0.002 \(\rightarrow\) +0.002\(^{\dagger}\)
+& -0.001 \(\rightarrow\) +0.010\(^{\dagger}\) \\
+
+FairSIN
+& Pokec-z
+& GCN \(\rightarrow\) GIN
+& +0.001 \(\rightarrow\) +0.005
+& \textbf{+0.018} \(\rightarrow\) +0.004\(^{\ddagger}\)
+& \textbf{+0.014} \(\rightarrow\) +0.005\(^{\ddagger}\) \\
+
+FairSIN
+& Pokec-z
+& GCN \(\rightarrow\) SAGE
+& +0.001 \(\rightarrow\) -0.003\(^{\dagger}\)
+& \textbf{+0.018} \(\rightarrow\) -0.003\(^{\dagger\ddagger}\)
+& \textbf{+0.014} \(\rightarrow\) -0.004\(^{\dagger\ddagger}\) \\
+
+FairVGNN
+& Bail
+& GCN \(\rightarrow\) SAGE
+& \textbf{-0.042} \(\rightarrow\) +0.012\(^{\dagger\ddagger}\)
+& +0.007 \(\rightarrow\) +0.024
+& -0.005 \(\rightarrow\) +0.019\(^{\dagger}\) \\
+
+FairVGNN
+& Credit
+& GCN \(\rightarrow\) GIN
+& \textbf{-0.012} \(\rightarrow\) \textbf{-0.072}
+& -0.000 \(\rightarrow\) \textbf{+0.096}\(^{\dagger\ddagger}\)
+& -0.014 \(\rightarrow\) \textbf{+0.080}\(^{\dagger\ddagger}\) \\
+
+FairVGNN
+& Credit
+& GCN \(\rightarrow\) SAGE
+& \textbf{-0.012} \(\rightarrow\) -0.009\(^{\ddagger}\)
+& -0.000 \(\rightarrow\) +0.023\(^{\dagger}\)
+& -0.014 \(\rightarrow\) +0.014\(^{\dagger}\) \\
+
+FairVGNN
+& German
+& GCN \(\rightarrow\) GIN
+& +0.013 \(\rightarrow\) +0.021
+& -0.003 \(\rightarrow\) \textbf{+0.081}\(^{\dagger\ddagger}\)
+& -0.003 \(\rightarrow\) \textbf{+0.088}\(^{\dagger\ddagger}\) \\
+
+FairVGNN
+& German
+& GCN \(\rightarrow\) SAGE
+& +0.013 \(\rightarrow\) +0.024
+& -0.003 \(\rightarrow\) +0.033\(^{\dagger}\)
+& -0.003 \(\rightarrow\) +0.039\(^{\dagger}\) \\
+
+\midrule
+\multicolumn{6}{@{}l}{\textit{Upstream-configuration variations} (\(n=6\))} \\
+\addlinespace[1pt]
+
+FairGNN
+& Pokec-n
+& default \(\rightarrow\) upstream GAT
+& -0.006 \(\rightarrow\) +0.005\(^{\dagger}\)
+& -0.004 \(\rightarrow\) +0.048\(^{\dagger}\)
+& +0.000 \(\rightarrow\) +0.040 \\
+
+FairGNN
+& Pokec-n
+& default \(\rightarrow\) upstream GCN
+& -0.006 \(\rightarrow\) \textbf{-0.039}\(^{\ddagger}\)
+& -0.004 \(\rightarrow\) +0.026\(^{\dagger}\)
+& +0.000 \(\rightarrow\) +0.027 \\
+
+FairGNN
+& Pokec-z
+& default \(\rightarrow\) upstream GAT
+& -0.007 \(\rightarrow\) -0.045
+& -0.018 \(\rightarrow\) -0.015
+& -0.014 \(\rightarrow\) -0.026 \\
+
+FairGNN
+& Pokec-z
+& default \(\rightarrow\) upstream GCN
+& -0.007 \(\rightarrow\) \textbf{-0.045}\(^{\ddagger}\)
+& -0.018 \(\rightarrow\) +0.028\(^{\dagger}\)
+& -0.014 \(\rightarrow\) +0.030\(^{\dagger}\) \\
+
+FairVGNN
+& Bail
+& default \(\rightarrow\) GCN-spmm
+& \textbf{-0.042} \(\rightarrow\) \textbf{-0.041}
+& +0.007 \(\rightarrow\) +0.008
+& -0.005 \(\rightarrow\) -0.003 \\
+
+FairVGNN
+& German
+& default \(\rightarrow\) GCN-spmm
+& +0.013 \(\rightarrow\) \textbf{+0.023}\(^{\ddagger}\)
+& -0.003 \(\rightarrow\) +0.046\(^{\dagger}\)
+& -0.003 \(\rightarrow\) +0.064\(^{\dagger}\) \\
+
+\midrule
+\multicolumn{6}{@{}l}{\textit{Intervention-budget variations} (\(n=2\))} \\
+\addlinespace[1pt]
+
+BIND
+& Bail
+& 1\% \(\rightarrow\) 10\%
+& +0.001 \(\rightarrow\) -0.001\(^{\dagger}\)
+& +0.001 \(\rightarrow\) +0.003
+& -0.001 \(\rightarrow\) -0.000 \\
+
+BIND
+& Income
+& 1\% \(\rightarrow\) 10\%
+& -0.000 \(\rightarrow\) -0.000
+& \textbf{+0.042} \(\rightarrow\) \textbf{+0.053}
+& \textbf{+0.054} \(\rightarrow\) \textbf{+0.070} \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{4pt}
+\begin{minipage}{0.98\columnwidth}
+\footnotesize
+\textit{Notes.}
+Each entry shows the primary and alternative point estimates of
+\(\tau_{-I\rightarrow +I}(P)\).
+Bold values satisfy the resolved criterion.
+\(\dagger\) denotes a change in the sign of the unrounded point estimate;
+\(\ddagger\) denotes a change in resolved status.
+Sign flips near zero should therefore not be interpreted independently of
+the resolution status.
+All comparisons retain the controlled protocol and are paired with their
+corresponding primary configuration.
+\end{minipage}
+\end{table}

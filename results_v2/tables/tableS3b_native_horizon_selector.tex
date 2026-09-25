@@ -1,0 +1,99 @@
+\begin{table}[t]
+\centering
+\caption{
+\textbf{Controlled versus published training horizons.}
+Entries report
+\(\tau_{-I\rightarrow +I}(P)\) on
+\(-\Delta_{\mathrm{DP}}\) as
+controlled \(\rightarrow\) published horizon.
+Systematic and targeted comparisons are shown separately.
+Bold values are resolved;
+\(\dagger\) denotes a sign change and
+\(\ddagger\) a resolution change.
+}
+\label{tab:native-horizon-pairs}
+\vspace{-0.2cm}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.03}
+
+\begin{tabular}{llll}
+\toprule
+Method & Dataset & Configuration & Controlled \(\rightarrow\) published \\
+\midrule
+
+\multicolumn{4}{l}{\textit{Systematic evaluations} (\(n=16\))} \\
+\addlinespace[1pt]
+
+FairSIN & Bail & GCN
+& \(+0.005 \rightarrow +0.005\) \\
+FairSIN & Bail & GIN
+& \(+{<}0.001 \rightarrow +0.003\) \\
+FairSIN & Bail & SAGE
+& \(-0.002 \rightarrow -0.003\) \\
+
+FairSIN & Credit & GCN
+& \(\mathbf{+0.077} \rightarrow \mathbf{+0.083}\) \\
+FairSIN & Credit & GIN
+& \(\mathbf{+0.060} \rightarrow \mathbf{+0.054}\) \\
+FairSIN & Credit & SAGE
+& \(-0.049 \rightarrow -0.025\) \\
+
+FairSIN & German & GCN
+& \(\mathbf{+0.179} \rightarrow \mathbf{+0.149}\) \\
+FairSIN & German & GIN
+& \(+0.001 \rightarrow +0.035\) \\
+FairSIN & German & SAGE
+& \(+0.005 \rightarrow +0.016\) \\
+
+FairSIN & Pokec-n & GCN
+& \(-0.002 \rightarrow -0.001\) \\
+FairSIN & Pokec-n & GIN
+& \(+0.007 \rightarrow +0.015\) \\
+FairSIN & Pokec-n & SAGE
+& \(+0.002 \rightarrow +0.002\) \\
+
+FairSIN & Pokec-z & GCN
+& \(\mathbf{+0.018} \rightarrow \mathbf{+0.016}\) \\
+FairSIN & Pokec-z & GIN
+& \(+0.004 \rightarrow -0.009^{\dagger}\) \\
+FairSIN & Pokec-z & SAGE
+& \(-0.003 \rightarrow -0.003\) \\
+
+SFG & Bail & Default
+& \(+0.020 \rightarrow +0.016\) \\
+
+\midrule
+\multicolumn{4}{l}{\textit{Targeted validations} (\(n=3\))} \\
+\addlinespace[1pt]
+
+FairGB & Bail & Default
+& \(-0.060 \rightarrow -0.010\) \\
+FairGB & Credit & Default
+& \(+0.014 \rightarrow \mathbf{+0.081}^{\ddagger}\) \\
+FairVGNN & Bail & Default
+& \(+0.007 \rightarrow +0.003\) \\
+
+
+\midrule
+\multicolumn{4}{l}{\textit{Re-execution only} (\(n=2\))} \\
+\addlinespace[1pt]
+
+SFG & Credit & Default
+& \(-0.001 \rightarrow -0.001\) \\
+SFG & German & Default
+& \(+0.073 \rightarrow +0.028\) \\
+
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+\begin{minipage}{0.94\textwidth}
+\footnotesize
+\vspace{0.2cm}
+\textit{Notes.}
+Only the training horizon differs between the two protocols; checkpoint selection is validation BCE in both.
+The systematic and targeted blocks have different sampling rationales and are not pooled into a common success rate.
+SFG on German and Credit is listed separately: its two protocols resolve to the same configuration and the same 200-epoch horizon, so that comparison measures re-execution rather than the published horizon, and it is excluded from the systematic count.
+\end{minipage}
+\end{table}
