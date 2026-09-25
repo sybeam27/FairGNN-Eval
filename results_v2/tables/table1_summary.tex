@@ -1,0 +1,71 @@
+\begin{table*}[t]
+\centering
+\caption{
+\textbf{Family-level summary of package and intervention attribution across the 36 primary controlled cells.}
+Counts refer to method--dataset cells.
+``Resolved'' indicates resolved intervention contrasts.
+``Package larger'' indicates \(|\tau_{B\rightarrow -I}| > |\tau_{-I\rightarrow +I}|\),
+and ``Opposite sign'' compares \(\tau_{B\rightarrow +I}\) with \(\tau_{-I\rightarrow +I}\).
+Family summaries are descriptive only.
+}
+\label{tab:exp1-summary}
+\vspace{-0.2cm}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.15}
+
+\resizebox{0.70\textwidth}{!}{%
+\begin{tabular}{@{}lccc ccc ccc@{}}
+\toprule
+&
+\multicolumn{3}{c}{\(\Delta\mathrm{AUC}\)} &
+\multicolumn{3}{c}{\(-\Delta_{\mathrm{DP}}\)} &
+\multicolumn{3}{c}{\(-\Delta_{\mathrm{EO}}\)} \\
+\cmidrule(lr){2-4}
+\cmidrule(lr){5-7}
+\cmidrule(l){8-10}
+
+&
+\shortstack{\textbf{Mod.}\\(8)} &
+\shortstack{\textbf{Const.}\\(13)} &
+\shortstack{\textbf{Reg.}\\(15)} &
+\shortstack{\textbf{Mod.}\\(8)} &
+\shortstack{\textbf{Const.}\\(13)} &
+\shortstack{\textbf{Reg.}\\(15)} &
+\shortstack{\textbf{Mod.}\\(8)} &
+\shortstack{\textbf{Const.}\\(13)} &
+\shortstack{\textbf{Reg.}\\(15)} \\
+
+\midrule
+
+Resolved
+& 1 & 2 & 8
+& 3 & 0 & 5
+& 3 & 0 & 6 \\
+
+Package larger
+& 6 & 10 & 11
+& 7 & 9 & 10
+& 7 & 10 & 12 \\
+
+Opposite sign
+& 4 & 7 & 5
+& 5 & 6 & 7
+& 4 & 6 & 5 \\
+
+\midrule
+
+Median \(|\tau_{B\rightarrow -I}|\)
+& 0.107 & 0.024 & 0.046
+& 0.053 & 0.036 & 0.038
+& 0.041 & 0.017 & 0.030 \\
+
+Median \(|\tau_{-I\rightarrow +I}|\)
+& 0.001 & 0.007 & 0.023
+& 0.004 & 0.005 & 0.018
+& 0.003 & 0.008 & 0.016 \\
+
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
