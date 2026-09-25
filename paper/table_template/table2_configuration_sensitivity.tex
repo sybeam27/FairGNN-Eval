@@ -1,0 +1,86 @@
+\scriptsize
+\setlength{\tabcolsep}{4.5pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Pairs with (of 26) &
+\(-\Delta_{\mathrm{DP}}\) &
+\(-\Delta_{\mathrm{EO}}\) &
+\(\Delta\mathrm{AUC}\) \\
+\midrule
+Sign change & 13 & 12 & 5 \\
+\quad with \(|\hat\tau|\geq0.01\) in both & 2 & 4 & 1 \\
+Resolved-status change & 8 & 7 & 9 \\
+\(\Delta_{\mathrm{attr}}\) interval excludes 0 & 8 & 9 & 11 \\
+\bottomrule
+\end{tabular}
+
+% 수정 전
+% \begin{table}[t]
+% \centering
+% \caption{
+% Configuration sensitivity of intervention attribution.
+% Entries report the number of paired alternative--primary comparisons with a point-estimate sign change or a change in resolved status.
+% Substantive sign changes require \(|\hat\tau|\geq0.01\) under both configurations; no pair changes between resolved contrasts of opposite sign.
+% }
+% % \caption{
+% % \textbf{Configuration sensitivity of intervention attribution.}
+% % Entries report point-estimate sign changes and changes in resolved status between paired alternative and primary configurations; resolution-transition directions are reported in Appendix~\ref{app:config_results}.
+% % }
+% \label{tab:config-sensitivity}
+% \vspace{-0.2cm}
+% % \scriptsize
+% \footnotesize
+% \setlength{\tabcolsep}{4.0pt}
+% \renewcommand{\arraystretch}{1.1}
+
+% \resizebox{0.65\textwidth}{!}{%
+% \begin{tabular}{@{}lcccccc@{}}
+% \toprule
+% &
+% \multicolumn{2}{c}{\(-\Delta_{\mathrm{DP}}\)} &
+% \multicolumn{2}{c}{\(-\Delta_{\mathrm{EO}}\)} &
+% \multicolumn{2}{c}{\(\Delta\mathrm{AUC}\)} \\
+% \cmidrule(lr){2-3}
+% \cmidrule(lr){4-5}
+% \cmidrule(l){6-7}
+% Configuration (\(n\)) &
+% Sign &
+% Resolution &
+% Sign &
+% Resolution &
+% Sign &
+% Resolution \\
+% \midrule
+
+% Encoder (18)
+% & 9/18 & 8/18
+% & 10/18 & 7/18
+% & 3/18 & 6/18 \\
+
+% Upstream (6)
+% & 4/6 & 0/6
+% & 2/6 & 0/6
+% & 1/6 & 3/6 \\
+
+% Budget (2)
+% & 0/2 & 0/2
+% & 0/2 & 0/2
+% & 1/2 & 0/2 \\
+
+% \midrule
+
+% \textbf{All (26)}
+% & \textbf{13/26} & \textbf{8/26}
+% & \textbf{12/26} & \textbf{7/26}
+% & \textbf{5/26} & \textbf{9/26} \\
+
+% Substantive sign (\(|\hat\tau|\geq0.01\) both) 
+% & 2/26 & -- 
+% & 4/26 & -- 
+% & 1/26 & -- \\
+
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table}

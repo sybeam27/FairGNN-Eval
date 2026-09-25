@@ -1,0 +1,35 @@
+% NIFTY/German 2x2 factorial decomposition on -Delta_DP.
+% Values from results/4_mechanistic_case_study.csv, 1_main_package_vs_intervention.csv,
+% and 3c_protocol_native_published_procedure.csv.
+\begin{table}[t]
+\centering
+\caption{\textbf{NIFTY/German factorial protocol decomposition on \(-\Delta_{\mathrm{DP}}\).}
+Rows \(\theta_{hd}\) report \(\tau_{-I\rightarrow +I}(P_{hd})\) at horizon \(H_h\) and drop-rate setting \(D_d\), where \(H_0=200\), \(H_1=1000\), and \(D_0\) and \(D_1\) denote the controlled and restored published drop-rate settings; the remaining rows report the contrasts defined above.
+Brackets give 95\% paired hierarchical-bootstrap intervals, and bold values satisfy the resolved criterion.
+The short-horizon cells \(\theta_{00}\) and \(\theta_{01}\) are shared by both columns, which differ only in the long-horizon runs: the frozen protocol-comparison runs or the dedicated trajectory reruns (Appendix~\ref{app:selection_support_definition}).
+Within each column, \(\theta_{11}-\theta_{00}=\Delta_H+\Delta_D\) up to rounding.
+\(^{\ast}\)The interval excludes zero, but unit-level sign consistency is 0.733, below the 0.75 threshold; the corresponding rerun value is 0.767.
+}
+\label{tab:nifty_factorial}
+\vspace{-0.2cm}
+\scriptsize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+Quantity & Definition & Frozen long-horizon runs & Dedicated reruns \\
+\midrule
+\(\theta_{00}\) & \((H_0,D_0)\) & \multicolumn{2}{c}{\(-0.006\) \([-0.042, +0.032]\)} \\
+\(\theta_{01}\) & \((H_0,D_1)\) & \multicolumn{2}{c}{\(+0.029\) \([-0.007, +0.073]\)} \\
+\(\theta_{10}\) & \((H_1,D_0)\) & \(-0.061\) \([-0.128, +0.005]\) & \(-0.043\) \([-0.117, +0.032]\) \\
+\(\theta_{11}\) & \((H_1,D_1)\) & \(\mathbf{-0.151}\) \([-0.225, -0.081]\) & \(\mathbf{-0.148}\) \([-0.221, -0.075]\) \\
+\midrule
+\(\Delta_H\) & average horizon contrast & \(\mathbf{-0.117}\) \([-0.184, -0.056]\) & \(\mathbf{-0.107}\) \([-0.176, -0.043]\) \\
+\(\Delta_D\) & average drop-rate contrast & \(-0.027\) \([-0.086, +0.017]\) & \(-0.035\) \([-0.098, +0.013]\) \\
+\(\Gamma_{HD}\) & interaction & \(-0.126\) \([-0.220, -0.042]\)\(^{\ast}\) & \(\mathbf{-0.141}\) \([-0.240, -0.055]\) \\
+\(\Delta_{H\mid D=1}\) & \(\theta_{11}-\theta_{01}\) & \(\mathbf{-0.180}\) \([-0.255, -0.107]\) & \(\mathbf{-0.177}\) \([-0.249, -0.104]\) \\
+\midrule
+\(\theta_{11}-\theta_{00}\) & endpoint shift & \(-0.145\) & \(-0.142\) \\
+\bottomrule
+\end{tabular}
+\end{table}
