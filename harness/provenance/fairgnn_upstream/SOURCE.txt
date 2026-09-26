@@ -1,0 +1,3 @@
+Upstream: https://github.com/EnyanDai/FairGNN.git @ 13cdca7627d7779a2396299cdc8edd3a790db7cc (2023-08-17)
+Files: src/scripts/<dataset>/train_fair{GCN,GAT}.sh renamed <dataset>_train_fair{GCN,GAT}.sh; src/train_fairGNN.py (parser defaults).
+models/GAT.py copied as models_GAT.py
