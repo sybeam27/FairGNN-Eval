@@ -42,7 +42,7 @@ RENAMED = {
 }
 FILES = [
     "phase0_verify.py", "LICENSE", "LICENSE-DATA", "CHANGELOG.md",
-    "PAPER_ARTIFACT_MAP.md",
+    "PAPER_ARTIFACT_MAP.md", "PAPER_FIGURES_AND_TABLES.md",
     "harness/coverage_manifest.csv", "harness/intervention_manifest.csv",
     "harness/score_convention_manifest.csv", "harness/external_repos.tsv",
     "harness/METHOD_INVENTORY.csv", "harness/METHOD_EXTENSION_INVENTORY.csv",
