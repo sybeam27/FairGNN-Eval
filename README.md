@@ -1,4 +1,4 @@
-# What Makes a Fairness-Aware GNN Fair? Intervention Attribution Across Protocols
+# Protocol-Conditional Attribution in Fairness-Aware Graph Neural Networks
 
 Code, frozen protocols and results for the paper.
 
@@ -36,35 +36,61 @@ with a paired hierarchical bootstrap interval.
 
 ## Reproducing
 
-`results/` is the frozen output of
+`results/` is the bundle the paper reports: the common baseline B rebuilt at the resolved published
+horizon, one draw per unit. It is produced by
 
 ```bash
-python harness/experiments/build_results.py         # raw per-cell store -> results/
-python harness/experiments/robustness_six_split.py  # appendix sensitivity check
+python harness/experiments/build_results.py --baseline results_v2/baselines/B_rep1 --out results
+python harness/experiments/robustness_six_split.py   # appendix sensitivity check
 ```
 
-The training artifacts and trajectories behind them are not redistributed. For auditability we
-publish instead a compact per-unit metric export, `results/per_unit_metrics.csv.gz`
-(16,200 rows, 186 KB): the matched split × run outcomes of all three arms, from which every
-reported contrast and its bootstrap interval can be reconstructed. `PAPER_ARTIFACT_MAP.md` shows
-how. The runners and the figure scripts are available from the authors on request; re-running the
-experiments themselves additionally needs the datasets and the method repositories, neither of
-which is redistributed here.
+`results/superseded/` holds the pre-rebuild bundle — the "before" side of that fix, and the
+reference the table check verifies against. Without a GPU you can still check the whole chain:
 
-Note that a re-run does not reproduce the stored numbers bit for bit: under CUDA
-nondeterminism none of the 30 units of a cell was bitwise identical between two runs of the same
-configuration (recorded in `harness/X3_BASELINE_NONDETERMINISM.md` and `harness/X25_RESULTS.md`).
-That is why the frozen estimates in `results/` are published alongside the code.
+```bash
+python phase0_verify.py results                      # recompute every contrast from per-unit data
+python harness/experiments/build_tables.py --check   # fill the paper's tables and diff them
+python harness/experiments/build_paper_numbers.py --out results/paper_numbers.csv
+```
+
+`results/paper_numbers.csv` lists every number the paper states with its location, the definition
+that produces it, the file it came from, and whether the baseline rebuild moved it.
+`results/B_rebuild_diff.md` documents that rebuild across four baselines.
+
+**The runners, the method wrappers and the figure scripts are in this repository.** Re-running the
+experiments additionally needs the datasets and the third-party method repositories, neither of
+which is redistributed here; `fetch_upstream.sh --list` says where each one comes from.
+
+The training artifacts and per-epoch trajectories are not redistributed — 4 GB, and the runners
+regenerate them. For auditability we publish instead a compact per-unit metric export,
+`results/per_unit_metrics.csv.gz` (16,200 rows): the matched split × run outcomes of all three
+arms, from which every reported contrast and its bootstrap interval can be reconstructed.
+`PAPER_ARTIFACT_MAP.md` shows how.
+
+Nothing above needs a GPU. What does need one is re-training, and re-training does not reproduce
+the stored numbers: see the note below.
+
+**Re-training is not deterministic, and the paper's numbers come from the stored per-unit results.**
+The sparse propagation these methods use has no deterministic CUDA kernel, so two runs of the same
+command at the same seed differ. We measured how much: five primary cells were re-executed twice,
+and across 45 paired comparisons of the cell-level mean intervention contrast **no 95% interval
+excluded zero**, so the paper's intervals do cover re-execution noise. The size of that noise is
+strongly cell-dependent — on \(-\Delta_{\mathrm{DP}}\) the cell mean moved 0.067 between
+realizations of SFG/German and 0.001 on NIFTY/German. Every row is in
+`results/phase0_audit/noise_floor_delta.csv`. That is why the estimates in `results/` are published
+alongside the code.
 
 `PAPER_ARTIFACT_MAP.md` maps every figure, table and appendix item to the file it comes from.
 
 ## What is deliberately not in this repository
 
-* **Datasets** (German, Credit, Bail, Income, NBA, Pokec). Obtained from their own sources;
+* **Datasets** (German, Credit, Bail, Income, Pokec-z, Pokec-n, and the two Pokec variants with the alternative sensitive attribute). Obtained from their own sources;
   `harness/data_manifest.tsv` records the checksums of the copies used.
 * **The evaluated implementations.** Each method is run from its own published repository under
-  its own licence. `harness/provenance/` records the source and the pinned commit of every copy,
-  and the adapters state exactly which lines they wrap. Please cite the original papers and
+  its own licence, and six of them ship no licence text at all, so we have no right to
+  redistribute them. `fetch_upstream.sh` fetches them; `harness/provenance/` records the upstream
+  sources the configuration resolver parses, and the adapters state exactly which lines they wrap.
+  BeMap and FairGB are included under their MIT licences. Please cite the original papers and
   repositories when you use their results.
 * **Trajectory artifacts** (`*.npz`, `*.pt`) and caches: large and regenerated by the runners;
   the runs that produced them are checksum-manifested in `harness/results/`.
@@ -86,7 +112,7 @@ oriented so that higher is better. `results/README.md` documents every column.
 
 ```bibtex
 @inproceedings{fairgnn-eval,
-  title     = {What Makes a Fairness-Aware GNN Fair? Intervention Attribution Across Protocols},
+  title     = {Protocol-Conditional Attribution in Fairness-Aware Graph Neural Networks},
   author    = {TODO},
   booktitle = {TODO},
   year      = {2026}

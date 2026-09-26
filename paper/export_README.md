@@ -1,4 +1,4 @@
-# What makes a fairness-aware GNN fair? Intervention attribution across protocol
+# Protocol-Conditional Attribution in Fairness-Aware Graph Neural Networks
 
 Code, matched per-unit results and analysis for the paper. Anonymised for review: no git history,
 no author names, no absolute paths.
