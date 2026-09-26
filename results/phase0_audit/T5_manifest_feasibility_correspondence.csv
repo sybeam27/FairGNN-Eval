@@ -1,0 +1,127 @@
+method,dataset,primary_eligible,included,configuration,backbone,units_done,matched_construction_status,exclusion_reason,in_feasibility,primary_controlled,robustness_controlled,native
+BIND,bail,yes,yes,1pct,GCN,30,valid,,yes,done,done,excluded
+BIND,credit,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BIND,german,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BIND,income,yes,yes,1pct,GCN,30,valid,,yes,done,done,excluded
+BIND,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BIND,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,yes,excluded,excluded,excluded
+BIND,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BIND,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,yes,excluded,excluded,excluded
+BIND,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BeMap,bail,yes,yes,default,GCN,30,valid,,yes,done,done,excluded
+BeMap,credit,yes,yes,default,GCN,30,valid,,yes,done,done,excluded
+BeMap,german,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BeMap,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BeMap,nba,no,no,,,0,not_established,invalid_evaluation_split,yes,excluded,excluded,excluded
+BeMap,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BeMap,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+BeMap,pokec_z,yes,yes,default,GCN,30,valid,,yes,done,done,excluded
+BeMap,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+EDITS,bail,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+EDITS,credit,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+EDITS,german,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+EDITS,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+EDITS,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+EDITS,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+EDITS,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+EDITS,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+EDITS,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FMP,bail,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FMP,credit,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FMP,german,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FMP,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FMP,nba,no,no,,,0,not_established,invalid_evaluation_split,yes,excluded,excluded,excluded
+FMP,pokec_n,no,yes,,,0,valid,included_reported_separately,yes,component study,no configuration,no configuration
+FMP,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FMP,pokec_z,no,yes,,,0,valid,included_reported_separately,yes,component study,no configuration,no configuration
+FMP,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairEdit,bail,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairEdit,credit,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairEdit,german,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairEdit,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairEdit,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairEdit,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairEdit,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairEdit,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairEdit,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGB,bail,yes,yes,default,SAGE,30,valid,,yes,done,no configuration,done
+FairGB,credit,yes,yes,default,SAGE,30,valid,,yes,done,no configuration,done
+FairGB,german,yes,yes,default,SAGE,30,valid,,yes,done,no configuration,done
+FairGB,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGB,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGB,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGB,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGB,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGB,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGNN,bail,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairGNN,credit,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairGNN,german,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairGNN,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGNN,nba,no,no,,,0,not_established,invalid_evaluation_split,yes,excluded,excluded,excluded
+FairGNN,pokec_n,yes,yes,default,GCN,30,valid,,yes,done,done,not run (decision)
+FairGNN,pokec_n_g,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairGNN,pokec_z,yes,yes,default,GCN,30,valid,,yes,done,done,not run (decision)
+FairGNN,pokec_z_g,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+FairGT,bail,no,no,,,0,not_established,matched_intervention_not_separable,yes,excluded,excluded,excluded
+FairGT,credit,no,no,,,0,not_established,matched_intervention_not_separable,yes,excluded,excluded,excluded
+FairGT,german,no,no,,,0,not_established,matched_intervention_not_separable,yes,excluded,excluded,excluded
+FairGT,income,no,no,,,0,not_established,matched_intervention_not_separable,yes,excluded,excluded,excluded
+FairGT,nba,no,no,,,0,not_established,matched_intervention_not_separable,yes,excluded,excluded,excluded
+FairGT,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGT,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGT,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairGT,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairSIN,bail,yes,yes,GCN,GCN,30,valid,,yes,done,done,done
+FairSIN,credit,yes,yes,GCN,GCN,30,valid,,yes,done,done,done
+FairSIN,german,yes,yes,GCN,GCN,30,valid,,yes,done,done,done
+FairSIN,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairSIN,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairSIN,pokec_n,yes,yes,GCN,GCN,30,valid,,yes,done,done,done
+FairSIN,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairSIN,pokec_z,yes,yes,GCN,GCN,30,valid,,yes,done,done,done
+FairSIN,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairVGNN,bail,yes,yes,default,GCN,30,valid,,yes,done,done,done
+FairVGNN,credit,yes,yes,default,GCN,30,valid,,yes,done,done,done
+FairVGNN,german,yes,yes,default,GCN,30,valid,,yes,done,done,done
+FairVGNN,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairVGNN,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairVGNN,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairVGNN,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairVGNN,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FairVGNN,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FnRGNN,bail,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FnRGNN,credit,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FnRGNN,german,no,yes,regression (released task),GCN,30,valid,included_reported_separately,yes,"done, task-adapted",no configuration,excluded
+FnRGNN,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FnRGNN,nba,no,no,,,0,not_established,invalid_evaluation_split,yes,excluded,excluded,excluded
+FnRGNN,pokec_n,no,yes,regression (released task),GCN,30,valid,included_reported_separately,yes,"done, task-adapted",no configuration,excluded
+FnRGNN,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+FnRGNN,pokec_z,no,yes,regression (released task),GCN,30,valid,included_reported_separately,yes,"done, task-adapted",no configuration,excluded
+FnRGNN,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+GEAR,bail,yes,yes,default,SAGE,30,valid,,yes,done,no configuration,excluded
+GEAR,credit,no,no,,,0,not_established,unsupported_released_configuration,yes,excluded,excluded,excluded
+GEAR,german,no,no,,,0,not_established,required_artifact_unavailable,yes,excluded,excluded,excluded
+GEAR,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+GEAR,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+GEAR,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+GEAR,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+GEAR,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+GEAR,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+NIFTY,bail,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+NIFTY,credit,yes,yes,default,GCN,30,valid,,yes,done,no configuration,no configuration
+NIFTY,german,yes,yes,default,GCN,30,valid,,yes,done,no configuration,done
+NIFTY,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+NIFTY,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+NIFTY,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+NIFTY,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+NIFTY,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+NIFTY,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+SFG,bail,yes,yes,default,SAGE,30,valid,,yes,done,no configuration,done
+SFG,credit,yes,yes,default,SAGE,30,valid,,yes,done,no configuration,done
+SFG,german,yes,yes,default,SAGE,30,valid,,yes,done,no configuration,done
+SFG,income,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+SFG,nba,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+SFG,pokec_n,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+SFG,pokec_n_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+SFG,pokec_z,no,no,,,0,not_established,unsupported_released_configuration,no,,,
+SFG,pokec_z_g,no,no,,,0,not_established,unsupported_released_configuration,no,,,

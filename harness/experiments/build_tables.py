@@ -214,12 +214,10 @@ def main() -> int:
     if a.check and a.results == os.path.join(ROOT, "results"):
         sup = os.path.join(ROOT, "results", "superseded")
         if not os.path.isdir(sup):
-            print("--check needs the pre-rebuild bundle, which this checkout does not publish "
-                  "(results/ carries only what the paper reports).\n"
+            print("--check fills the templates from the pre-rebuild bundle in results/superseded/, "
+                  "which is missing.\n"
                   "Regenerate it with:\n"
-                  "  python harness/experiments/build_results.py --out results/superseded\n"
-                  "then re-run --check. Without --check the generators still run against any "
-                  "bundle given by --results.")
+                  "  python harness/experiments/build_results.py --out results/superseded")
             return 1
         a.results = sup
     names = a.only or sorted(GENERATORS)
