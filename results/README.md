@@ -32,7 +32,7 @@ whole). An estimate is **resolved** only if sign stability >= 0.75,
 | primary controlled | 36 | one configuration per method x dataset, `count_in_primary_summary = true` |
 | configuration robustness, controlled | 26 | further published rows, alternative backbones or alternative intervention budgets of a method already in the primary set |
 | task-adapted, controlled | 3 | a method released for another task (FnRGNN, node regression) whose missing training loop the harness completed; reported on its own, `count_in_primary_summary = false` |
-| systematic native comparisons | 18 | every configuration of a method whose published procedure is leakage-free, re-run under that published procedure |
+| systematic native comparisons | 16 | every configuration of a method whose published procedure is leakage-free, re-run under that published procedure |
 | targeted native validations | 7 | a validation set fixed in advance to probe protocol sensitivity on already-frozen controlled cells |
 
 The two native families answer different questions and were sampled on
@@ -50,7 +50,8 @@ data have no native row at all.
 
 * `configuration_role` — `primary` or `robustness`.
 * `protocol` — `controlled` (one common horizon and selector for every arm) or
-  `native` (the method at its own published horizon and selector).
+  `native` (the method at its own published horizon; the checkpoint selector stays the controlled
+  validation-BCE rule on both sides, and the method's own published rule is recorded but unused).
 * `native_evaluation_role` — empty for controlled rows, else `systematic` or
   `targeted`.
 * `count_in_primary_summary` — true only for primary controlled cells of methods
@@ -87,8 +88,8 @@ what it varies. The families never mix:
 | `1c_main_released_task_regression.csv` | 1c. Main, released task | FnRGNN on node regression (its own task, MSE), same split and sensitive attribute; B = the common GCN trained with MSE | `tau_nonint`, `tau_I`, `tau_pkg` on regression metrics: `negMSE`, `negMeanGap`, `negWD` (standardised target units); compare only within this file |
 | `2_configuration_variation.csv` | 2. Configuration variation | controlled protocol | the configuration: FairSIN GCN -> GIN, SAGE; FairVGNN's further published rows (GCN-spmm, GIN, SAGE); BeMap GCN -> GAT; FairGNN's upstream GCN and GAT rows; BIND 1% -> 10%. `varied_factor` names it |
 | `3a_protocol_selector_bce_vs_auc.csv` | 3a. Protocol variation: selector | configuration, horizon, data, units | only the checkpoint selector (validation BCE vs validation AUC), for every controlled cell; `configuration_role` separates primary from robustness rows |
-| `3b_protocol_native_horizon_selector.csv` | 3b. Protocol variation: horizon and selector | configuration and data | horizon and selector, set to the method's own published values, and nothing else |
-| `3c_protocol_native_published_procedure.csv` | 3c. Protocol variation: published procedure | the intervention's configuration | horizon and selector plus the preprocessing or training-loop details the published procedure prescribes; `factors_changed` lists them |
+| `3b_protocol_native_horizon_selector.csv` | 3b. Protocol variation: published horizon | configuration, data and the checkpoint selector | the training horizon, set to the method's own published value, and nothing else; validation-BCE selection is retained on both sides, so this is a horizon-only contrast |
+| `3c_protocol_native_published_procedure.csv` | 3c. Protocol variation: published procedure | the intervention's configuration and the checkpoint selector | the training horizon plus the preprocessing or training-loop details the published procedure prescribes; validation-BCE selection is retained, so the selector is not among the changed factors; `factors_changed` lists what is |
 | `4_mechanistic_case_study.csv` | 4. Mechanistic case study | the frozen cell | selection-support decompositions (NIFTY, FairGB) |
 | `5_component_case_study_FMP.csv` | 5. Component-level case study | FMP on its own split and horizon, the baseline trained under the same setting | four stages, one component at a time: B -> base -> +propagation -> +fairness |
 | `model_dataset_feasibility.csv` | coverage | -- | every method x dataset the released code configures, by role |
@@ -136,6 +137,6 @@ them is a post-hoc adjustment to a result.
 ## Status
 
 36 primary controlled, 3 task-adapted controlled,
-26 configuration robustness, 18 systematic native, 7 targeted native,
+26 configuration robustness, 16 systematic native, 7 targeted native,
 0 pending or partial.
 Pending and partial cells are never summarised scientifically.

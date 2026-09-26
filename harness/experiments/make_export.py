@@ -27,7 +27,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 TREES = [
     "harness/core", "harness/adapters", "harness/experiments", "harness/provenance",
     "models/algorithms", "figures/src", "utils",
-    "results/phase0_audit", "results_v2/tables",
+    "results/phase0_audit", "results/tables", "results/superseded",
     # Stage B: the two vendored upstreams whose MIT licence permits redistribution. Their
     # dataset/ and figures/ directories are left out -- 226 MB and 13 MB of data that the fetch
     # script retrieves instead.
@@ -49,11 +49,11 @@ FILES = [
     "results/per_unit_metrics.csv.gz", "results/README.md", "results/experiment_index.csv",
     "results/cell_results.csv", "results/coverage.csv", "results/method_configurations.csv",
     "results/model_dataset_feasibility.csv",
-    "results_v2/paper_numbers.csv", "results_v2/B_rebuild_diff.md",
-    "results_v2/C18_FINAL_REPORT.md", "results_v2/phase0_verify_v2.txt",
+    "results/paper_numbers.csv", "results/B_rebuild_diff.md",
+    "results/C18_FINAL_REPORT.md", "results/phase0_verify_v2.txt",
 ]
 # Glob-ish additions: the frozen section tables and the rebuilt bundle.
-GLOBS = [("results", r"^\d[a-z]?_.*\.csv$"), ("results_v2/bundle", r".*\.(csv|gz|md)$"),
+GLOBS = [("results", r"^\d[a-z]?_.*\.csv$"),
          ("figures", r".*\.pdf$"), ("paper/table_template", r".*\.(tex|md)$"),
          ("results/appendix_robustness", r".*\.csv$")]
 

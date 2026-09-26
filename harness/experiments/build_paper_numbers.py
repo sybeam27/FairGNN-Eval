@@ -13,7 +13,7 @@ The four inline tables (tab:evaluation_sets, tab:controlled_protocol_contract,
 tab:native_horizon_selector, tab:aggregate_robustness) are written into the LaTeX body, so they get
 rows here keyed by label plus position instead of a .tex file.
 
-    python harness/experiments/build_paper_numbers.py --out results_v2/paper_numbers.csv
+    python harness/experiments/build_paper_numbers.py --out results/paper_numbers.csv
 """
 from __future__ import annotations
 
@@ -26,6 +26,9 @@ import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 AUDIT = os.path.join(ROOT, "results", "phase0_audit")
+# the reported bundle now lives in results/; the two sensitivity bundles stay in the
+# gitignored working tree, because build_results.py --baseline regenerates them
+FINAL = os.path.join(ROOT, "results")
 V2 = os.path.join(ROOT, "results_v2")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -46,15 +49,15 @@ def prim(path):
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=os.path.join(V2, "paper_numbers.csv"))
+    ap.add_argument("--out", default=os.path.join(FINAL, "paper_numbers.csv"))
     a = ap.parse_args()
     import build_results as B
 
-    froz = prim(os.path.join(ROOT, "results", "cell_results.csv"))
-    new = prim(os.path.join(V2, "bundle", "cell_results.csv"))
+    froz = prim(os.path.join(FINAL, "superseded", "cell_results.csv"))
+    new = prim(os.path.join(FINAL, "cell_results.csv"))
     h1000 = prim(os.path.join(V2, "bundle_B_H1000", "cell_results.csv"))
     rep2 = prim(os.path.join(V2, "bundle_B_rep2", "cell_results.csv"))
-    cells_all = pd.read_csv(os.path.join(V2, "bundle", "cell_results.csv"))
+    cells_all = pd.read_csv(os.path.join(FINAL, "cell_results.csv"))
 
     # ---------------------------------------------------------------- Table 1 / body 4.2.1
     for c in COORDS:
@@ -72,21 +75,21 @@ def main() -> int:
 
         add("Sec. 4.2.1 body; tab:exp1-summary row 'Package larger'", "package larger",
             f"{larger(new)}/36", "|tau_{B->-I}| > |tau_{-I->+I}|, strict, unrounded cell means",
-            "results_v2/bundle/cell_results.csv",
+            "results/cell_results.csv",
             "yes" if larger(new) != larger(froz) else "no", c, "tab:exp1-summary")
         add("Sec. 4.2.1 body", "tau_pkg < 0", f"{neg(new)}/36", "tau_{B->+I} mean < 0",
-            "results_v2/bundle/cell_results.csv",
+            "results/cell_results.csv",
             "yes" if neg(new) != neg(froz) else "no", c)
         add("Sec. 4.2.1 body; tab:exp1-summary row 'Opposite sign'", "opposite sign",
             f"{opp(new)}/36", "sign(tau_pkg) * sign(tau_I) < 0; exactly 0 counts as neither",
-            "results_v2/bundle/cell_results.csv",
+            "results/cell_results.csv",
             "yes" if opp(new) != opp(froz) else "no", c, "tab:exp1-summary")
         add("tab:exp1-summary row 'Resolved'", "resolved", f"{res(new)}/36",
             "unit-level sign consistency >= 0.75, |tau| >= 0.010, 95% interval excludes 0",
-            "results_v2/bundle/cell_results.csv", "no", c, "tab:exp1-summary")
+            "results/cell_results.csv", "no", c, "tab:exp1-summary")
         add("tab:exp1-summary row 'Median |tau_B->-I|'", "median abs tau_nonint",
             f"{new[f'tau_nonint_{c}_mean'].abs().median():.3f}", "median over the 36 primary cells",
-            "results_v2/bundle/cell_results.csv",
+            "results/cell_results.csv",
             "yes" if round(new[f"tau_nonint_{c}_mean"].abs().median(), 3)
             != round(froz[f"tau_nonint_{c}_mean"].abs().median(), 3) else "no", c, "tab:exp1-summary")
 
@@ -102,10 +105,10 @@ def main() -> int:
         neg = int(((un[f"tau_I_{c}_lo"] >= -0.010) & (un[f"tau_I_{c}_hi"] <= 0.010)).sum())
         add("Sec. 4.2.1 body", "unresolved and negligible", f"{neg}/{len(un)}",
             "unresolved, and the 95% interval lies entirely within [-0.010, +0.010]",
-            "results_v2/bundle/cell_results.csv", "no", c)
+            "results/cell_results.csv", "no", c)
         add("Sec. 4.2.1 body", "unresolved and inconclusive", f"{len(un) - neg}/{len(un)}",
             "unresolved, and the 95% interval reaches outside [-0.010, +0.010]",
-            "results_v2/bundle/cell_results.csv", "no", c)
+            "results/cell_results.csv", "no", c)
 
     # ---------------------------------------------------------------- Table 20, inline
     for name, d, tag in (("B_rep1", new, "reported"), ("B_H1000", h1000, "sensitivity")):
@@ -113,25 +116,25 @@ def main() -> int:
             r = B.aggregate_robustness(d, c)
             add(f"tab:aggregate_robustness ({tag}, {name}) row 'cell-weighted'",
                 "package larger, cell-weighted", f"{r['cell_weighted']*100:.1f}%",
-                "larger cells / 36", f"results_v2/bundle{'' if name=='B_rep1' else '_B_H1000'}/cell_results.csv",
+                "larger cells / 36", f"results/cell_results.csv" if name == "B_rep1" else "results_v2/bundle_B_H1000/cell_results.csv",
                 "yes" if name == "B_rep1" else "new", c, "tab:aggregate_robustness")
             add(f"tab:aggregate_robustness ({tag}, {name}) row 'method-balanced'",
                 "package larger, method-balanced", f"{r['method_balanced']*100:.1f}%",
                 "per-method share averaged over the 11 methods",
-                f"results_v2/bundle{'' if name=='B_rep1' else '_B_H1000'}/cell_results.csv",
+                f"results/cell_results.csv" if name == "B_rep1" else "results_v2/bundle_B_H1000/cell_results.csv",
                 "yes" if name == "B_rep1" else "new", c, "tab:aggregate_robustness")
             add(f"tab:aggregate_robustness ({tag}, {name}) row 'LOMO'",
                 "package larger, LOMO range",
                 f"{r['lomo_min']*100:.1f}-{r['lomo_max']*100:.1f}%",
                 "cell-weighted share with each method dropped in turn",
-                f"results_v2/bundle{'' if name=='B_rep1' else '_B_H1000'}/cell_results.csv",
+                f"results/cell_results.csv" if name == "B_rep1" else "results_v2/bundle_B_H1000/cell_results.csv",
                 "yes" if name == "B_rep1" else "new", c, "tab:aggregate_robustness")
 
     # ---------------------------------------------------------------- Table 8, inline
-    cov = pd.read_csv(os.path.join(V2, "bundle", "coverage.csv"))
-    nat = pd.read_csv(os.path.join(V2, "bundle", "3b_protocol_native_horizon_selector.csv"))
-    sel = pd.read_csv(os.path.join(V2, "bundle", "3a_protocol_selector_bce_vs_auc.csv"))
-    proc = pd.read_csv(os.path.join(V2, "bundle", "3c_protocol_native_published_procedure.csv"))
+    cov = pd.read_csv(os.path.join(FINAL, "coverage.csv"))
+    nat = pd.read_csv(os.path.join(FINAL, "3b_protocol_native_horizon_selector.csv"))
+    sel = pd.read_csv(os.path.join(FINAL, "3a_protocol_selector_bce_vs_auc.csv"))
+    proc = pd.read_csv(os.path.join(FINAL, "3c_protocol_native_published_procedure.csv"))
     rc = nat.native_evaluation_role.value_counts().to_dict()
     sets = [("primary controlled cells", len(new), "no"),
             ("configuration-robustness cells",
@@ -147,7 +150,7 @@ def main() -> int:
     for nm, v, ch in sets:
         add(f"tab:evaluation_sets row '{nm}'", "cell count", str(v),
             "count of matched cells or pairs in that evaluation set",
-            "results_v2/bundle/coverage.csv, 3a/3b/3c", ch, "", "tab:evaluation_sets")
+            "results/coverage.csv, 3a/3b/3c", ch, "", "tab:evaluation_sets")
 
     # ---------------------------------------------------------------- Table 10, inline
     bd = pd.read_csv(os.path.join(AUDIT, "c2_baseline_sensitivity_by_dataset.csv"))
@@ -175,13 +178,13 @@ def main() -> int:
             "evaluation role", r.native_evaluation_role,
             "systematic / targeted / re_execution; re_execution = the two protocols resolve to the "
             "same configuration and horizon",
-            "results_v2/bundle/3b_protocol_native_horizon_selector.csv",
+            "results/3b_protocol_native_horizon_selector.csv",
             "yes" if (r.method, r.dataset) in {("SFG", "german"), ("SFG", "credit")} else "no",
             "", "tab:native_horizon_selector")
     add("tab:native_horizon_selector total", "published-horizon comparisons",
         str(rc.get("systematic", 0) + rc.get("targeted", 0)),
         "systematic + targeted, excluding the two re-execution rows",
-        "results_v2/bundle/3b_protocol_native_horizon_selector.csv", "yes", "",
+        "results/3b_protocol_native_horizon_selector.csv", "yes", "",
         "tab:native_horizon_selector")
 
     # ---------------------------------------------------------------- Reproducibility Statement
@@ -198,7 +201,7 @@ def main() -> int:
             "results/phase0_audit/noise_floor_delta.csv", "new", c)
     add("Appendix C (Seeds and compute environment)", "seeds", "{27, 28, 29, 30, 31}",
         "seed = 27 + run_id, identical across splits; verified on all 3,900 store rows",
-        "results_v2/bundle/per_unit_metrics.csv.gz", "no")
+        "results/per_unit_metrics.csv.gz", "no")
     add("Appendix C (Seeds and compute environment)", "compute", ">= 52 GPU-hours",
         "union of every interval the run logs date-stamp; a floor, not a total. 12 of the 36 "
         "primary cells have no timing artifact",

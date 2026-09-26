@@ -12,7 +12,7 @@ tables is followed instead (booktabs, \\scriptsize, a Notes minipage, LaTeX $-$ 
     tab:baseline_spec  what B is, per dataset: the resolved configuration, the horizon each variant
                        used, and B's own AUC/DP/EO under frozen / B_rep1 / B_rep2 / B_H1000.
 
-    python harness/experiments/build_new_tables.py --out results_v2/tables
+    python harness/experiments/build_new_tables.py --out results/tables
 """
 from __future__ import annotations
 
@@ -178,7 +178,7 @@ def baseline_spec_table():
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=os.path.join(ROOT, "results_v2", "tables"))
+    ap.add_argument("--out", default=os.path.join(ROOT, "results", "tables"))
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     nf, (ea, eb, na, nb) = noise_floor_table()

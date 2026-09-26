@@ -16,7 +16,7 @@ C-9   the native and procedure pairs against three criteria, reported side by si
       floor was measured on -- that cell's own maximum. Pairs where the primary criterion and the
       cell-matched comparison disagree are listed first.
 
-Reads results_v2/bundle/ (the B_rep1 rebuild), the frozen T8 activation table and the two
+Reads results/ (the B_rep1 rebuild), the frozen T8 activation table and the two
 noise-floor CSVs. Writes c11_subsets.csv, c12_inert_excluded.csv, c9_native_procedure.csv.
 """
 from __future__ import annotations
@@ -29,7 +29,7 @@ import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
-V2 = os.path.join(ROOT, "results_v2", "bundle")
+V2 = os.path.join(ROOT, "results")
 sys.path.insert(0, os.path.join(ROOT, "harness", "experiments"))
 
 COORDS = ["dAUC", "negDP", "negEO"]

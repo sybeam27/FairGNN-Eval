@@ -11,12 +11,13 @@ through unchanged, and only the numbers are substituted.** Each generator below 
 it fills and in what order; the row order is read from the template itself, so a row the template
 does not have is never invented and one it has is never dropped.
 
-Verification, run by `--check`: fill every template from the **frozen** bundle and diff against the
+Verification, run by `--check`: fill every template from the **pre-rebuild** bundle in
+`results/superseded/` -- the one the Overleaf files were built from -- and diff against the
 template. A difference is either a real disagreement or a rounding rule this file got wrong; either
 way it is reported and nothing is written.
 
     python harness/experiments/build_tables.py --check                 # frozen -> templates
-    python harness/experiments/build_tables.py --results results_v2/bundle --out results_v2/tables
+    python harness/experiments/build_tables.py --results results --out results/tables
 """
 from __future__ import annotations
 
@@ -205,10 +206,13 @@ def main() -> int:
     ap.add_argument("--results", default=os.path.join(ROOT, "results"))
     ap.add_argument("--out", default=None)
     ap.add_argument("--check", action="store_true",
-                    help="fill each template from the frozen bundle and diff against it")
+                    help="fill each template from results/superseded/ (the pre-rebuild bundle the "
+                         "templates were built from) and diff against it")
     ap.add_argument("--only", nargs="*", default=None)
     a = ap.parse_args()
 
+    if a.check and a.results == os.path.join(ROOT, "results"):
+        a.results = os.path.join(ROOT, "results", "superseded")
     names = a.only or sorted(GENERATORS)
     fails = 0
     for name in names:

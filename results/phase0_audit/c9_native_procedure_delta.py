@@ -27,7 +27,7 @@ import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
-V2 = os.path.join(ROOT, "results_v2", "bundle")
+V2 = os.path.join(ROOT, "results")
 sys.path.insert(0, os.path.join(ROOT, "harness", "experiments"))
 from bootstrap_armA import SEED, boot  # noqa: E402
 

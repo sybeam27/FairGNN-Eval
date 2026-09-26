@@ -86,9 +86,9 @@ NIFTY,GCN,german,default,primary,native,targeted,30,30,complete
 SFG,SAGE,bail,default,primary,controlled,,30,30,complete
 SFG,SAGE,bail,default,primary,native,systematic,30,30,complete
 SFG,SAGE,credit,default,primary,controlled,,30,30,complete
-SFG,SAGE,credit,default,primary,native,systematic,30,30,complete
+SFG,SAGE,credit,default,primary,native,re_execution,30,30,complete
 SFG,SAGE,german,default,primary,controlled,,30,30,complete
-SFG,SAGE,german,default,primary,native,systematic,30,30,complete
+SFG,SAGE,german,default,primary,native,re_execution,30,30,complete
 FnRGNN,GCN,german,regression (released task),primary,controlled,,30,30,complete
 FnRGNN,GCN,pokec_z,regression (released task),primary,controlled,,30,30,complete
 FnRGNN,GCN,pokec_n,regression (released task),primary,controlled,,30,30,complete

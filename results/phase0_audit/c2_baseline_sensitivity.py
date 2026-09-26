@@ -27,8 +27,8 @@ V2 = os.path.join(ROOT, "results_v2")
 
 COORDS = ["dAUC", "negDP", "negEO"]
 BUNDLES = {
-    "frozen": os.path.join(ROOT, "results", "cell_results.csv"),
-    "B_rep1": os.path.join(V2, "bundle", "cell_results.csv"),
+    "frozen": os.path.join(ROOT, "results", "superseded", "cell_results.csv"),
+    "B_rep1": os.path.join(ROOT, "results", "cell_results.csv"),
     "B_rep2": os.path.join(V2, "bundle_B_rep2", "cell_results.csv"),
     "B_H1000": os.path.join(V2, "bundle_B_H1000", "cell_results.csv"),
 }
