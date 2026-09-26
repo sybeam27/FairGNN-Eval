@@ -1,4 +1,0 @@
-dataset,edit_num,edges_removed,edges_added,total_edges,identical_across_runs,evidence
-bail,10,20,0,642616,yes,"all 60 rows of harness/results/x30/x30_FairEdit_bail.csv carry config edges_before=642616 edges_after=642596 (delta -20); adds impossible: models/algorithms/FairEdit.py:711 add=False; total matches harness/core/datasets.py:48"
-credit,10,20,0,2873716,yes,"all 60 rows of harness/results/x30/x30_FairEdit_credit.csv carry config edges_before=2873716 edges_after=2873696 (delta -20); models/algorithms/FairEdit.py:711 add=False; total matches harness/core/datasets.py:46"
-german,10,20,0,44484,yes,"all 60 rows of harness/results/x30/x30_FairEdit_german.csv carry config edges_before=44484 edges_after=44464 (delta -20); models/algorithms/FairEdit.py:711 add=False; total matches harness/core/datasets.py:49"
