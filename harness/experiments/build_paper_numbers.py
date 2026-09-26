@@ -90,6 +90,23 @@ def main() -> int:
             "yes" if round(new[f"tau_nonint_{c}_mean"].abs().median(), 3)
             != round(froz[f"tau_nonint_{c}_mean"].abs().median(), 3) else "no", c, "tab:exp1-summary")
 
+    # ------------------------------------------------- unresolved split, Sec. 4.2.1
+    # An unresolved cell is not the same as a small one. `negligible` means the 95% interval sits
+    # entirely inside [-0.010, +0.010], so the contrast is bounded below the magnitude floor the
+    # resolved rule uses: the study can say the intervention did little here. `inconclusive` means
+    # the interval reaches past that floor, so the data does not settle the size either way. The
+    # split is identical on the frozen and the rebuilt bundle, since tau_I does not reference B.
+    for c in COORDS:
+        res = new[f"tau_I_{c}_resolved"].astype(str).str.lower().eq("true")
+        un = new[~res]
+        neg = int(((un[f"tau_I_{c}_lo"] >= -0.010) & (un[f"tau_I_{c}_hi"] <= 0.010)).sum())
+        add("Sec. 4.2.1 body", "unresolved and negligible", f"{neg}/{len(un)}",
+            "unresolved, and the 95% interval lies entirely within [-0.010, +0.010]",
+            "results_v2/bundle/cell_results.csv", "no", c)
+        add("Sec. 4.2.1 body", "unresolved and inconclusive", f"{len(un) - neg}/{len(un)}",
+            "unresolved, and the 95% interval reaches outside [-0.010, +0.010]",
+            "results_v2/bundle/cell_results.csv", "no", c)
+
     # ---------------------------------------------------------------- Table 20, inline
     for name, d, tag in (("B_rep1", new, "reported"), ("B_H1000", h1000, "sensitivity")):
         for c in COORDS:

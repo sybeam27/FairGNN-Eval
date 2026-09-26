@@ -392,3 +392,29 @@ Table: `R2_native_selector_facts.csv`.
   fixed seed. Within-seed ΔDP standard deviation — German 0.0351 (range 0.1185), Pokec-z-g 0.0098,
   Credit 0.0046, Pokec-n 0.0011, and **NBA and Income exactly 0.0000, bit-identical across all ten
   repeats** on the same CUDA sparse path.
+
+## R3 — SFG/German and SFG/Credit in section 3b are a pure re-run
+
+**[확인됨]** Nothing differs between the controlled and the native execution of SFG on german (or
+credit) except the execution itself. SFG never enters `published_config.py` (both `published` and
+`native_config` raise `KeyError`, `:274`, `:378`); its configuration comes from `x31_sfg.config(ds)`,
+a pure function of the upstream `run.sh` that takes no protocol argument. The two dicts diff to the
+empty set and the stored `config` column is byte-identical on all 60 matched rows. The `--native`
+flag reaches only `m_epochs`, and `native_horizon` is 200 for both datasets, so it is inert (it bites
+only on bail, 200 → 160). Seeds match on 60/60 units.
+
+The decisive control: the harness-trained baseline is **identical** across the two executions
+(`bc_dp`, `bc_epoch` equal 60/60, `b_auc` max diff 1.5e-4), which fixes the data, the split and the
+seed and isolates the divergence to SFG's own training loop. There, 30/30 units differ and the
+selected epoch moves by up to 184 epochs.
+
+So the 3b row for SFG/German measures no horizon effect — it measures the instability of SFG's
+validation-BCE checkpoint selection under nondeterministic CUDA. The paired difference is
+−0.0457 with a bootstrap interval of [−0.108, +0.019], which contains 0; on credit it is +0.0005.
+
+**Two corrections to what this audit said earlier.** (i) The cell does not move from resolved to
+unresolved: both sides are unresolved (`resolution_changed=False`), because sign stability is 0.700
+controlled and 0.600 native — the interval excluding 0 is not sufficient under the frozen rule.
+(ii) The shipped 3b CSV still prints the old selector string; the generator now emits the corrected
+one, and the CSV will carry it when the bundle is rebuilt. Full evidence:
+`R3_sfg_controlled_vs_native.md`.

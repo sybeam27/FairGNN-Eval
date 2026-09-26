@@ -14,6 +14,12 @@ Sec. 4.2.1 body,,tau_pkg < 0,negEO,20/36,tau_{B->+I} mean < 0,results_v2/bundle/
 Sec. 4.2.1 body; tab:exp1-summary row 'Opposite sign',tab:exp1-summary,opposite sign,negEO,15/36,sign(tau_pkg) * sign(tau_I) < 0; exactly 0 counts as neither,results_v2/bundle/cell_results.csv,no
 tab:exp1-summary row 'Resolved',tab:exp1-summary,resolved,negEO,9/36,"unit-level sign consistency >= 0.75, |tau| >= 0.010, 95% interval excludes 0",results_v2/bundle/cell_results.csv,no
 tab:exp1-summary row 'Median |tau_B->-I|',tab:exp1-summary,median abs tau_nonint,negEO,0.028,median over the 36 primary cells,results_v2/bundle/cell_results.csv,no
+Sec. 4.2.1 body,,unresolved and negligible,dAUC,11/25,"unresolved, and the 95% interval lies entirely within [-0.010, +0.010]",results_v2/bundle/cell_results.csv,no
+Sec. 4.2.1 body,,unresolved and inconclusive,dAUC,14/25,"unresolved, and the 95% interval reaches outside [-0.010, +0.010]",results_v2/bundle/cell_results.csv,no
+Sec. 4.2.1 body,,unresolved and negligible,negDP,7/28,"unresolved, and the 95% interval lies entirely within [-0.010, +0.010]",results_v2/bundle/cell_results.csv,no
+Sec. 4.2.1 body,,unresolved and inconclusive,negDP,21/28,"unresolved, and the 95% interval reaches outside [-0.010, +0.010]",results_v2/bundle/cell_results.csv,no
+Sec. 4.2.1 body,,unresolved and negligible,negEO,6/27,"unresolved, and the 95% interval lies entirely within [-0.010, +0.010]",results_v2/bundle/cell_results.csv,no
+Sec. 4.2.1 body,,unresolved and inconclusive,negEO,21/27,"unresolved, and the 95% interval reaches outside [-0.010, +0.010]",results_v2/bundle/cell_results.csv,no
 "tab:aggregate_robustness (reported, B_rep1) row 'cell-weighted'",tab:aggregate_robustness,"package larger, cell-weighted",dAUC,75.0%,larger cells / 36,results_v2/bundle/cell_results.csv,yes
 "tab:aggregate_robustness (reported, B_rep1) row 'method-balanced'",tab:aggregate_robustness,"package larger, method-balanced",dAUC,78.6%,per-method share averaged over the 11 methods,results_v2/bundle/cell_results.csv,yes
 "tab:aggregate_robustness (reported, B_rep1) row 'LOMO'",tab:aggregate_robustness,"package larger, LOMO range",dAUC,72.7-78.8%,cell-weighted share with each method dropped in turn,results_v2/bundle/cell_results.csv,yes
