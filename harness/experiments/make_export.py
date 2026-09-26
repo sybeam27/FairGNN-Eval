@@ -53,8 +53,15 @@ FILES = [
     "results/C18_FINAL_REPORT.md", "results/phase0_verify_v2.txt",
 ]
 # Glob-ish additions: the frozen section tables and the rebuilt bundle.
+# the nine figures the submitted version prints; the generators also write variants that this
+# version does not use, and shipping those invites a reviewer to look for them in the paper
+PAPER_FIGURES = (r"^(fig1_intervention_attribution|fig3_protocol_variation|"
+                 r"fig3_selection_support_trajectory|fig4_selection_support_bridge|"
+                 r"fig5_fmp_component_bridge|figS1_intervention_attribution_negEO|"
+                 r"figS4_fixed_epoch_trajectory|figS5_fmp_component_bridge_eo_auc|"
+                 r"figS5_fmp_fair_by_selector)\.pdf$")
 GLOBS = [("results", r"^\d[a-z]?_.*\.csv$"),
-         ("figures", r".*\.pdf$"), ("paper/table_template", r".*\.(tex|md)$"),
+         ("figures", PAPER_FIGURES), ("paper/table_template", r".*\.(tex|md)$"),
          ("results/appendix_robustness", r".*\.csv$")]
 
 EXCLUDE_DIRS = {"__pycache__", ".ipynb_checkpoints", "preview", ".git",

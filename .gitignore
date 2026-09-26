@@ -65,3 +65,10 @@ venv/
 *.swp
 .vscode/
 .idea/
+
+# figures generated but not used in the submitted version
+figures/fig2_sign_resolution.pdf
+figures/figS_selection_support_bars.pdf
+figures/figS1_arms_by_family_dataset*.pdf
+figures/figS1_tradeoff_direction*.pdf
+figures/figS1_1_fnrgnn_two_tasks.pdf
